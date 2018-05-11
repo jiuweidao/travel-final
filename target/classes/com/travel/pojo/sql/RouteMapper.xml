@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" ><mapper namespace="com.travel.dao.RouteMapper" >
+  <resultMap id="BaseResultMap" type="com.travel.pojo.Route" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="Duration" property="duration" jdbcType="VARCHAR" />
+    <result column="Departure" property="departure" jdbcType="VARCHAR" />
+    <result column="Transportation" property="transportation" jdbcType="VARCHAR" />
+    <result column="Creatby" property="creatby" jdbcType="TIMESTAMP" />
+    <result column="CreatTime" property="creattime" jdbcType="TIMESTAMP" />
+    <result column="Flag" property="flag" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    Id, Duration, Departure, Transportation, Creatby, CreatTime, Flag
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from route
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from route
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.travel.pojo.Route" useGeneratedKeys="true" keyProperty="id" >
+    insert into route (Duration, Departure, Transportation, 
+      Creatby, CreatTime, Flag
+      )
+    values (#{duration,jdbcType=VARCHAR}, #{departure,jdbcType=VARCHAR}, #{transportation,jdbcType=VARCHAR}, 
+      #{creatby,jdbcType=TIMESTAMP}, #{creattime,jdbcType=TIMESTAMP}, #{flag,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.travel.pojo.Route" useGeneratedKeys="true" keyProperty="id" >
+    insert into route
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      Duration,
+      Departure,
+      Transportation,
+      Creatby,
+      CreatTime,
+      Flag,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{duration,jdbcType=VARCHAR},
+      #{departure,jdbcType=VARCHAR},
+      #{transportation,jdbcType=VARCHAR},
+      #{creatby,jdbcType=TIMESTAMP},
+      #{creattime,jdbcType=TIMESTAMP},
+      #{flag,jdbcType=VARCHAR},
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.travel.pojo.Route" >
+    update route
+    <set >
+      <if test="duration != null" >
+        Duration = #{duration,jdbcType=VARCHAR},
+      </if>
+      <if test="departure != null" >
+        Departure = #{departure,jdbcType=VARCHAR},
+      </if>
+      <if test="transportation != null" >
+        Transportation = #{transportation,jdbcType=VARCHAR},
+      </if>
+      <if test="creatby != null" >
+        Creatby = #{creatby,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creattime != null" >
+        CreatTime = #{creattime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="flag != null" >
+        Flag = #{flag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.travel.pojo.Route" >
+    update route
+    set Duration = #{duration,jdbcType=VARCHAR},
+      Departure = #{departure,jdbcType=VARCHAR},
+      Transportation = #{transportation,jdbcType=VARCHAR},
+      Creatby = #{creatby,jdbcType=TIMESTAMP},
+      CreatTime = #{creattime,jdbcType=TIMESTAMP},
+      Flag = #{flag,jdbcType=VARCHAR}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

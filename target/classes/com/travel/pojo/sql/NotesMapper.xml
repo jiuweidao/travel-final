@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.travel.dao.NotesMapper" >
+  <resultMap id="BaseResultMap" type="com.travel.pojo.Notes" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="PlanId" property="planid" jdbcType="VARCHAR" />
+    <result column="PresentSite" property="presentsite" jdbcType="VARCHAR" />
+    <result column="PresentTime" property="presenttime" jdbcType="INTEGER" />
+    <result column="Title" property="title" jdbcType="INTEGER" />
+    <result column="Content" property="content" jdbcType="INTEGER" />
+    <result column="Creatby" property="creatby" jdbcType="TIMESTAMP" />
+    <result column="CreatTime" property="creattime" jdbcType="TIMESTAMP" />
+    <result column="Flag" property="flag" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    Id, PlanId, PresentSite, PresentTime, Title, Content, Creatby, CreatTime, Flag
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from notes
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from notes
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.travel.pojo.Notes" useGeneratedKeys="true" keyProperty="id" >
+    insert into notes (PlanId, PresentSite, PresentTime, 
+      Title, Content, Creatby, 
+      CreatTime, Flag)
+    values (#{planid,jdbcType=VARCHAR}, #{presentsite,jdbcType=VARCHAR}, #{presenttime,jdbcType=INTEGER}, 
+      #{title,jdbcType=INTEGER}, #{content,jdbcType=INTEGER}, #{creatby,jdbcType=TIMESTAMP}, 
+      #{creattime,jdbcType=TIMESTAMP}, #{flag,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.travel.pojo.Notes" useGeneratedKeys="true" keyProperty="id" >
+    insert into notes
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      PlanId,
+      PresentSite,
+      PresentTime,
+      Title,
+      Content,
+      Creatby,
+      CreatTime,
+      Flag,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{planid,jdbcType=VARCHAR},
+      #{presentsite,jdbcType=VARCHAR},
+      #{presenttime,jdbcType=INTEGER},
+      #{title,jdbcType=INTEGER},
+      #{content,jdbcType=INTEGER},
+      #{creatby,jdbcType=TIMESTAMP},
+      #{creattime,jdbcType=TIMESTAMP},
+      #{flag,jdbcType=VARCHAR},
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.travel.pojo.Notes" >
+    update notes
+    <set >
+      <if test="planid != null" >
+        PlanId = #{planid,jdbcType=VARCHAR},
+      </if>
+      <if test="presentsite != null" >
+        PresentSite = #{presentsite,jdbcType=VARCHAR},
+      </if>
+      <if test="presenttime != null" >
+        PresentTime = #{presenttime,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        Title = #{title,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        Content = #{content,jdbcType=INTEGER},
+      </if>
+      <if test="creatby != null" >
+        Creatby = #{creatby,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creattime != null" >
+        CreatTime = #{creattime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="flag != null" >
+        Flag = #{flag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.travel.pojo.Notes" >
+    update notes
+    set PlanId = #{planid,jdbcType=VARCHAR},
+      PresentSite = #{presentsite,jdbcType=VARCHAR},
+      PresentTime = #{presenttime,jdbcType=INTEGER},
+      Title = #{title,jdbcType=INTEGER},
+      Content = #{content,jdbcType=INTEGER},
+      Creatby = #{creatby,jdbcType=TIMESTAMP},
+      CreatTime = #{creattime,jdbcType=TIMESTAMP},
+      Flag = #{flag,jdbcType=VARCHAR}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "mybatis-3-config.dtd">
+
+<configuration>
+    <!-- - - - - - - 懒加载和缓存 - - - - - - - - - - -->
+    <settings>
+        <setting name="cacheEnabled" value="true"/>
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <setting name="aggressiveLazyLoading" value="false"/>
+    </settings>
+    <!-- - - - - - - - 物理分页拦截器 - - - - - - - -->
+    <plugins>
+        <plugin interceptor="ibator.dialect.tool.ResultSetInterceptor"/>
+        <plugin interceptor="ibator.dialect.tool.StatementInterceptor">
+            <property name="dialect" value="ibator.dialect.MySQLDialect"/>
+        </plugin>
+    </plugins>
+    <!-- - - - - - - -映射文件路径- - - - - - -->
+    <mappers>
+        <mapper resource="com/travel/pojo/sql/PlansMapper.xml"/>
+        <mapper resource="com/travel/pojo/sql/UsersMapper.xml"/>
+        <mapper resource="com/travel/pojo/sql/PlanmembersMapper.xml"/>
+        <mapper resource="com/travel/pojo/sql/NotesMapper.xml"/>
+        <mapper resource="com/travel/pojo/sql/CommentsMapper.xml"/>
+    </mappers>
+</configuration>

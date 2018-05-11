@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.travel.dao.CommentsMapper" >
+  <resultMap id="BaseResultMap" type="com.travel.pojo.Comments" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="PlanId" property="planid" jdbcType="INTEGER" />
+    <result column="NoteId" property="noteid" jdbcType="INTEGER" />
+    <result column="Type" property="type" jdbcType="INTEGER" />
+    <result column="Content" property="content" jdbcType="VARCHAR" />
+    <result column="Trageid" property="trageid" jdbcType="INTEGER" />
+    <result column="Creatby" property="creatby" jdbcType="INTEGER" />
+    <result column="CreatbyName" property="creatbyname" jdbcType="VARCHAR" />
+    <result column="CreatTime" property="creattime" jdbcType="TIMESTAMP" />
+    <result column="Flag" property="flag" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    Id, PlanId, NoteId, `Type`, Content, Trageid, Creatby, CreatbyName, CreatTime, Flag
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from comments
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from comments
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.travel.pojo.Comments" useGeneratedKeys="true" keyProperty="id" >
+    insert into comments (PlanId, NoteId, `Type`, 
+      Content, Trageid, Creatby, 
+      CreatbyName, CreatTime, Flag
+      )
+    values (#{planid,jdbcType=INTEGER}, #{noteid,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, 
+      #{content,jdbcType=VARCHAR}, #{trageid,jdbcType=INTEGER}, #{creatby,jdbcType=INTEGER}, 
+      #{creatbyname,jdbcType=VARCHAR}, #{creattime,jdbcType=TIMESTAMP}, #{flag,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.travel.pojo.Comments" useGeneratedKeys="true" keyProperty="id" >
+    insert into comments
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      PlanId,
+      NoteId,
+      `Type`,
+      Content,
+      Trageid,
+      Creatby,
+      CreatbyName,
+      CreatTime,
+      Flag,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{planid,jdbcType=INTEGER},
+      #{noteid,jdbcType=INTEGER},
+      #{type,jdbcType=INTEGER},
+      #{content,jdbcType=VARCHAR},
+      #{trageid,jdbcType=INTEGER},
+      #{creatby,jdbcType=INTEGER},
+      #{creatbyname,jdbcType=VARCHAR},
+      #{creattime,jdbcType=TIMESTAMP},
+      #{flag,jdbcType=VARCHAR},
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.travel.pojo.Comments" >
+    update comments
+    <set >
+      <if test="planid != null" >
+        PlanId = #{planid,jdbcType=INTEGER},
+      </if>
+      <if test="noteid != null" >
+        NoteId = #{noteid,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        `Type` = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        Content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="trageid != null" >
+        Trageid = #{trageid,jdbcType=INTEGER},
+      </if>
+      <if test="creatby != null" >
+        Creatby = #{creatby,jdbcType=INTEGER},
+      </if>
+      <if test="creatbyname != null" >
+        CreatbyName = #{creatbyname,jdbcType=VARCHAR},
+      </if>
+      <if test="creattime != null" >
+        CreatTime = #{creattime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="flag != null" >
+        Flag = #{flag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.travel.pojo.Comments" >
+    update comments
+    set PlanId = #{planid,jdbcType=INTEGER},
+      NoteId = #{noteid,jdbcType=INTEGER},
+      `Type` = #{type,jdbcType=INTEGER},
+      Content = #{content,jdbcType=VARCHAR},
+      Trageid = #{trageid,jdbcType=INTEGER},
+      Creatby = #{creatby,jdbcType=INTEGER},
+      CreatbyName = #{creatbyname,jdbcType=VARCHAR},
+      CreatTime = #{creattime,jdbcType=TIMESTAMP},
+      Flag = #{flag,jdbcType=VARCHAR}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.travel.dao.PlansMapper" >
+  <resultMap id="BaseResultMap" type="com.travel.pojo.Plans" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="Title" property="title" jdbcType="VARCHAR" />
+    <result column="Tag" property="tag" jdbcType="VARCHAR" />
+    <result column="Type" property="type" jdbcType="INTEGER" />
+    <result column="BudgetTop" property="budgettop" jdbcType="INTEGER" />
+    <result column="BudgetBottom" property="budgetbottom" jdbcType="INTEGER" />
+    <result column="DeparturePlace" property="departureplace" jdbcType="VARCHAR" />
+    <result column="Destination" property="destination" jdbcType="VARCHAR" />
+    <result column="DepartureTime" property="departuretime" jdbcType="TIMESTAMP" />
+    <result column="EndTime" property="endtime" jdbcType="TIMESTAMP" />
+    <result column="ExpectNum" property="expectnum" jdbcType="INTEGER" />
+    <result column="PresentNum" property="presentnum" jdbcType="INTEGER" />
+    <result column="Detail" property="detail" jdbcType="VARCHAR" />
+    <result column="Creatby" property="creatby" jdbcType="INTEGER" />
+    <result column="CreatTime" property="creattime" jdbcType="TIMESTAMP" />
+    <result column="score" property="score" jdbcType="INTEGER" />
+    <result column="CommentCount" property="commentcount" jdbcType="INTEGER" />
+    <result column="NoteCount" property="notecount" jdbcType="INTEGER" />
+    <result column="Flag" property="flag" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    Id, Title, Tag, `Type`, BudgetTop, BudgetBottom, DeparturePlace, Destination, DepartureTime, 
+    EndTime, ExpectNum, PresentNum, Detail, Creatby, CreatTime, score, CommentCount, 
+    NoteCount, Flag
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from plans
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from plans
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.travel.pojo.Plans" useGeneratedKeys="true" keyProperty="id" >
+    insert into plans (Title, Tag, `Type`, 
+      BudgetTop, BudgetBottom, DeparturePlace, 
+      Destination, DepartureTime, EndTime, 
+      ExpectNum, PresentNum, Detail, 
+      Creatby, CreatTime, score, 
+      CommentCount, NoteCount, Flag
+      )
+    values (#{title,jdbcType=VARCHAR}, #{tag,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
+      #{budgettop,jdbcType=INTEGER}, #{budgetbottom,jdbcType=INTEGER}, #{departureplace,jdbcType=VARCHAR}, 
+      #{destination,jdbcType=VARCHAR}, #{departuretime,jdbcType=TIMESTAMP}, #{endtime,jdbcType=TIMESTAMP}, 
+      #{expectnum,jdbcType=INTEGER}, #{presentnum,jdbcType=INTEGER}, #{detail,jdbcType=VARCHAR}, 
+      #{creatby,jdbcType=INTEGER}, #{creattime,jdbcType=TIMESTAMP}, #{score,jdbcType=INTEGER}, 
+      #{commentcount,jdbcType=INTEGER}, #{notecount,jdbcType=INTEGER}, #{flag,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.travel.pojo.Plans" useGeneratedKeys="true" keyProperty="id" >
+    insert into plans
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      Title,
+      Tag,
+      `Type`,
+      BudgetTop,
+      BudgetBottom,
+      DeparturePlace,
+      Destination,
+      DepartureTime,
+      EndTime,
+      ExpectNum,
+      PresentNum,
+      Detail,
+      Creatby,
+      CreatTime,
+      score,
+      CommentCount,
+      NoteCount,
+      Flag,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{title,jdbcType=VARCHAR},
+      #{tag,jdbcType=VARCHAR},
+      #{type,jdbcType=INTEGER},
+      #{budgettop,jdbcType=INTEGER},
+      #{budgetbottom,jdbcType=INTEGER},
+      #{departureplace,jdbcType=VARCHAR},
+      #{destination,jdbcType=VARCHAR},
+      #{departuretime,jdbcType=TIMESTAMP},
+      #{endtime,jdbcType=TIMESTAMP},
+      #{expectnum,jdbcType=INTEGER},
+      #{presentnum,jdbcType=INTEGER},
+      #{detail,jdbcType=VARCHAR},
+      #{creatby,jdbcType=INTEGER},
+      #{creattime,jdbcType=TIMESTAMP},
+      #{score,jdbcType=INTEGER},
+      #{commentcount,jdbcType=INTEGER},
+      #{notecount,jdbcType=INTEGER},
+      #{flag,jdbcType=VARCHAR},
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.travel.pojo.Plans" >
+    update plans
+    <set >
+      <if test="title != null" >
+        Title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="tag != null" >
+        Tag = #{tag,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        `Type` = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="budgettop != null" >
+        BudgetTop = #{budgettop,jdbcType=INTEGER},
+      </if>
+      <if test="budgetbottom != null" >
+        BudgetBottom = #{budgetbottom,jdbcType=INTEGER},
+      </if>
+      <if test="departureplace != null" >
+        DeparturePlace = #{departureplace,jdbcType=VARCHAR},
+      </if>
+      <if test="destination != null" >
+        Destination = #{destination,jdbcType=VARCHAR},
+      </if>
+      <if test="departuretime != null" >
+        DepartureTime = #{departuretime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null" >
+        EndTime = #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expectnum != null" >
+        ExpectNum = #{expectnum,jdbcType=INTEGER},
+      </if>
+      <if test="presentnum != null" >
+        PresentNum = #{presentnum,jdbcType=INTEGER},
+      </if>
+      <if test="detail != null" >
+        Detail = #{detail,jdbcType=VARCHAR},
+      </if>
+      <if test="creatby != null" >
+        Creatby = #{creatby,jdbcType=INTEGER},
+      </if>
+      <if test="creattime != null" >
+        CreatTime = #{creattime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="score != null" >
+        score = #{score,jdbcType=INTEGER},
+      </if>
+      <if test="commentcount != null" >
+        CommentCount = #{commentcount,jdbcType=INTEGER},
+      </if>
+      <if test="notecount != null" >
+        NoteCount = #{notecount,jdbcType=INTEGER},
+      </if>
+      <if test="flag != null" >
+        Flag = #{flag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.travel.pojo.Plans" >
+    update plans
+    set Title = #{title,jdbcType=VARCHAR},
+      Tag = #{tag,jdbcType=VARCHAR},
+      `Type` = #{type,jdbcType=INTEGER},
+      BudgetTop = #{budgettop,jdbcType=INTEGER},
+      BudgetBottom = #{budgetbottom,jdbcType=INTEGER},
+      DeparturePlace = #{departureplace,jdbcType=VARCHAR},
+      Destination = #{destination,jdbcType=VARCHAR},
+      DepartureTime = #{departuretime,jdbcType=TIMESTAMP},
+      EndTime = #{endtime,jdbcType=TIMESTAMP},
+      ExpectNum = #{expectnum,jdbcType=INTEGER},
+      PresentNum = #{presentnum,jdbcType=INTEGER},
+      Detail = #{detail,jdbcType=VARCHAR},
+      Creatby = #{creatby,jdbcType=INTEGER},
+      CreatTime = #{creattime,jdbcType=TIMESTAMP},
+      score = #{score,jdbcType=INTEGER},
+      CommentCount = #{commentcount,jdbcType=INTEGER},
+      NoteCount = #{notecount,jdbcType=INTEGER},
+      Flag = #{flag,jdbcType=VARCHAR}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectAllPlansByUid" parameterType="String" resultMap="BaseResultMap">
+		SELECT * 
+		FROM plans
+		<if test="uid != null" >
+			WHERE Creatby = #{uid}
+		</if>>
+	</select>
+</mapper>

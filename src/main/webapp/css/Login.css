@@ -1,0 +1,127 @@
+﻿@charset "utf-8";
+/* CSS Document */
+ul,li{ padding:0; margin:0; list-style-type:none;}
+.Login_zhuc ul li input{ line-height:41px;}
+.Login_zhuc .Login_all ul li label{  display: block; 
+  position: absolute;
+  margin-left: 12px;
+  color: #999;
+  font-size: 14px;
+  font-family: '微软雅黑';
+  line-height:41px;
+  cursor:text;
+  text-align:left;
+  }
+
+.Login_all .Login_title .close{width: 16px; background-color: #8A8A8A;  text-align: center;  border-radius: 20px;  font-size: 18px;  position: absolute;  top: -20px; right: -20px; color:#fff;}
+.Login_all .Login_title .close:hover{ color:#fff; background-color:#f62626;} 
+
+.register_all .register_title .close{width: 16px; background-color: #8A8A8A;  text-align: center;  border-radius: 20px;  font-size: 18px;  position: absolute;  top: -20px; right: -20px; color:#fff;}
+.register_all .register_title .close:hover{ color:#fff;background-color:#f62626;} 
+
+.register .register_all ul li label{  display: block; position: absolute;margin-left: 12px;color: #999;font-size: 14px;font-family: '微软雅黑';line-height:41px;cursor:text;text-align:left;}
+.clr{ clear:both;}
+.tc{ width:100%; height:100%; background:#000;z-index:888; position: fixed; opacity:0.2; top:0px; left:0; cursor:pointer; filter:alpha(opacity=20)}
+body{ width:100%;}
+.Login_zhuc{ display:block; border:2px solid #8A8A8A; width:427px; position: fixed; left:35%; top:90px; float:left; display:none; z-index:999;}
+.Login_zhuc .Login_all{ position:relative; z-index:999;}
+.Login_zhuc .Login_all,.register_all{ display:block; padding:15px 45px 10px 45px; background-color:#fff;}
+.Login_zhuc .Login_all .Login_title{ font-size:16px; font-family:'微软雅黑'; height:41px; display:block; line-height:41px; border-bottom:1px solid #e5e5e5; margin-top:24px;}
+.Login_all .Login_title a{ text-decoration:none; font-size:16px; color:#075db3; font-size:16px; font-family:'微软雅黑'; float:left; padding:0 12px;}
+.Login_all .Login_title a:hover{color:#EF7D00;}
+.Login_all .Login_title .user_Login,.Key_Login{float:left; padding:0 20px; color:#9c9c9c; cursor:pointer;}
+.Login_all .Login_title .check{ border:1px solid #e5e5e5; border-bottom-color:#fff; color:#000; position:relative;top:-1px;}
+.Login_all .Login_input{ margin-top:30px; margin-bottom:30px;}
+.Login_all .Login_input .text{ width:333px; height:41px; border:1px solid #e5e5e5; text-indent:10px; margin-bottom:25px; font-size:14px; font-family:'微软雅黑';}
+.Login_all .Login_input .for_pwd{ font-size:14px; font-family:'微软雅黑'; color:#666; text-align:left; height:20px;}
+.Login_all .Login_input .for_pwd .Free{ float:left; cursor:pointer;}
+.Login_all .Login_input .for_pwd .chbox{ border:1px solid #e5e5e5; height:16px; vertical-align:middle; margin-right:5px;}
+.Login_all .Login_input .for_pwd .Forgot{ float:right;}
+.Login_all .Login_input .for_pwd .Forgot a{ text-decoration:none; color:#666;}
+.Login_all .Login_input .for_pwd .Forgot a:hover{ color:#ff6600}
+
+.Login_all .Login_input .ver_code{ width:333px; height:41px; margin-bottom:30px; float:left; text-align:left;}
+.Login_all .Login_input .ver_code input{ height:41px; border:1px solid #e5e5e5; text-indent:10px; margin-bottom:25px; font-size:14px; font-family:'微软雅黑';}
+.Login_all .Login_input .ver_code img{ height:41px; float:right; position:absolute; margin-left:60px;}
+
+
+.Login_all .Key_Login_input{margin-top:30px; margin-bottom:30px;}
+.Login_all .Key_Login_input .tel{width:333px; height:41px; border:1px solid #e5e5e5; text-indent:10px; margin-bottom:25px; font-size:14px; font-family:'微软雅黑';}
+.Login_all .Key_Login_input .ver_code,.mess_code{ width:333px; height:41px; margin-bottom:30px; float:left; text-align:left;}
+.Login_all .Key_Login_input .ver_code input{ height:41px; border:1px solid #e5e5e5; text-indent:10px; margin-bottom:25px; font-size:14px; font-family:'微软雅黑';}
+.Login_all .Key_Login_input .ver_code img{ height:41px; float:right; position:absolute; margin-left:60px;}
+.Login_all .Key_Login_input .mess_code input{height:41px; border:1px solid #e5e5e5; text-indent:10px; margin-bottom:25px; font-size:14px; font-family:'微软雅黑';}
+.Login_all .Key_Login_input .mess_code a{
+  width: 150px;
+  background-color: #c1c1c1;
+  text-decoration: none;
+  color: #fff;
+  display:inline-grid;
+  text-align: center;
+  height: 18px;
+  padding: 12px 0;
+  margin-left: 20px;
+  font-size: 14px;
+  font-family: '微软雅黑';
+  border-radius:5px;
+  position:absolute;
+  }
+
+
+.Login_all .Login_btn{ background-color:#EF7D00; height:41px; border-radius:5px; text-align:center; margin-bottom:40px;  cursor:pointer;}
+.Login_all .Login_btn input{ border:0px; background-color:#EF7D00; height:41px; font-size:20px; color:#fff; font-family:'微软雅黑'; letter-spacing:10px;  cursor:pointer;}
+.Login_all .wx_other{ color:#666; height:20px; font-size:14px; font-family:'微软雅黑'; margin-bottom:30px;}
+.wx_other .wx{ text-decoration:none;color:#666; text-align:left; float: left;}
+.wx_other .wx i img{ vertical-align:middle; border:0;}
+.wx_other .other{ float:right; cursor:pointer;}
+.wx_other a:hover{color:#44c334;}
+
+
+/*注册*/
+.register{ display:block; border:2px solid #8A8A8A; width:427px; position: fixed; left:30%; top:30px; float:left; display:none; z-index:999;}
+.register_all{ z-index:999; position:relative;}
+.register .register_all .register_title{font-size:16px; font-family:'微软雅黑'; height:41px; display:block; line-height:41px; border-bottom:1px solid #e5e5e5; margin-top:24px;}
+.Login_all .Login_title a{ text-decoration:none; font-size:16px; color:#075db3; font-size:16px; font-family:'微软雅黑'; float:left; padding:0 12px;}
+.register_all .register_title .user_Login,.Key_Login{float:left; padding:0 20px; color:#9c9c9c; cursor:pointer;}
+.register_all .register_title .check{ border:1px solid #e5e5e5; border-bottom-color:#fff; color:#000; position:relative;top:-1px;}
+.register_all .register_title a{ text-decoration:none; font-size:16px; color:#075db3; font-size:16px; font-family:'微软雅黑'; float:right; padding:0 12px;}
+.register_all .register_title a:hover{color:#EF7D00;}
+/*手机注册*/
+.register_all .tel_res{ margin-top:30px;}
+.register_all .tel_res .text{ width:333px; height:41px; border:1px solid #e5e5e5; text-indent:10px; margin-bottom:25px; font-size:14px; font-family:'微软雅黑';}
+.register_all .tel_res .ver_code,.mess_code{ width:333px; height:41px; margin-bottom:30px; float:left; text-align:left;}
+.register_all .tel_res .ver_code input{ height:41px; border:1px solid #e5e5e5; text-indent:10px; margin-bottom:25px; font-size:14px; font-family:'微软雅黑';}/* float:left;*/
+.register_all .tel_res .ver_code img{ height:41px; position:absolute; margin-left:60px;}
+.register_all .tel_res .mess_code input{height:41px; border:1px solid #e5e5e5; text-indent:10px; margin-bottom:25px; font-size:14px; font-family:'微软雅黑';}
+.register_all .tel_res .mess_code a{
+  width: 150px;
+  background-color: #c1c1c1;
+  text-decoration: none;
+  color: #fff;
+  float: right;
+  display:inline-grid;
+  text-align: center;
+  height: 18px;
+  padding: 12px 0;
+  margin-left: 20px;
+  font-size: 14px;
+  font-family: '微软雅黑';
+  border-radius:5px;
+  position:absolute
+  }
+/*邮箱注册*/
+.register_all .email_res{ margin-top:30px;}
+.register_all .email_res .text{ width:333px; height:41px; border:1px solid #e5e5e5; text-indent:10px; margin-bottom:25px; font-size:14px; font-family:'微软雅黑';}
+.register_all .email_res .ver_code,.mess_code{ width:333px; height:41px; margin-bottom:30px; float:left; text-align:left;}
+.register_all .email_res .ver_code input{ height:41px; border:1px solid #e5e5e5; text-indent:10px; margin-bottom:25px; font-size:14px; font-family:'微软雅黑';}/* float:left;*/
+.register_all .email_res .ver_code img{ height:41px; position:absolute; margin-left:60px;}
+
+
+.register_all .Free{ cursor:pointer;font-size:14px; font-family:'微软雅黑'; color:#666; text-align:left; height:20px;  margin-bottom:30px;}
+.register_all .tel_res input[type="checkbox"]{ border:1px solid #e5e5e5; height:16px; vertical-align:middle;}
+.register_all .res_btn{ background-color:#EF7D00; height:41px; border-radius:5px; text-align:center; margin-bottom:20px; cursor:pointer;}
+.register_all .res_btn input{ border:0px; background-color:#EF7D00; height:41px; font-size:20px; color:#fff; font-family:'微软雅黑'; letter-spacing:10px;  cursor:pointer;}
+.register_all .res_wx{ color:#666; height:20px; font-size:14px; font-family:'微软雅黑'; margin-bottom:5px; text-align:center;}
+.res_wx a{ text-decoration:none;color:#666; text-align:center;}
+.res_wx  i img{ vertical-align:middle; border:0;}
+.resbox{ margin-right:5px;}

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.travel.dao.StrategiesMapper" >
+  <resultMap id="BaseResultMap" type="com.travel.pojo.Strategies" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="Site" property="site" jdbcType="VARCHAR" />
+    <result column="Duration" property="duration" jdbcType="VARCHAR" />
+    <result column="Content" property="content" jdbcType="VARCHAR" />
+    <result column="Creatby" property="creatby" jdbcType="INTEGER" />
+    <result column="CreatTime" property="creattime" jdbcType="TIMESTAMP" />
+    <result column="Flag" property="flag" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    Id, Site, Duration, Content, Creatby, CreatTime, Flag
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from strategies
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from strategies
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.travel.pojo.Strategies" useGeneratedKeys="true" keyProperty="id" >
+    insert into strategies (Site, Duration, Content, 
+      Creatby, CreatTime, Flag
+      )
+    values (#{site,jdbcType=VARCHAR}, #{duration,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{creatby,jdbcType=INTEGER}, #{creattime,jdbcType=TIMESTAMP}, #{flag,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.travel.pojo.Strategies" useGeneratedKeys="true" keyProperty="id" >
+    insert into strategies
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      Site,
+      Duration,
+      Content,
+      Creatby,
+      CreatTime,
+      Flag,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{site,jdbcType=VARCHAR},
+      #{duration,jdbcType=VARCHAR},
+      #{content,jdbcType=VARCHAR},
+      #{creatby,jdbcType=INTEGER},
+      #{creattime,jdbcType=TIMESTAMP},
+      #{flag,jdbcType=VARCHAR},
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.travel.pojo.Strategies" >
+    update strategies
+    <set >
+      <if test="site != null" >
+        Site = #{site,jdbcType=VARCHAR},
+      </if>
+      <if test="duration != null" >
+        Duration = #{duration,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        Content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="creatby != null" >
+        Creatby = #{creatby,jdbcType=INTEGER},
+      </if>
+      <if test="creattime != null" >
+        CreatTime = #{creattime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="flag != null" >
+        Flag = #{flag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.travel.pojo.Strategies" >
+    update strategies
+    set Site = #{site,jdbcType=VARCHAR},
+      Duration = #{duration,jdbcType=VARCHAR},
+      Content = #{content,jdbcType=VARCHAR},
+      Creatby = #{creatby,jdbcType=INTEGER},
+      CreatTime = #{creattime,jdbcType=TIMESTAMP},
+      Flag = #{flag,jdbcType=VARCHAR}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

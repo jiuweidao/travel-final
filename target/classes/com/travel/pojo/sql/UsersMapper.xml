@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.travel.dao.UsersMapper" >
+  <resultMap id="BaseResultMap" type="com.travel.pojo.Users" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="UserName" property="username" jdbcType="VARCHAR" />
+    <result column="Name" property="name" jdbcType="VARCHAR" />
+    <result column="Email" property="email" jdbcType="VARCHAR" />
+    <result column="Telemoble" property="telemoble" jdbcType="VARCHAR" />
+    <result column="UserType" property="usertype" jdbcType="VARCHAR" />
+    <result column="Password" property="password" jdbcType="VARCHAR" />
+    <result column="RegTime" property="regtime" jdbcType="TIMESTAMP" />
+    <result column="LastLoginTime" property="lastlogintime" jdbcType="TIMESTAMP" />
+    <result column="Score" property="score" jdbcType="INTEGER" />
+    <result column="CreatTime" property="creattime" jdbcType="TIMESTAMP" />
+    <result column="Flag" property="flag" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    Id, UserName, `Name`, Email, Telemoble, UserType, `Password`, RegTime, LastLoginTime, 
+    Score, CreatTime, Flag
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from users
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from users
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.travel.pojo.Users" useGeneratedKeys="true" keyProperty="id" >
+    insert into users (UserName, `Name`, Email, 
+      Telemoble, UserType, `Password`, 
+      RegTime, LastLoginTime, Score, 
+      CreatTime, Flag)
+    values (#{username,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{telemoble,jdbcType=VARCHAR}, #{usertype,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{regtime,jdbcType=TIMESTAMP}, #{lastlogintime,jdbcType=TIMESTAMP}, #{score,jdbcType=INTEGER}, 
+      #{creattime,jdbcType=TIMESTAMP}, #{flag,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.travel.pojo.Users" useGeneratedKeys="true" keyProperty="id" >
+    insert into users
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      UserName,
+      `Name`,
+      Email,
+      Telemoble,
+      UserType,
+      `Password`,
+      RegTime,
+      LastLoginTime,
+      Score,
+      CreatTime,
+      Flag,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{username,jdbcType=VARCHAR},
+      #{name,jdbcType=VARCHAR},
+      #{email,jdbcType=VARCHAR},
+      #{telemoble,jdbcType=VARCHAR},
+      #{usertype,jdbcType=VARCHAR},
+      #{password,jdbcType=VARCHAR},
+      #{regtime,jdbcType=TIMESTAMP},
+      #{lastlogintime,jdbcType=TIMESTAMP},
+      #{score,jdbcType=INTEGER},
+      #{creattime,jdbcType=TIMESTAMP},
+      #{flag,jdbcType=VARCHAR},
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.travel.pojo.Users" >
+    update users
+    <set >
+      <if test="username != null" >
+        UserName = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        `Name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        Email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="telemoble != null" >
+        Telemoble = #{telemoble,jdbcType=VARCHAR},
+      </if>
+      <if test="usertype != null" >
+        UserType = #{usertype,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        `Password` = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="regtime != null" >
+        RegTime = #{regtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastlogintime != null" >
+        LastLoginTime = #{lastlogintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="score != null" >
+        Score = #{score,jdbcType=INTEGER},
+      </if>
+      <if test="creattime != null" >
+        CreatTime = #{creattime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="flag != null" >
+        Flag = #{flag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.travel.pojo.Users" >
+    update users
+    set UserName = #{username,jdbcType=VARCHAR},
+      `Name` = #{name,jdbcType=VARCHAR},
+      Email = #{email,jdbcType=VARCHAR},
+      Telemoble = #{telemoble,jdbcType=VARCHAR},
+      UserType = #{usertype,jdbcType=VARCHAR},
+      `Password` = #{password,jdbcType=VARCHAR},
+      RegTime = #{regtime,jdbcType=TIMESTAMP},
+      LastLoginTime = #{lastlogintime,jdbcType=TIMESTAMP},
+      Score = #{score,jdbcType=INTEGER},
+      CreatTime = #{creattime,jdbcType=TIMESTAMP},
+      Flag = #{flag,jdbcType=VARCHAR}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectByTelemoble" parameterType="String" resultType="INTEGER">
+		SELECT id 
+		FROM users 
+		WHERE 
+			Telemoble = #{key} 
+	</select>
+	<select id="selectByUserName" parameterType="String" resultType="INTEGER">
+		SELECT id 
+		FROM users 
+		WHERE 
+			OR UserName = #{key} 
+	</select>
+	<select id="selectByEmail" parameterType="String" resultType="INTEGER">
+		SELECT ID
+		FROM users 
+		WHERE 
+			(Telemoble = #{key} OR UserName = #{key} OR Email = #{key})
+	</select>
+	<select id="selectByAll" parameterType="String" resultMap="BaseResultMap">
+		SELECT * 
+		FROM users 
+		WHERE 
+			(Telemoble = #{key} OR UserName = #{key} OR Email = #{key})
+	</select>
+	
+</mapper>

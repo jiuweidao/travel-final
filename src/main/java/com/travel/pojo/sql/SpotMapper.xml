@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.travel.dao.SpotMapper" >
+  <resultMap id="BaseResultMap" type="com.travel.pojo.Spot" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="Spot" property="spot" jdbcType="VARCHAR" />
+    <result column="Schedule" property="schedule" jdbcType="VARCHAR" />
+    <result column="Creatby" property="creatby" jdbcType="INTEGER" />
+    <result column="CreatTime" property="creattime" jdbcType="TIMESTAMP" />
+    <result column="Flag" property="flag" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    Id, Spot, Schedule, Creatby, CreatTime, Flag
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from spot
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from spot
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.travel.pojo.Spot" useGeneratedKeys="true" keyProperty="id" >
+    insert into spot (Spot, Schedule, Creatby, 
+      CreatTime, Flag)
+    values (#{spot,jdbcType=VARCHAR}, #{schedule,jdbcType=VARCHAR}, #{creatby,jdbcType=INTEGER}, 
+      #{creattime,jdbcType=TIMESTAMP}, #{flag,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.travel.pojo.Spot" useGeneratedKeys="true" keyProperty="id" >
+    insert into spot
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      Spot,
+      Schedule,
+      Creatby,
+      CreatTime,
+      Flag,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{spot,jdbcType=VARCHAR},
+      #{schedule,jdbcType=VARCHAR},
+      #{creatby,jdbcType=INTEGER},
+      #{creattime,jdbcType=TIMESTAMP},
+      #{flag,jdbcType=VARCHAR},
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.travel.pojo.Spot" >
+    update spot
+    <set >
+      <if test="spot != null" >
+        Spot = #{spot,jdbcType=VARCHAR},
+      </if>
+      <if test="schedule != null" >
+        Schedule = #{schedule,jdbcType=VARCHAR},
+      </if>
+      <if test="creatby != null" >
+        Creatby = #{creatby,jdbcType=INTEGER},
+      </if>
+      <if test="creattime != null" >
+        CreatTime = #{creattime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="flag != null" >
+        Flag = #{flag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.travel.pojo.Spot" >
+    update spot
+    set Spot = #{spot,jdbcType=VARCHAR},
+      Schedule = #{schedule,jdbcType=VARCHAR},
+      Creatby = #{creatby,jdbcType=INTEGER},
+      CreatTime = #{creattime,jdbcType=TIMESTAMP},
+      Flag = #{flag,jdbcType=VARCHAR}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
