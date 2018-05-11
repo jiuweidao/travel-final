@@ -137,6 +137,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<p>出发地点：${plans.departureplace}</p>
 						<p>旅行预算：${plans.budgetbottom}——${plans.budgettop}</p>
 						<p>邀约详情： ${plans.detail}</p>
+						<p>当前成员： ${plans.detail}</p>
 					  	<c:if test='${plans.type == "1"}'>
 							<p><a id="" href="#" class="btn btn-primary">出游中</a></p>
 						</c:if>
@@ -182,7 +183,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<fmt:formatDate value="${commentsItem.creattime}" pattern="yyyy-MM-dd"/>
 										</span>
 										<p>${commentsItem.content} 
-											<button class="btn btn-primary-note" onclick="showNoteDiv(${commentsItem.id})">回复</button>
+											<button id ="${commentsItem.id}_comment_btn" class="btn btn-primary-note" onclick="showNoteDiv(${commentsItem.id})">回复</button>
 										</p>
 									</div>
 									<div id ="${commentsItem.id}_note_div" class="fh5co-text " style="display: none">
@@ -360,10 +361,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	function showNoteDiv(commentId){
 		$('#'+commentId+'_note_div').show();
+		$('#'+commentId+'_comment_btn').hide();
 	}
 	
 	function hideNoteDiv(commentId){
 		$('#'+commentId+'_note_div').hide();
+		$('#'+commentId+'_comment_btn').show();
 	}
 	
 	function addNote(commentId,commentCreateby,noteId){
@@ -383,25 +386,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				
 				if(data.success=="1"){
 					var noteDiv = 
-						"<div class=\"fh5co-text animate-box\">"+
-						"							<span class=\"username\">"+ username +":</span>"+
-						"							<span class=\"time\">"+
-						"								刚刚"+
-						"							</span>"+
-						"							<p>"+comment+" "+
-						"								<button class=\"btn btn-primary-note\" onclick=\"showNoteDiv("+data.id+")\">回复</button>"+
-						"							</p>"+
-						"						</div>"+
-						"						<div id =\""+data.id+"_note_div\" class=\"fh5co-text\" style=\"display: none\">"+
-						"							<div>"+
-						"								<textarea id=\""+data.id+"_note_content\" name=\"content\"  class=\"form-control-comment form-control-black\" placeholder=\"Write Something\" rows=\"3\" required></textarea>"+
-						"							</div>"+
-						"							<div class=\"note_btn\">"+
-						"								<button  class=\"btn btn-primary-tonote\" onclick=\"addNote("+commentId+","+${uid}+",2)\">回复</button>"+
-						"								<button  class=\"btn btn-primary-tonote\" onclick=\"hideNoteDiv("+data.id+")\">取消</button>"+
-						"							</div>"+
-						"						</div>";
-						$("#"+commentId+"lstNotes_div").prepend($(noteDiv));
+						"	<div class=\"fh5co-text animate-box\">"+
+						"		<span class=\"username\">"+ username +":</span>"+
+						"			<span class=\"time\">"+
+						"				刚刚"+
+						"			</span>"+
+						"			<p>"+comment+" "+
+						"				<button class=\"btn btn-primary-note\" onclick=\"showNoteDiv("+data.id+")\">回复</button>"+
+						"			</p>"+
+						"	</div>"+
+						"	<div id =\""+data.id+"_note_div\" class=\"fh5co-text\" style=\"display: none\">"+
+						"			<div>"+
+						"				<textarea id=\""+data.id+"_note_content\" name=\"content\"  class=\"form-control-comment form-control-black\" placeholder=\"Write Something\" rows=\"3\" required></textarea>"+
+						"			</div>"+
+						"			<div class=\"note_btn\">"+
+						"				<button  class=\"btn btn-primary-tonote\" onclick=\"addNote("+commentId+","+${uid}+",2)\">回复</button>"+
+						"				<button  class=\"btn btn-primary-tonote\" onclick=\"hideNoteDiv("+data.id+")\">取消</button>"+
+						"			</div>"+
+						"	</div>";
+						$("#"+commentId+"_lstNotes_div").append($(noteDiv));
+						$('#'+ commentId +'_note_content').val("");
 						$('#'+commentId+'_note_div').hide();
 					}		 
 			},
