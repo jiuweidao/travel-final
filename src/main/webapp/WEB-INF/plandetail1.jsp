@@ -190,12 +190,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<textarea id="${commentsItem.id}_note_content" name="content"  class="form-control-comment form-control-black" placeholder="Write Something" rows="3" required></textarea>
 										</div>
 										<div class="note_btn">
-											<button class="btn btn-primary-tonote" onclick="addNote(${commentsItem.id},${commentsItem.creatby},1)">回复</button>
+											<button class="btn btn-primary-tonote" onclick="addNote(${commentsItem.id},${commentsItem.creatby},)">回复</button>
 											<button class="btn btn-primary-tonote" onclick="hideNoteDiv(${commentsItem.id})">取消</button>
 									
 										</div>
 									</div>
-									<div id ="note_div" class="fh5co-feature">
+									<div id ="${commentsItem.id}_lstNotes_div" class="fh5co-feature">
 										<c:forEach items="${commentsItem.lstNote}" var="item" varStatus="status">
 												<div class="fh5co-text animate-box">
 													<span class="username">${item.creatbyname}:</span>
@@ -328,7 +328,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					var commentDiv = 
 						"	<div class=\"animate-comment\" data-animate-effect=\"fadeInLeft\">"+
 						"		<div class=\"fh5co-text\">"+
-						"			<span></span>"+
 						"			<span class=\"username\">"+ username +":</span>"+
 						"			<span class=\"time\">"+
 						"				刚刚"+
@@ -367,7 +366,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		$('#'+commentId+'_note_div').hide();
 	}
 	
-	function addNote(commentId,commentCreateby,type){
+	function addNote(commentId,commentCreateby,noteId){
 		var comment = $('#'+ commentId +'_note_content').val();
 		$.ajax({ 
 			data: 
@@ -375,34 +374,35 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			"&planid=" + ${plans.id} + 
 			"&commentId=" + commentId + 
 			"&commentCreateby=" + commentCreateby+
-			"&type="+type, 
+			"&type="+1, 
 			type: "post", 
 			url: "<%=request.getContextPath()%>" + "/addComment", 
 			dataType: "json", 
 			success: function(data) { 
 				alert("成功....");
+				
 				if(data.success=="1"){
 					var noteDiv = 
 						"<div class=\"fh5co-text animate-box\">"+
-						"							<span class=\"username\">${item.creatbyname}:</span>"+
+						"							<span class=\"username\">"+ username +":</span>"+
 						"							<span class=\"time\">"+
 						"								刚刚"+
 						"							</span>"+
-						"							<p>${item.content} "+
-						"								<button class=\"btn btn-primary-note\" onclick=\"showNoteDiv(${item.id})\">回复</button>"+
+						"							<p>"+comment+" "+
+						"								<button class=\"btn btn-primary-note\" onclick=\"showNoteDiv("+data.id+")\">回复</button>"+
 						"							</p>"+
 						"						</div>"+
-						"						<div id =\"${item.id}_note_div\" class=\"fh5co-text\" style=\"display: none\">"+
+						"						<div id =\""+data.id+"_note_div\" class=\"fh5co-text\" style=\"display: none\">"+
 						"							<div>"+
-						"								<textarea id=\"${item.id}_note_content\" name=\"content\"  class=\"form-control-comment form-control-black\" placeholder=\"Write Something\" rows=\"3\" required></textarea>"+
+						"								<textarea id=\""+data.id+"_note_content\" name=\"content\"  class=\"form-control-comment form-control-black\" placeholder=\"Write Something\" rows=\"3\" required></textarea>"+
 						"							</div>"+
 						"							<div class=\"note_btn\">"+
-						"								<button  class=\"btn btn-primary-tonote\" onclick=\"addNote(${commentsItem.id},${item.creatby},2)\">回复</button>"+
-						"								<button  class=\"btn btn-primary-tonote\" onclick=\"hideNoteDiv(${item.id})\">取消</button>"+
+						"								<button  class=\"btn btn-primary-tonote\" onclick=\"addNote("+commentId+","+${uid}+",2)\">回复</button>"+
+						"								<button  class=\"btn btn-primary-tonote\" onclick=\"hideNoteDiv("+data.id+")\">取消</button>"+
 						"							</div>"+
 						"						</div>";
-						$("#"+commentId+"lstNotes_div").append($(noteDiv));
-						$('#'+noteId+'_note_div').hide();
+						$("#"+commentId+"lstNotes_div").prepend($(noteDiv));
+						$('#'+commentId+'_note_div').hide();
 					}		 
 			},
 			error: function(data) { 
