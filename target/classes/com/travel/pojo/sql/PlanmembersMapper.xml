@@ -95,7 +95,11 @@
 		FROM planmembers
 			WHERE UserId = #{uid} AND  IsCreater = 0
 	</select>
-	
+	<select id="selectUserIdByPid" parameterType="String" resultType="INTEGER">
+		SELECT UserId 
+		FROM planmembers
+			WHERE PlanId = #{pid} 
+	</select>
 	 <select id="selectCountByPid" parameterType="String" resultType="INTEGER">
 		SELECT COUNT(*)
 		FROM planmembers

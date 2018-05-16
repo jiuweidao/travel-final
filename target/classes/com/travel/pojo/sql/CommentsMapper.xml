@@ -107,4 +107,19 @@
       Flag = #{flag,jdbcType=VARCHAR}
     where Id = #{id,jdbcType=INTEGER}
   </update>
+  
+  
+ <select id="getPlanCount" resultType="INTEGER" parameterType="java.lang.Integer" >
+   SELECT COUNT(ID)
+	FROM `comments`
+	WHERE PlanId=#{planId,jdbcType=INTEGER}
+	AND Type=0
+  </select>
+  <delete id="deleteComment" parameterType="java.lang.Integer" >
+    delete from comments
+    where Id = #{cid,jdbcType=INTEGER}
+    OR CommentId=#{cid,jdbcType=INTEGER}
+    OR NoteId=#{cid,jdbcType=INTEGER}
+  </delete>
+  
 </mapper>

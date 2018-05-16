@@ -177,7 +177,7 @@ public class Comments implements Serializable, Comparable<Comments> {
 		this.lstNote = lstNote;
 	}
 
-	public void addComment(Comments comments) {
-		this.lstNote.add(comments);
+	public void addComment(List<Comments> lstComments) {
+		this.lstNote.addAll(lstComments);
 	}
 }

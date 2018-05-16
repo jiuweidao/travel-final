@@ -52,24 +52,71 @@ public class CommentsSolr {
 	}
 
 	/*
-	 * 用planid查找
+	 * 用planid查找plan评论
 	 * 
 	 * @param name
-	 * 
 	 * @return
-	 * 
 	 * @throws Exception
 	 */
-	public List<Comments> searchByPlanId(String id) throws Exception {
+	public List<Comments> searchCommentByPlanId(String id, int page)
+			throws Exception {
 
 		List<Comments> lstComments = new LinkedList<Comments>();
 		HttpSolrClient client = new HttpSolrClient(serverUrl);
 
 		// 创建查询对象
 		SolrQuery query = new SolrQuery();
-		query.setQuery("planid:" + id);
+		query.setQuery("planid:" + id + " AND type:" + 0);
 		query.setSort("creattime", ORDER.desc);
-		query.setRows(120);
+		query.setRows(10);
+		query.setStart((page-1) * 10);
+
+		// 执行搜索、搜索结果
+		QueryResponse queryResponse = client.query(query);
+		SolrDocumentList results = queryResponse.getResults();
+		Map<String, Map<String, List<String>>> highlighting = queryResponse
+				.getHighlighting();
+
+		for (SolrDocument solrDocument : results) {
+			Comments comment = new Comments();
+			comment.setId(Integer.parseInt((String) solrDocument.get("id")));
+			comment.setPlanid(Integer.parseInt((String) solrDocument
+					.get("planid")));
+			comment.setNoteid(Integer.parseInt((String) solrDocument
+					.get("noteid")));
+
+			comment.setType((int) solrDocument.get("type"));
+			comment.setContent((String) solrDocument.get("content"));
+
+			comment.setCreatby(Integer.parseInt((String) solrDocument
+					.get("creatby")));
+			comment.setCreatbyname((String) solrDocument.get("creatbyname"));
+			comment.setCreattime((Date) solrDocument.get("creattime"));
+
+			lstComments.add(comment);
+		}
+
+		return lstComments;
+	}
+
+	/**
+	 * 查找回复
+	 * @param planId
+	 * @param noteId
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Comments> searchNoteByPlanId(String planId, int noteId)
+			throws Exception {
+
+		List<Comments> lstComments = new LinkedList<Comments>();
+		HttpSolrClient client = new HttpSolrClient(serverUrl);
+
+		// 创建查询对象
+		SolrQuery query = new SolrQuery();
+		query.setQuery("planid:" + planId + " AND noteid:" + noteId + " AND type:" + 1);
+		query.setSort("creattime", ORDER.asc);
+		query.setRows(100);
 
 		// 执行搜索、搜索结果
 		QueryResponse queryResponse = client.query(query);
@@ -126,18 +173,25 @@ public class CommentsSolr {
 	 * solrDocument.get("lastlogintime")); lstUsers.add(user); }
 	 * 
 	 * return lstUsers; }
-	 *//**
+	 */
+	/**
 	 * 删除所有索引
 	 * 
 	 * @param id
 	 */
-	/*
-	 * private void deleteAll() { HttpSolrServer solrServer=new
-	 * HttpSolrServer(serverUrl);
-	 * 
-	 * try { solrServer.deleteByQuery("*:*"); solrServer.commit(); } catch
-	 * (Exception e) { e.printStackTrace(); } }
-	 *//**
+	
+	public void deleteComment(String id) { 
+		HttpSolrServer solrServer=new HttpSolrServer(serverUrl);
+	  
+		try { 
+			solrServer.deleteByQuery("id:"+id+" OR noteid:"+id); 
+			solrServer.commit(); 
+			} catch (Exception e) { 
+				e.printStackTrace(); 
+			} 
+	}
+	 
+	/**
 	 * 
 	 * @param id
 	 */

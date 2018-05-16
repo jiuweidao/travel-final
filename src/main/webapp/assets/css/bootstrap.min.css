@@ -2094,6 +2094,10 @@ pre code {
 		width: 33.33333333%
 	}
 
+	.col-sm-4 img{
+		 max-width: 100%;
+   		 height: 250px;
+	}
 	.col-sm-3 {
 		width: 25%
 	}
@@ -2307,13 +2311,16 @@ pre code {
 	
 	.col-md-6-strategy h2{
     	color:#dfe9f3;
+    	margin-bottom:50px;
+    	margin-top:10px;
 	}
 	.col-md-6-plan-pic{
-		width: 40%;
-		margin-right: 20px;
+		width: 45%;
+		margin-right: 30px;
 	}
-	.col-md-6-plan-pic {
-		width: 45%
+	.col-md-6-plan-pic img{
+	    max-width: 100%;
+    	height: 420px;
 	}
 	.col-md-6 .form-user{
 		margin-top: 20px;
@@ -2485,7 +2492,8 @@ pre code {
 		margin-left: 15%
 	}
 	.col-md-offset-3-user-right{
-		margin-left: 10%
+		margin-left: 10%;
+	    margin-bottom: 10px;
 	}
 	.col-md-offset-2 {
 		margin-left: 16.66666667%
@@ -3108,7 +3116,11 @@ input[type=search] {
 .form-group {
 	margin-bottom: 15px
 }
-
+.form-group-button {
+	margin-left: -60px;
+    margin-bottom: 15px;
+    position: absolute;
+}
 .form-group label{
 	color: white;
 	font-size: 16px;
@@ -3584,7 +3596,17 @@ select[multiple].form-group-lg .form-control,textarea.form-group-lg .form-contro
     background-color: #5f63679c;
     border-color: #5f63679c;
     margin-top: 0px;
-    margin-left: 93%;
+    margin-bottom: 5px;
+    margin-left: 90%;
+    font-size: 5px;
+}
+.btn-primary-note-delete {
+    color: #fff;
+    background-color: #5f63679c;
+    border-color: #5f63679c;
+    margin-top: 0px;
+    margin-bottom: 5px;
+    margin-left: 1px;
     font-size: 5px;
 }
 .btn-primary.active,.btn-primary.focus,.btn-primary:active,.btn-primary:focus,.btn-primary:hover,.open>.dropdown-toggle.btn-primary {

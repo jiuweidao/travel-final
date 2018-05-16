@@ -63,5 +63,12 @@ public interface PlanmembersMapper {
     
     List<Integer>selectIdByUid(String uid);
     
+    /**
+     * planid 查询成员id 
+     * @param pid
+     * @return
+     */
+    List<Integer> selectUserIdByPid(String pid);
+    
     int deleteByPid(String pid);
 }

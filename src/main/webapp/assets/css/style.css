@@ -74,7 +74,9 @@ h1, h2, h3, h4, h5, h6{
 span {		
 	color: white;
 }
-.btn{border-radius: 0;}
+.btn{
+	border-radius: 5px;
+	}
 .btn-o {
     border: 1px solid #3A4F52;
     color: #3A4F52;
@@ -439,10 +441,35 @@ span {
 }
 
 .basic{
-	margin-top:60px;
+	margin-top:0px;
 }
 .schedul{
-	margin-top:60px;
+	margin-top:0px;
+}
+.schedul hr{
+	border-top: 1px solid white;
+	margin-bottom:50px;
+}
+.upload-img{
+    width: auto;
+    height: auto;
+    max-width: 20%;
+    max-height: 20%;
+    
+}
+
+.form-group .lable-error{
+	position: absolute;
+    font-size: 12px;
+    color: #d8b6bc;
+    margin-left: 5px;
+}
+
+.col-md-6 .lable-content-error{
+	position: absolute;
+    font-size: 12px;
+    color: #d8b6bc;
+    margin-left: 250px;
 }
 /*////////////////////////////////////////////////////////////////////////
 //  05 - Recent works

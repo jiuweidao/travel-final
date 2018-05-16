@@ -192,12 +192,10 @@ public class PlanController {
 	public String showMymessage(HttpServletRequest request,
 			HttpServletResponse response, Model model) throws Exception {
 
-		List<Comments> lstComments = new LinkedList<>();
-
 		Users users = (Users) request.getSession().getAttribute("user");
 
-		String id = request.getParameter("id");
-		Plans plans = plansSolr.searchById(id).get(0);
+		String pid = request.getParameter("id");
+		Plans plans = plansSolr.searchById(pid).get(0);
 		if (users != null) {
 			String userName = users.getName();
 			if (userName == null || "".equals(userName)) {
@@ -205,28 +203,26 @@ public class PlanController {
 			}
 			request.setAttribute("username", userName);
 			request.setAttribute("uid", users.getId());
-			if (planmembersService.selectIdByUidAndPid(
-					users.getId().toString(), plans.getId().toString()) > 0) {
+			if (planmembersService.selectIdByUidAndPid(users.getId().toString(), plans.getId().toString()) > 0) {
 				plans.setIsmember(true);
 			}
 		}
 
-		List<Comments> lstAllComments = commentsSolr.searchByPlanId(id);
+		List<Comments> lstAllComments = commentsSolr.searchCommentByPlanId(pid,1);
 		for (Comments comment : lstAllComments) {
-			if (comment.getType() == 0) {
-				lstComments.add(comment);
-			}
+			List<Comments> lstAllNotes = commentsSolr.searchNoteByPlanId(pid,comment.getId());
+			comment.addComment(lstAllNotes);
 		}
 
-		for (Comments comment : lstComments) {
-			for (Comments note : lstAllComments) {
-				if (note.getType() == 1 && comment.getId() == note.getNoteid())
-					comment.addComment(note);
-			}
+		List<Integer> lstPlanmemberId = planmembersService.selectUserIdByPid(pid);
+		List<Users> lstPlanmember = new LinkedList<>();
+		for (Integer uid : lstPlanmemberId) {
+			Users u = userService.selectByPrimaryKey(uid);
+			lstPlanmember.add(u);
 		}
-		request.setAttribute("lstComments", lstComments);
-
-		// Collections.sort(lstComments);
+		
+		request.setAttribute("lstComments", lstAllComments);
+		request.setAttribute("lstPlanmember", lstPlanmember);
 		request.setAttribute("plans", plans);
 
 		return "plandetail1";
@@ -377,50 +373,6 @@ public class PlanController {
 
 	}
 
-	@ResponseBody
-	@RequestMapping(value = "/uploadImg.html", method = RequestMethod.POST)
-	public String uploadPicture(
-			@RequestParam(value = "file", required = false) MultipartFile file,
-			HttpServletRequest request) {
-
-		Map<String, String> result = new HashMap<String, String>();
-		File targetFile = null;
-		String msg = "";// 返回存储路径
-		int code = 1;
-		String fileName = file.getOriginalFilename();// 获取文件名加后缀
-		if (fileName != null && fileName != "") {
-			String returnUrl = request.getScheme() + "://"
-					+ request.getServerName() + ":" + request.getServerPort()
-					+ request.getContextPath() + "/upload/imgs/";// 存储路径
-			String path = request.getSession().getServletContext()
-					.getRealPath("upload/imgs"); // 文件存储位置
-			String fileF = fileName.substring(fileName.lastIndexOf("."),
-					fileName.length());// 文件后缀
-			fileName = new Date().getTime() + "_" + new Random().nextInt(1000)
-					+ fileF;// 新的文件名
-
-			// 先判断文件是否存在
-			String fileAdd = DateUtil.formatDate(new Date(), "yyyyMMdd");
-			File file1 = new File(path + "/" + fileAdd);
-			// 如果文件夹不存在则创建
-			if (!file1.exists() && !file1.isDirectory()) {
-				file1.mkdirs();
-			}
-			targetFile = new File(file1, fileName);
-			// targetFile = new File(path, fileName);
-			try {
-				file.transferTo(targetFile);
-				// msg=returnUrl+fileName;
-				msg = returnUrl + fileAdd + "/" + fileName;
-				code = 0;
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		result.put(code + "", msg);
-		// return JSON.toJSONString(ResponseResult.result(code, msg));
-		return JSONObject.fromObject(result).toString();
-	}
 
 	@RequestMapping("springUpload")
 	public String springUpload(HttpServletRequest request)
@@ -460,22 +412,7 @@ public class PlanController {
 		return "/success";
 	}
 
-	/*
-	 * @RequestMapping(value="/Plan") public String
-	 * registerByM(HttpServletResponse response,HttpServletRequest request)
-	 * throws Exception{
-	 * 
-	 * HashMap<String, String> result = new HashMap<String, String>() ; Plans
-	 * plans = fillPlan(request);
-	 * 
-	 * if (plansService.insert(plans)>0) { plansSolr.insert(plans); }
-	 * result.put("success","1");
-	 * 
-	 * 
-	 * return JSONObject.fromObject(result).toString();
-	 * 
-	 * }
-	 */
+	
 	private Plans fillPlan(HttpServletRequest request, Plans plans)
 			throws ParseException {
 
@@ -493,6 +430,7 @@ public class PlanController {
 		String endtime = request.getParameter("endtime");
 		String budgetbottom = request.getParameter("budgetbottom");
 		String budgettop = request.getParameter("budgettop");
+		String picpath = request.getParameter("picpath");
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");// 小写的mm表示的是分钟
 		Date dateDeparturetime = sdf.parse(departuretime);
@@ -511,7 +449,6 @@ public class PlanController {
 		} else {
 			int presentnum = planmembersService.selectCountByPid(plans.getId()
 					.toString());
-			plans.setCommentcount(0);
 			plans.setNotecount(0);
 			plans.setPresentnum(presentnum);
 			plans.setScore(0);
@@ -523,6 +460,7 @@ public class PlanController {
 		plans.setDestination(destination);
 		plans.setExpectnum(Integer.parseInt(expectnum));
 		plans.setDetail(content);
+		plans.setPicpath(picpath);
 		plans.setEndtime(dateEndtime);
 		plans.setBudgetbottom(Integer.parseInt(budgetbottom));
 		plans.setBudgettop(Integer.parseInt(budgettop));

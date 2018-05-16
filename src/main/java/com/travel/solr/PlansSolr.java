@@ -54,6 +54,7 @@ public class PlansSolr {
 		doc.addField("score", plans.getScore());
 		doc.addField("CommentCount", plans.getCommentcount());
 		doc.addField("NoteCount", plans.getNotecount());
+		doc.addField("picpath", plans.getPicpath());
 
 		client.add(doc);
 		client.commit();
@@ -69,7 +70,7 @@ public class PlansSolr {
 	 */
 
 	/*
-	 * public void update(Users user)throws SolrServerException, IOException{
+	 * public void update(Users user) throws SolrServerException, IOException {
 	 * 
 	 * HttpSolrClient client = new HttpSolrClient(serverUrl); SolrInputDocument
 	 * doc = new SolrInputDocument();
@@ -134,6 +135,7 @@ public class PlansSolr {
 			plans.setScore((double) solrDocument.get("score"));
 			plans.setCommentcount((int) solrDocument.get("CommentCount"));
 			plans.setNotecount((int) solrDocument.get("NoteCount"));
+			plans.setPicpath((String) solrDocument.get("picpath"));
 
 			lstPlans.add(plans);
 		}
@@ -190,7 +192,8 @@ public class PlansSolr {
 			plans.setScore((double) solrDocument.get("score"));
 			plans.setCommentcount((int) solrDocument.get("CommentCount"));
 			plans.setNotecount((int) solrDocument.get("NoteCount"));
-
+			plans.setPicpath((String) solrDocument.get("picpath"));
+			
 			lstPlans.add(plans);
 		}
 

@@ -26,21 +26,22 @@ public class CommentsServiceImpl implements CommentsService {
 
 	}
 
-	/*
-	 * @Override public List<Plans> selectAllPlansByUid(String uid) { return
-	 * plansMapper.selectAllPlansByUid(uid); }
-	 * 
-	 * @Override public Plans selectPlansById(int id) {
-	 * 
-	 * return plansMapper.selectByPrimaryKey(id); }
-	 * 
-	 * @Override public int update(Plans plans) {
-	 * 
-	 * return plansMapper.updateByPrimaryKeySelective(plans); }
-	 * 
-	 * @Override public int delete(int id) {
-	 * 
-	 * return plansMapper.deleteByPrimaryKey(id); }
-	 */
+	@Override
+	public int getPlanCount(int planId) {
+		// TODO Auto-generated method stub
+		return commentsMapper.getPlanCount(planId);
+	}
+
+	@Override
+	public int deleteNote(int id) {
+		// TODO Auto-generated method stub
+		return commentsMapper.deleteByPrimaryKey(id);
+	}
+
+	@Override
+	public int deleteComment(int id) {
+		// TODO Auto-generated method stub
+		return commentsMapper.deleteComment(id);
+	}
 
 }

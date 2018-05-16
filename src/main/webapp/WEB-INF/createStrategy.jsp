@@ -122,11 +122,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<section class="block-body-user">
 						<div class="row">
 							<form id="form" class="form-user" role="form">
-							<div class="col-md-6-strategy col-md-offset-3-user-left">
+							<div class="col-md-6-strategy">
 								<h2>基本信息</h2>
 								<div class="basic">
 									<div class="form-group">
-								    	<label>标&nbsp &nbsp&nbsp &nbsp题：</label>
+								    	<label>标&nbsp &nbsp&nbsp&nbsp&nbsp题：</label>
 								    	<input id="title" name="title" type="text" class="form-control-strategy form-control-white" placeholder="游记标题">
 								    	<a id="title_error" style="display:none;" >不能为空</a>
 							 		</div>
@@ -140,11 +140,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								    	<label id="telemoble_error" style="display:none;">不能為空</label>
 								    </div>
 								 </div>
-								 <hr/>
+								 <hr style="border-top: 1px solid white;"/>
 						    </div>
-							<div class="col-md-6-strategy col-md-offset-3-user-left">  
+							<div id ="scheduls"class="col-md-6-strategy">  
 								<h2>详细规划</h2>  
-									<div id ="" class="schedul">
+									<div id ="schedul_1" class="schedul">
 								    	<div class="form-group">
 								    		<label>旅行时长：</label>
 								    		第
@@ -169,10 +169,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								    		<label>游玩方式：</label>
 								    		<textarea id="content" name="content"  class="form-control-strategy form-control-white" placeholder="具体的玩点：1.白天去附近的茶马古道和琴海（白天古城人比较少）2.晚上一路逛古城去狮子山（免费）或者鼓楼（收费）去看古城夜景 3.逛完古城去酒吧（酒吧11点以后只能放歌不能唱，要早点去）" rows="10" required></textarea>
 								    	</div>
+								    	<hr style="color: white">
 									</div >
-									<div class="schedul">
-										<div class="form-group">
-								    		<label>+：</label>
+									<div id ="schedul_2" class="schedul">
+										<div class="form-group-button">
+								    		<input type="button" class="btn btn-o-white" value="删除本项" onclick="deleteSchedul(2)">
 								    	</div>
 								    	<div class="form-group">
 								    		<label>旅行时长：</label>
@@ -184,22 +185,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								    	</div>
 								    	<div class="form-group">
 								    		<label>出发地点：</label>
-								    		<input id="departureplace" name="departureplace" type="text" class="form-control-strategy form-control-white" placeholder="Your Name">
+								    		<input id="departureplace" name="departureplace" type="text" class="form-control-strategy form-control-white" >
 								    	</div>
 								   		<div class="form-group">
 								    		<label>目的地点：</label>
-								    		<input id="destination" name="destination"  type="text" class="form-control-strategy form-control-white" placeholder="Your Name" >
+								    		<input id="destination" name="destination"  type="text" class="form-control-strategy form-control-white" >
 								    	</div>
 								    	<div class="form-group">
 								    		<label>交通方式：</label>
-								    		<input id="expectnum" name="expectnum"  type="text" class="form-control-strategy form-control-white"  placeholder="Your Name">
+								    		<input id="expectnum" name="expectnum"  type="text" class="form-control-strategy form-control-white">
 								    	</div>
 								    	<div class="form-group">
 								    		<label>游玩方式：</label>
 								    		<textarea id="content" name="content"  class="form-control-strategy form-control-white" placeholder="Write Something" rows="10" required></textarea>
 								    	</div>
+								    	<hr/>
 									</div>
-							</div>
+								</div>
 								<input id="add_schedul_btn" type="button" class="btn btn-o-white" value="添加规划">
 							 	<input id="addplan_btn" type="button" class="btn btn-o-white" value="提交">
 								<input id="clear_btn" type="button" class="btn btn-o-white" value="清空">
@@ -225,11 +227,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<script src="assets/js/jquery.actual.min.js"></script>
 		<script src="assets/js/jquery.scrollTo.min.js"></script>
 		<script src="assets/js/script.js"></script>
-		<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 		<script src="js/datePicker/WdatePicker.js"></script>
 	<script type="text/javascript">
 	var username = $('#username').text();
 	
+	var schedulNum=2;
 	if(username !=""){
 		$('#logined_div').show();
 		$('#user_div').show();
@@ -239,11 +241,48 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		$('#logined_div').hide();
 		$('#user_div').hide();
 	}
-	
+	function deleteSchedul(id){
+		$('#schedul_'+id).remove();
+		schedulNum-=1;
+	}
 	
 	$('#add_schedul_btn').click(function() {
-		$('#nologin_div').show();
+		schedulNum+=1;
+		var schedulDiv = 
+			"						<div id =\"schedul_"+schedulNum+"\" class=\"schedul\">"+
+			"							<div class=\"form-group-button\">"+
+			"					    		<input type=\"button\" class=\"btn btn-o-white\" value=\"删除本项\"  onclick=\"deleteSchedul("+schedulNum+")\">"+
+			"					    	</div>"+
+			"					    	<div class=\"form-group\">"+
+			"					    		<label>旅行时长：</label>"+
+			"					    		第"+
+			"					    		<input id=\"budgetbottom\" name=\"budgetbottom\" type=\"text\" class=\"form-control-user-half form-control-white\">"+
+			"					   		 		<span> ——</span>"+
+			"					   			<input id=\"budgettop\" name=\"budgettop\" type=\"text\"   class=\"form-control-user-half form-control-white\">"+
+			"					   			天"+
+			"					    	</div>"+
+			"					    	<div class=\"form-group\">"+
+			"					    		<label>出发地点：</label>"+
+			"					    		<input id=\"departureplace\" name=\"departureplace\" type=\"text\" class=\"form-control-strategy form-control-white\">"+
+			"					    	</div>"+
+			"					   		<div class=\"form-group\">"+
+			"					    		<label>目的地点：</label>"+
+			"					    		<input id=\"destination\" name=\"destination\"  type=\"text\" class=\"form-control-strategy form-control-white\">"+
+			"					    	</div>"+
+			"					    	<div class=\"form-group\">"+
+			"					    		<label>交通方式：</label>"+
+			"					    		<input id=\"expectnum\" name=\"expectnum\"  type=\"text\" class=\"form-control-strategy form-control-white\">"+
+			"					    	</div>"+
+			"					    	<div class=\"form-group\">"+
+			"					    		<label>游玩方式：</label>"+
+			"					    		<textarea id=\"content\" name=\"content\"  class=\"form-control-strategy form-control-white\" placeholder=\"Write Something\" rows=\"10\" required></textarea>"+
+			"					    	</div>"+
+			"					    	<hr/>"+
+			"						</div>";
+			
+			$("#scheduls").append($(schedulDiv));
 	});
+	
 	$('#addplan_btn').click(function(){
 			var error="";
 			var tag=$("#tag").val();  

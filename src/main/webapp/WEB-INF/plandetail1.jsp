@@ -26,7 +26,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<link rel="stylesheet" href="assets/css/bootstrap.min.css">
 		<link rel="stylesheet" href="assets/css/font-awesome.min.css">
 		<link rel="stylesheet" href="assets/css/style.css" media="screen"/>
+		<link rel="stylesheet" href="css/paging.css">
 
+		<link rel="shortcut icon" href="../favicon.ico"> 
+
+		<link rel="stylesheet" type="text/css" href="css/style1.css" />
+
+		<script src="js/modernizr.custom.63321.js"></script>
 		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 		<!--[if lt IE 9]>
 			<script src="assets/js/html5shiv.js"></script>
@@ -95,7 +101,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<a class="logo" href="login">登录/注册</a>
 						</div>
 						<div id="logined_div" class="pull-right" style="display: none">
-							<span  id="username" class="logo" href="login">${username}</span>
+							<span  id="username" class="logo" >${username}</span>
+							<span  id="userId" class="logo" style="display: none">${uid}</span>
 						</div>
 						<div class="pull-right">
 							<a class="logo" href="index.html">出行交通</a>
@@ -122,8 +129,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div class="fh5co-narrow-content">
 				<div class="row row-bottom-padded-md">
 					<div class="col-md-6-plan-pic animate-box" data-animate-effect="fadeInLeft" >
-						<img class="img-responsive" src="images/img_bg_1.jpg" alt="Free HTML5 Bootstrap Template by FreeHTML5.co">
+						<c:if test='${plans.picpath == null}'>
+							<img src="assets/images/bike_water1-1000x600.jpg">
+						</c:if>
+						<c:if test='${plans.picpath != null}'>
+							<img src="<%=request.getContextPath()%>${plans.picpath}">
+						</c:if>
 					</div>
+				
 					<div class="col-md-6-plan-pic animate-box" data-animate-effect="fadeInLeft">
 						<h2 class="fh5co-heading">${plans.title}</h2>
 						<p>期望人数：${plans.expectnum}
@@ -137,7 +150,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<p>出发地点：${plans.departureplace}</p>
 						<p>旅行预算：${plans.budgetbottom}——${plans.budgettop}</p>
 						<p>邀约详情： ${plans.detail}</p>
-						<p>当前成员： ${plans.detail}</p>
+					</div>
+					<div class="col-md-6-plan-pic animate-box" data-animate-effect="fadeInLeft">
+						<div class="fleft">
+
+					<select id="cd-dropdown" name="cd-dropdown" class="cd-select">
+						<option value="-1" selected>查看当前成员 ${plans.presentnum}/${plans.expectnum}</option>
+						<c:forEach items="${lstPlanmember}" var="member" varStatus="status">
+							<option value="1" class="icon-monkey">
+								<c:if test='${member.name == null ||member.name == ""}'>
+									${member.username}
+								</c:if>
+								<c:if test='${member.name != null && member.name != ""}'>
+									${member.name}
+								</c:if>
+							</option>
+						</c:forEach>
+
+					</select>
+
+				</div>
+					</div>
+					<div class="col-md-6-plan-pic animate-box" data-animate-effect="fadeInLeft">
 					  	<c:if test='${plans.type == "1"}'>
 							<p><a id="" href="#" class="btn btn-primary">出游中</a></p>
 						</c:if>
@@ -156,6 +190,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							</c:if>
 						</c:if>
 					</div>
+					</div>
 				</div>
 			</div>
 
@@ -171,51 +206,63 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							</div>
 						</div>
 					
-						<div id="">
+						<div id="comment">
 							<h2 class="fh5co-heading" data-animate-effect="fadeInLeft">所有回复</h2>
 							<div id="lstComments_div">
 							<c:forEach items="${lstComments}" var="commentsItem" varStatus="status">
-								<div class="animate-comment" data-animate-effect="fadeInLeft">
-									<div class="fh5co-text">
+								<div id ="${commentsItem.id}st_comment_div" class="animate-comment" data-animate-effect="fadeInLeft">
+									<div  class="fh5co-text">
 										<span></span>
 										<span class="username">${commentsItem.creatbyname}:</span>
 										<span class="time">
-											<fmt:formatDate value="${commentsItem.creattime}" pattern="yyyy-MM-dd"/>
+											<fmt:formatDate value="${commentsItem.creattime}" pattern="yyyy-MM-dd HH:mm"/>
 										</span>
-										<p>${commentsItem.content} 
+										<p>
+											${commentsItem.content} 
+											<br/>
 											<button id ="${commentsItem.id}_comment_btn" class="btn btn-primary-note" onclick="showNoteDiv(${commentsItem.id})">回复</button>
+											<c:if test="${commentsItem.creatby==uid}">
+												<button id ="${commentsItem.id}_delete_btn" class="btn btn-primary-note-delete" onclick="deleteDiv(${commentsItem.id},0)">删除</button>
+											</c:if>
 										</p>
 									</div>
-									<div id ="${commentsItem.id}_note_div" class="fh5co-text " style="display: none">
+									<div id ="${commentsItem.id}_note_div" class="fh5co-text animate-box" style="display: none">
 										<div>
-											<textarea id="${commentsItem.id}_note_content" name="content"  class="form-control-comment form-control-black" placeholder="Write Something" rows="3" required></textarea>
+											<textarea id="${commentsItem.id}_note_content" name="content"  class="form-control-comment form-control-black" placeholder="Write Something" rows="3"></textarea>
 										</div>
 										<div class="note_btn">
-											<button class="btn btn-primary-tonote" onclick="addNote(${commentsItem.id},${commentsItem.creatby},)">回复</button>
+											<button class="btn btn-primary-tonote" onclick="addNote(${commentsItem.id},0,${commentsItem.creatby},)">回复</button>
 											<button class="btn btn-primary-tonote" onclick="hideNoteDiv(${commentsItem.id})">取消</button>
 									
 										</div>
 									</div>
 									<div id ="${commentsItem.id}_lstNotes_div" class="fh5co-feature">
 										<c:forEach items="${commentsItem.lstNote}" var="item" varStatus="status">
+											<div id ="${item.id}st_note_div">
 												<div class="fh5co-text animate-box">
 													<span class="username">${item.creatbyname}:</span>
 													<span class="time">
-														<fmt:formatDate value="${item.creattime}" pattern="yyyy-MM-dd"/>
+														<fmt:formatDate value="${item.creattime}" pattern="yyyy-MM-dd HH:mm"/>
 													</span>
-													<p>${item.content} 
-														<button class="btn btn-primary-note" onclick="showNoteDiv(${item.id})">回复</button>
+													<p>
+														${item.content}
+														<br/> 
+														<button  id ="${item.id}_comment_btn" class="btn btn-primary-note" onclick="showNoteDiv(${item.id})">回复</button>
+														<c:if test="${item.creatby==uid}">
+															<button id ="${item.id}_delete_btn" class="btn btn-primary-note-delete" onclick="deleteDiv(0,${item.id})">删除</button>
+														</c:if>
 													</p>
 												</div>
-												<div id ="${item.id}_note_div" class="fh5co-text" style="display: none">
+												<div id ="${item.id}_note_div" class="fh5co-text animate-box" style="display: none">
 													<div>
 														<textarea id="${item.id}_note_content" name="content"  class="form-control-comment form-control-black" placeholder="Write Something" rows="3" required></textarea>
 													</div>
 													<div class="note_btn">
-														<button id = "" class="btn btn-primary-tonote" onclick="addNote(${commentsItem.id},${item.creatby},2)">回复</button>
-														<button id = "" class="btn btn-primary-tonote" onclick="hideNoteDiv(${item.id})">取消</button>
+														<button  class="btn btn-primary-tonote" onclick="addNote(${commentsItem.id},${item.id},${item.creatby},2)">回复</button>
+														<button  class="btn btn-primary-tonote" onclick="hideNoteDiv(${item.id})">取消</button>
 													</div>
 												</div>
+											</div>
 										</c:forEach>
 									</div>
 								</div>
@@ -229,7 +276,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 			</div><!-- #blog -->
 			
-
+			<div class="box" id="box"></div>
 			<div class="content-block" id="footer">
 				<div class="container">
 					<div class="row">
@@ -259,8 +306,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<script src="assets/js/jquery.scrollTo.min.js"></script>
 		<script src="assets/js/script.js"></script>
 		<script src="js/datePicker/WdatePicker.js"></script>
+		<script src="js/paging.js"></script>
+		<script src="js/utils.js"></script>
+		<script type="text/javascript" src="js/jquery.dropdown.js"></script>
 	<script type="text/javascript">
 	var username = $('#username').text();
+	var uid =  $('#userId').text();
 	
 	if(username !=""){
 		$('#logined_div').show();
@@ -322,19 +373,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			url: "<%=request.getContextPath()%>" + "/addComment", 
 			dataType: "json", 
 			success: function(data) { 
-				alert("成功...."); 
 				var json=data;
         		if(json.success=="1"){
-        			
 					var commentDiv = 
-						"	<div class=\"animate-comment\" data-animate-effect=\"fadeInLeft\">"+
+						"	<div id =\""+json.id+"st_comment_div\" class=\"animate-comment\" data-animate-effect=\"fadeInLeft\">"+
 						"		<div class=\"fh5co-text\">"+
 						"			<span class=\"username\">"+ username +":</span>"+
 						"			<span class=\"time\">"+
 						"				刚刚"+
 						"			</span>"+
-						"			<p>"+comment+
+						"			<p>"+
+										comment+
+						"				<br/> "+
 						"				<button class=\"btn btn-primary-note\" onclick=\"showNoteDiv("+json.id+")\">回复</button>"+
+						"				<button id =\""+json.id+"_delete_btn\" class=\"btn btn-primary-note-delete\" onclick=\"deleteDiv("+json.id+",0)\">删除</button>"+
 						"			</p>"+
 						"		</div>"+
 						"		<div id =\""+json.id+"_note_div\" class=\"fh5co-text \" style=\"display: none\">"+
@@ -342,7 +394,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						"				<textarea id=\""+json.id+"_note_content\" name=\"content\"  class=\"form-control-comment form-control-black\" placeholder=\"Write Something\" rows=\"3\" required></textarea>"+
 						"			</div>"+
 						"			<div class=\"note_btn\">"+
-						"				<button class=\"btn btn-primary-tonote\" onclick=\"addNote("+json.id+","+${uid} +",1)\">回复</button>"+
+						"				<button class=\"btn btn-primary-tonote\" onclick=\"addNote("+json.id+","+uid +",1)\">回复</button>"+
 						"				<button class=\"btn btn-primary-tonote\" onclick=\"hideNoteDiv("+json.id+")\">取消</button>"+
 						"			</div>"+
 						"		</div>"+
@@ -362,37 +414,47 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	function showNoteDiv(commentId){
 		$('#'+commentId+'_note_div').show();
 		$('#'+commentId+'_comment_btn').hide();
+		$('#'+commentId+'_delete_btn').hide();
 	}
 	
 	function hideNoteDiv(commentId){
 		$('#'+commentId+'_note_div').hide();
 		$('#'+commentId+'_comment_btn').show();
+		$('#'+commentId+'_delete_btn').show();
 	}
 	
-	function addNote(commentId,commentCreateby,noteId){
-		var comment = $('#'+ commentId +'_note_content').val();
+	function addNote(commentId,noteId,commentCreateby,type){
+		var comment ;
+		if(noteId==0){
+			comment = $('#'+ commentId +'_note_content').val();
+		}else{
+			comment = $('#'+ noteId +'_note_content').val();
+		}
 		$.ajax({ 
 			data: 
-			"comment=" + comment +
-			"&planid=" + ${plans.id} + 
-			"&commentId=" + commentId + 
-			"&commentCreateby=" + commentCreateby+
-			"&type="+1, 
+				"comment=" + comment +
+				"&planid=" + ${plans.id} + 
+				"&commentId=" + commentId + 
+				"&commentCreateby=" + commentCreateby+
+				"&type="+1, 
 			type: "post", 
 			url: "<%=request.getContextPath()%>" + "/addComment", 
 			dataType: "json", 
 			success: function(data) { 
-				alert("成功....");
-				
 				if(data.success=="1"){
+					var uid =  $('#userId').text();;
 					var noteDiv = 
+						"<div id =\""+data.id+"st_note_div\">"+
 						"	<div class=\"fh5co-text animate-box\">"+
 						"		<span class=\"username\">"+ username +":</span>"+
 						"			<span class=\"time\">"+
 						"				刚刚"+
 						"			</span>"+
-						"			<p>"+comment+" "+
+						"			<p>"+
+										comment+" "+
+						"				<br/> "+
 						"				<button class=\"btn btn-primary-note\" onclick=\"showNoteDiv("+data.id+")\">回复</button>"+
+						"				<button id =\""+data.id+"_delete_btn\" class=\"btn btn-primary-note-delete\" onclick=\"deleteDiv(0,"+data.id+")\">删除</button>"+
 						"			</p>"+
 						"	</div>"+
 						"	<div id =\""+data.id+"_note_div\" class=\"fh5co-text\" style=\"display: none\">"+
@@ -400,13 +462,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						"				<textarea id=\""+data.id+"_note_content\" name=\"content\"  class=\"form-control-comment form-control-black\" placeholder=\"Write Something\" rows=\"3\" required></textarea>"+
 						"			</div>"+
 						"			<div class=\"note_btn\">"+
-						"				<button  class=\"btn btn-primary-tonote\" onclick=\"addNote("+commentId+","+${uid}+",2)\">回复</button>"+
+						"				<button  class=\"btn btn-primary-tonote\" onclick=\"addNote("+commentId+","+uid+",2)\">回复</button>"+
 						"				<button  class=\"btn btn-primary-tonote\" onclick=\"hideNoteDiv("+data.id+")\">取消</button>"+
 						"			</div>"+
-						"	</div>";
+						"	</div>"+
+						"</div>";
 						$("#"+commentId+"_lstNotes_div").append($(noteDiv));
-						$('#'+ commentId +'_note_content').val("");
-						$('#'+commentId+'_note_div').hide();
+						if(noteId==0){
+							$('#'+ commentId +'_note_content').val("");
+							$('#'+commentId+'_note_div').hide();
+							$('#'+commentId+'_comment_btn').show();
+							$('#'+commentId+'_delete_btn').show();
+						}else{
+							$('#'+ noteId +'_note_content').val("");
+							$('#'+noteId+'_note_div').hide();
+							$('#'+noteId+'_comment_btn').show();
+							$('#'+noteId+'_delete_btn').show();
+						}
+						
 					}		 
 			},
 			error: function(data) { 
@@ -414,6 +487,127 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			}
 		});
 	}
+	
+	var setTotalCount = ${plans.commentcount};
+    $('#box').paging({
+         initPageNo: 0, // 初始页码
+         totalPages: setTotalCount%10==0?(setTotalCount/10):(parseInt(setTotalCount/10)+1), //总页数
+         totalCount: '合计' + setTotalCount + '条数据', // 条目总数
+         slideSpeed: 600, // 缓动速度。单位毫秒
+         jump: true, //是否支持跳转
+         callback: function(page) { // 回调函数
+              console.log(page);
+         }
+      })
+      
+      $('#pageSelect').children().click(function(){
+       		pageIndex = $(this).index() + 1;
+            $.ajax({ 
+				type: "post", 
+				url: "<%=request.getContextPath()%>" + "/getcomments", 
+				data: "page="+pageIndex+"&id="+${plans.id}, 
+				dataType: "json", 
+				success: function(data) { 
+					var lstComment= data.lstComments;
+					var lstComment_div="";
+						for(var i = 0;i<lstComment.length;i++){
+							var comment =lstComment[i];
+							lstComment_div+=	
+								"<div id =\""+ comment.id +"st_comment_div\" class=\"animate-comment\" data-animate-effect=\"fadeInLeft\">"+
+								"	<div class=\"fh5co-text\">"+
+								"		<span class=\"username\">"+comment.creatbyname+":</span>"+
+								"		<span class=\"time\">"+
+											formatDateTime(comment.creattime)+
+								"		</span>"+
+								"		<p>"+
+											comment.content+
+								"			<br/> "+
+								"			<button id =\""+comment.id+"_comment_btn\" class=\"btn btn-primary-note\" onclick=\"showNoteDiv("+comment.id+")\">回复</button>"+
+								(uid ==comment.creatby?
+								"			<button id =\""+comment.id+"_delete_btn\" class=\"btn btn-primary-note-delete\" onclick=\"deleteDiv(0,"+comment.id+")\">删除</button>":"")+
+								"		</p>"+
+								"	</div>"+
+								"	<div id =\""+comment.id+"_note_div\" class=\"fh5co-text \" style=\"display: none\">"+
+								"		<div>"+
+								"			<textarea id=\""+comment.id+"_note_content\" name=\"content\"  class=\"form-control-comment form-control-black\" placeholder=\"Write Something\" rows=\"3\" required></textarea>"+
+								"		</div>"+
+								"		<div class=\"note_btn\">"+
+								"			<button class=\"btn btn-primary-tonote\" onclick=\"addNote("+comment.id+","+comment.creatby+",)\">回复</button>"+
+								"			<button class=\"btn btn-primary-tonote\" onclick=\"hideNoteDiv("+comment.id+")\">取消</button>"+
+								"		</div>"+
+								"	</div>"+
+								"	<div id =\""+comment.id+"_lstNotes_div\" class=\"fh5co-feature\">";
+								
+								for(var j=0;j<comment.lstNote.length;j++){
+								
+									var note=comment.lstNote[j];
+									lstComment_div+=	
+								"			<div id =\""+note.id+"st_note_div\">"+
+								"				<div class=\"fh5co-text animate-box\">"+
+								"					<span class=\"username\">"+note.creatbyname+":</span>"+
+								"					<span class=\"time\">"+
+														formatDateTime(note.creattime)+
+								"					</span>"+
+								"					<p>"+
+														note.content+
+								"						<br/> "+
+								"						<button class=\"btn btn-primary-note\" onclick=\"showNoteDiv("+note.id+")\">回复</button>"+
+											(uid ==note.creatby?
+								"			<button id =\""+note.id+"_delete_btn\" class=\"btn btn-primary-note-delete\" onclick=\"deleteDiv(0,"+note.id+")\">删除</button>":"")+
+								
+								"					</p>"+
+								"				</div>"+
+								"				<div id =\""+note.id+"_note_div\" class=\"fh5co-text\" style=\"display: none\">"+
+								"					<div>"+
+								"						<textarea id=\""+note.id+"_note_content\" name=\"content\"  class=\"form-control-comment form-control-black\" placeholder=\"Write Something\" rows=\"3\" required></textarea>"+
+								"					</div>"+
+								"					<div class=\"note_btn\">"+
+								"						<button class=\"btn btn-primary-tonote\" onclick=\"addNote("+comment.id+","+note.creatby+",1)\">回复</button>"+
+								"						<button class=\"btn btn-primary-tonote\" onclick=\"hideNoteDiv("+note.id+")\">取消</button>"+
+								"					</div>"+
+								"				</div>"+
+								"		</div>";
+								}
+								lstComment_div+=	
+								"	</div>"+
+							"	</div>";
+					}
+					$("#lstComments_div").empty();
+					$("#lstComments_div").prepend($(lstComment_div));
+				
+				},
+				error: function(data) { 
+					alert("调用失败....",data); 
+					console.log("data is ",data);
+				}
+			});
+        });
+        
+        $( '#cd-dropdown' ).dropdown( {
+			gutter : 5
+		} );
+		
+		function deleteDiv(commentId,noteId){
+			$.ajax({ 
+			data: 
+				"commentId=" + commentId +
+				"&noteId=" + noteId,
+			type: "get", 
+			url: "<%=request.getContextPath()%>" + "/deleteComment", 
+			dataType: "json", 
+			success: function(data) { 
+				if(noteId==0){
+					$('#'+commentId+'st_comment_div').hide();
+				}else{
+					$('#'+noteId+'st_note_div').hide();
+				}
+			},
+			error: function(data) { 
+				alert(data); 
+			}
+		});
+		
+		}
 	</script>
 	</body>
 </html>

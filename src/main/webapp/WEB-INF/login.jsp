@@ -148,7 +148,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<script src="assets/js/jquery.actual.min.js"></script>
 		<script src="assets/js/jquery.scrollTo.min.js"></script>
 		<script src="assets/js/script.js"></script>
-		<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js">
 </script>
 	<script type="text/javascript">
 	//密码登录

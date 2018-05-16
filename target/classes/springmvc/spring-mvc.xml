@@ -14,7 +14,7 @@
 	<!-- 扫描controller（controller层注入） -->
 	<context:component-scan base-package="com.travel.controller" />
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">  
-    	<property name="maxUploadSize" value="1048576010485760" /> 
+    	<property name="maxUploadSize" value="10485760104857600" /> 
 	</bean>
 	<mvc:annotation-driven/>
 	

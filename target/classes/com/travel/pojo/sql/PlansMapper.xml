@@ -21,11 +21,12 @@
     <result column="CommentCount" property="commentcount" jdbcType="INTEGER" />
     <result column="NoteCount" property="notecount" jdbcType="INTEGER" />
     <result column="Flag" property="flag" jdbcType="VARCHAR" />
+ 	<result column="PicPath" property="picpath" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     Id, Title, Tag, `Type`, BudgetTop, BudgetBottom, DeparturePlace, Destination, DepartureTime, 
     EndTime, ExpectNum, PresentNum, Detail, Creatby, CreatTime, score, CommentCount, 
-    NoteCount, Flag
+    NoteCount, Flag, PicPath
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -43,20 +44,20 @@
       Destination, DepartureTime, EndTime, 
       ExpectNum, PresentNum, Detail, 
       Creatby, CreatTime, score, 
-      CommentCount, NoteCount, Flag
-      )
+      CommentCount, NoteCount, Flag, 
+      PicPath)
     values (#{title,jdbcType=VARCHAR}, #{tag,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
       #{budgettop,jdbcType=INTEGER}, #{budgetbottom,jdbcType=INTEGER}, #{departureplace,jdbcType=VARCHAR}, 
       #{destination,jdbcType=VARCHAR}, #{departuretime,jdbcType=TIMESTAMP}, #{endtime,jdbcType=TIMESTAMP}, 
       #{expectnum,jdbcType=INTEGER}, #{presentnum,jdbcType=INTEGER}, #{detail,jdbcType=VARCHAR}, 
       #{creatby,jdbcType=INTEGER}, #{creattime,jdbcType=TIMESTAMP}, #{score,jdbcType=INTEGER}, 
-      #{commentcount,jdbcType=INTEGER}, #{notecount,jdbcType=INTEGER}, #{flag,jdbcType=VARCHAR}
-      )
+      #{commentcount,jdbcType=INTEGER}, #{notecount,jdbcType=INTEGER}, #{flag,jdbcType=VARCHAR}, 
+      #{picpath,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.travel.pojo.Plans" useGeneratedKeys="true" keyProperty="id" >
     insert into plans
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      Title,
+  	  Title,
       Tag,
       `Type`,
       BudgetTop,
@@ -74,6 +75,7 @@
       CommentCount,
       NoteCount,
       Flag,
+      PicPath,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       #{title,jdbcType=VARCHAR},
@@ -94,6 +96,7 @@
       #{commentcount,jdbcType=INTEGER},
       #{notecount,jdbcType=INTEGER},
       #{flag,jdbcType=VARCHAR},
+      #{picpath,jdbcType=VARCHAR},
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.travel.pojo.Plans" >
@@ -153,6 +156,9 @@
       <if test="flag != null" >
         Flag = #{flag,jdbcType=VARCHAR},
       </if>
+        <if test="picpath != null" >
+        PicPath = #{picpath,jdbcType=VARCHAR},
+      </if>
     </set>
     where Id = #{id,jdbcType=INTEGER}
   </update>
@@ -176,6 +182,7 @@
       CommentCount = #{commentcount,jdbcType=INTEGER},
       NoteCount = #{notecount,jdbcType=INTEGER},
       Flag = #{flag,jdbcType=VARCHAR}
+      PicPath = #{picpath,jdbcType=VARCHAR}
     where Id = #{id,jdbcType=INTEGER}
   </update>
   

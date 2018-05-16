@@ -119,7 +119,7 @@ public class UserController {
 			UsernamePasswordToken token = new UsernamePasswordToken(mobile,
 					DecriptUtil.MD5(password));
 			Subject currentUser = SecurityUtils.getSubject();
-
+			Users loginer1 = userService.selectByAll(mobile);
 			if (!currentUser.isAuthenticated()) {
 				// 使用shiro来验证 以下两句 提交用户名/密码进行认证过
 				token.setRememberMe(true);

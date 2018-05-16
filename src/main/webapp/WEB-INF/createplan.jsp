@@ -15,8 +15,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 		<!-- meta -->
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale = 1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		
 		<!-- google fonts -->
 		<link rel='stylesheet' href='http://fonts.googleapis.com/css?family=PT+Sans'>
@@ -125,48 +125,72 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<div class="col-md-6 col-md-offset-3-user-left">
 									<div class="form-group">
 								    	<label>邀约标题：</label>
-								    	<input id="title" name="title" type="text" class="form-control-user form-control-white"><a id="title_error" style="display:none;" >不能为空</a>
+								    	<input id="title" name="title" type="text" class="form-control-user form-control-white"  placeholder="搭车西藏七日">
+								    	<label id="title_error" class="lable-error" style="display:none;" >不能为空</label>
 							 		</div>
 									<div class="form-group">
 								    	<label>旅行标签：</label>
-								    	<input id="tag" name="tag" type="text" class="form-control-user form-control-white"  placeholder="Your Name" ><label id="name_error" style="display:none;">不能為空</label>
+								    	<input id="tag" name="tag" type="text" class="form-control-user form-control-white"  placeholder="搭车西藏游" >
+								    	<label id="tag_error" class="lable-error"  style="display:none;">不能為空</label>
 								  	</div>
 								    <div class="form-group">
 								    	<label>开始时间：</label>
-								    	<input id="departuretime" name="departuretime" type="text" class="form-control-user form-control-white" onclick="WdatePicker({skin:'whyGreen',readOnly:'readOnly',highLineWeekDay:true,dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})" readonly="readonly"  placeholder="Enter email"><label id="telemoble_error" style="display:none;">不能為空</label>
+								    	 <input id="departuretime" name="departuretime"  type="text" class="form-control-user form-control-white"  >
+								    	<label id="departuretime_error" class="lable-error"  style="display:none;">不能為空</label>
 								    </div>
 								    <div class="form-group">
 								    	<label>结束时间：</label>
-								    	<input id="endtime" name="endtime" type="text" class="form-control-user form-control-white" onclick="WdatePicker({skin:'whyGreen',readOnly:'readOnly',highLineWeekDay:true,dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})" placeholder="Enter email" ><label id="email_error" style="display:none;">不能為空</label>
+								    	<input id="endtime" name="endtime"  type="text" class="form-control-user form-control-white">
+								    	<label id="email_error" class="lable-error"  style="display:none;">不能為空</label>
 								    </div>
 								    <div class="form-group">
 								    	<label>出发地点：</label>
-								    	<input id="departureplace" name="departureplace" type="text" class="form-control-user form-control-white" placeholder="Your Name">
+								    	<input id="departureplace" name="departureplace" type="text" class="form-control-user form-control-white" placeholder="武汉">
+								    	<label id="departureplace_error" class="lable-error" style="display:none;">不能為空</label>
 								    </div>
 								    <div class="form-group">
 								    	<label>目的地点：</label>
-								    	<input id="destination" name="destination"  type="text" class="form-control-user form-control-white" placeholder="Your Name" >
+								    	<input id="destination" name="destination"  type="text" class="form-control-user form-control-white" placeholder="西藏" >
+								    	<label id="destination_error" class="lable-error"  style="display:none;">不能為空</label>
 								    </div>
 								    <div class="form-group">
 								    	<label>期望人数：</label>
-								    	<input id="expectnum" name="expectnum"  type="text" class="form-control-user form-control-white"  placeholder="Your Name">
+								    	<input id="expectnum" name="expectnum"  type="text" class="form-control-user form-control-white"  placeholder="20">
+								    	<label id="expectnum_error" class="lable-error"  style="display:none;">不能為空</label>
 								    </div>
 								    <div class="form-group">
 								    	<label>旅行预算：</label>
-								    	<input id="budgetbottom" name="budgetbottom" type="text" class="form-control-user-half form-control-white"  placeholder="Your Name">
+								    	<input id="budgetbottom" name="budgetbottom" type="text" class="form-control-user-half form-control-white"  placeholder="3000/人">
 								   		 <span> ——</span>
-								   		<input id="budgettop" name="budgettop" type="text" "  class="form-control-user-half form-control-white"  placeholder="Your Name">
+								   		<input id="budgettop" name="budgettop" type="text" "  class="form-control-user-half form-control-white"  placeholder="6000/人">
+								    </div>
+								      <div class="form-group">
+								      <input id="picpath" name ="picpath" type="text" style="display: none"/>  
 								    </div>
 								  <input id="addplan_btn" type="button" class="btn btn-o-white" value="提交">
 								  <input id="clear_btn" type="button" class="btn btn-o-white" value="清空">
 							</div>
 							<div class="col-md-6 col-md-offset-3-user-right">
 								<h1>详细说明：</h1>
+								<label id="content_error" class="lable-content-error" style="display:none;">不能為空</label>
 								<div class="form-group">
 								    	<textarea id="content" name="content"  class="form-control form-control-white" placeholder="Write Something" rows="10" required></textarea>
 								</div>
 							</div>
+							
 							</form>
+							<div class="col-md-6 col-md-offset-3-user-right">
+   								<img id="pic" class="upload-img" src=""/> 
+   							</div>
+							<form id="uploadForm"  class="form-user" enctype="multipart/form-data">  
+								<div class="col-md-6 col-md-offset-3-user-right">
+   								 <input id="file"  type="file" name="file"/>  
+   								 </div>
+							</form>  
+							<div class="col-md-6 col-md-offset-3-user-right">
+   								<button class="btn btn-o-white" id="upload">上传图片</button>
+   							 </div>
+							  
 						</div>
 					</section>
 				</div>
@@ -192,8 +216,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<script src="assets/js/jquery.actual.min.js"></script>
 		<script src="assets/js/jquery.scrollTo.min.js"></script>
 		<script src="assets/js/script.js"></script>
-		<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 		<script src="js/datePicker/WdatePicker.js"></script>
+		<script src="laydate/laydate.js"></script> 
 	<script type="text/javascript">
 	var username = $('#username').text();
 	
@@ -229,6 +253,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    			}else{
    				$('#title_error').hide();
    			}
+   			
    			if(departuretime==""){
    				error="true";
    				$('#departuretime_error').show();
@@ -291,8 +316,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         	}  
      	});  
 	});
-		$('#logout_btn').click(function() {
-	$.ajax({ 
+	
+	$('#logout_btn').click(function() {
+		$.ajax({ 
 		type: "post", 
 		url: "<%=request.getContextPath()%>" + "/logout", 
 		data: {}, 
@@ -316,51 +342,39 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    			$("#endtime").val("");
    			$("#budgetbottom").val("");
    			$("#budgettop").val("");
-     	 
-     	 
-     	 
 	});
 	
-	function setImg(obj){//用于进行图片上传，返回地址
-            var f=$(obj).val();
-            if(f == null || f ==undefined || f == ''){
-                return false;
-            }
-            if(!/\.(?:png|jpg|bmp|gif|PNG|JPG|BMP|GIF)$/.test(f))
-            {
-                alert("类型必须是图片(.png|jpg|bmp|gif|PNG|JPG|BMP|GIF)");
-                $(obj).val('');
-                return false;
-            }
-            var data = new FormData();
-            $.each($(obj)[0].files,function(i,file){
-                data.append('file', file);
-            });
-            $.ajax({
-                type: "POST",
-                url: "uploadImg.html",
-                data: f,
-                cache: false,
-                contentType: false,    //不可缺
-                processData: false,    //不可缺
-                dataType:"json",
-                success: function(suc) {
-                    if(suc.code==0){
-                            $("#thumbUrl").val(suc.message);//将地址存储好
-                            $("#thumburlShow").attr("src",suc.message);//显示图片                                                              
-                        }else{
-                        alert("上传失败");
-                        $("#url").val("");
-                        $(obj).val('');
-                    }
-                },
-                error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    alert("上传失败，请检查网络后重试");
-                    $("#url").val("");
-                    $(obj).val('');
+	 $("#upload").click(function () {  
+            var formData = new FormData($('#uploadForm')[0]);  
+            $.ajax({  
+                type: 'post',  
+                url: "uploadImg.html",  
+                data: formData,  
+                cache: false,  
+                dataType: "json", 
+                processData: false,  
+                contentType: false,  
+            }).success(function (data) {  
+                alert(data); 
+                if(data.success=="true"){
+                	$("#picpath").val(data.path);
+                	$("#pic").attr("src","<%=request.getContextPath()%>"+data.path);
                 }
-            });
-        }
+            }).error(function () {  
+                alert("上传失败");  
+            });  
+        }); 
+         
+    lay('#version').html('-v'+ laydate.v);
+      laydate.render({
+      elem: '#departuretime'
+      ,theme: '#393D49'
+    });
+     lay('#version').html('-v'+ laydate.v);
+      laydate.render({
+      elem: '#endtime'
+      ,theme: '#393D49'
+    });
 	</script>
 	</body>
 </html>

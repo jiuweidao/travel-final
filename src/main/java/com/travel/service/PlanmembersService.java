@@ -31,5 +31,7 @@ public interface PlanmembersService {
 	 
 	 List<Integer>	selectIdByUid(String uid);
 	 
+	 List<Integer> selectUserIdByPid(String pid);
+	 
 	 int deleteByPid(String pid);
 }

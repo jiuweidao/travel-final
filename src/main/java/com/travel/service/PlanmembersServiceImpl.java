@@ -71,6 +71,12 @@ public class PlanmembersServiceImpl implements PlanmembersService{
 	public int deleteByPid(String pid) {
 		return planmembersMapper.deleteByPid(pid);
 	}
+
+	@Override
+	public List<Integer> selectUserIdByPid(String pid) {
+		// TODO Auto-generated method stub
+		return planmembersMapper.selectUserIdByPid(pid);
+	}
 	
 
 
