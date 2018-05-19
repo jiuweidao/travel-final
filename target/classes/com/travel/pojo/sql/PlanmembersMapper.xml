@@ -5,13 +5,15 @@
     <id column="Id" property="id" jdbcType="INTEGER" />
     <result column="PlanId" property="planid" jdbcType="INTEGER" />
     <result column="UserId" property="userid" jdbcType="INTEGER" />
+    <result column="UserName" property="username" jdbcType="VARCHAR" />
+    <result column="UserType" property="usertype" jdbcType="INTEGER" />
     <result column="JoinTime" property="jointime" jdbcType="TIMESTAMP" />
     <result column="Score" property="score" jdbcType="INTEGER" />
-    <result column="Flag" property="flag" jdbcType="VARCHAR" />
     <result column="IsCreater" property="iscreater" jdbcType="TINYINT" />
+    <result column="Flag" property="flag" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    Id, PlanId, UserId, JoinTime, Score, Flag, IsCreater
+    Id, PlanId, UserId, UserName, UserType, JoinTime, Score, IsCreater, Flag
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -24,30 +26,34 @@
     where Id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.travel.pojo.Planmembers" useGeneratedKeys="true" keyProperty="id" >
-    insert into planmembers (PlanId, UserId, JoinTime, 
-      Score, Flag, IsCreater
-      )
-    values (#{planid,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{jointime,jdbcType=TIMESTAMP}, 
-      #{score,jdbcType=INTEGER}, #{flag,jdbcType=VARCHAR}, #{iscreater,jdbcType=TINYINT}
-      )
+    insert into planmembers (PlanId, UserId, UserName, 
+      UserType, JoinTime, Score, 
+      IsCreater, Flag)
+    values (#{planid,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, 
+      #{usertype,jdbcType=INTEGER}, #{jointime,jdbcType=TIMESTAMP}, #{score,jdbcType=INTEGER}, 
+      #{iscreater,jdbcType=TINYINT}, #{flag,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.travel.pojo.Planmembers" useGeneratedKeys="true" keyProperty="id" >
     insert into planmembers
     <trim prefix="(" suffix=")" suffixOverrides="," >
       PlanId,
       UserId,
+      UserName,
+      UserType,
       JoinTime,
       Score,
-      Flag,
       IsCreater,
+      Flag,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       #{planid,jdbcType=INTEGER},
       #{userid,jdbcType=INTEGER},
+      #{username,jdbcType=VARCHAR},
+      #{usertype,jdbcType=INTEGER},
       #{jointime,jdbcType=TIMESTAMP},
       #{score,jdbcType=INTEGER},
-      #{flag,jdbcType=VARCHAR},
       #{iscreater,jdbcType=TINYINT},
+      #{flag,jdbcType=VARCHAR},
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.travel.pojo.Planmembers" >
@@ -59,17 +65,23 @@
       <if test="userid != null" >
         UserId = #{userid,jdbcType=INTEGER},
       </if>
+      <if test="username != null" >
+        UserName = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="usertype != null" >
+        UserType = #{usertype,jdbcType=INTEGER},
+      </if>
       <if test="jointime != null" >
         JoinTime = #{jointime,jdbcType=TIMESTAMP},
       </if>
       <if test="score != null" >
         Score = #{score,jdbcType=INTEGER},
       </if>
-      <if test="flag != null" >
-        Flag = #{flag,jdbcType=VARCHAR},
-      </if>
       <if test="iscreater != null" >
         IsCreater = #{iscreater,jdbcType=TINYINT},
+      </if>
+      <if test="flag != null" >
+        Flag = #{flag,jdbcType=VARCHAR},
       </if>
     </set>
     where Id = #{id,jdbcType=INTEGER}
@@ -78,12 +90,16 @@
     update planmembers
     set PlanId = #{planid,jdbcType=INTEGER},
       UserId = #{userid,jdbcType=INTEGER},
+      UserName = #{username,jdbcType=VARCHAR},
+      UserType = #{usertype,jdbcType=INTEGER},
       JoinTime = #{jointime,jdbcType=TIMESTAMP},
       Score = #{score,jdbcType=INTEGER},
-      Flag = #{flag,jdbcType=VARCHAR},
-      IsCreater = #{iscreater,jdbcType=TINYINT}
+      IsCreater = #{iscreater,jdbcType=TINYINT},
+      Flag = #{flag,jdbcType=VARCHAR}
     where Id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <!--自定义  -->
     <select id="selectIdByUidAndPid" parameterType="String" resultType="INTEGER">
 		SELECT Id 
 		FROM planmembers
@@ -93,10 +109,11 @@
 	<select id="selectIdByUid" parameterType="String" resultType="INTEGER">
 		SELECT PlanId 
 		FROM planmembers
-			WHERE UserId = #{uid} AND  IsCreater = 0
+			WHERE UserId = #{uid} 
+			AND  IsCreater = 1
 	</select>
-	<select id="selectUserIdByPid" parameterType="String" resultType="INTEGER">
-		SELECT UserId 
+	<select id="selectUserIdByPid" parameterType="String" resultMap="BaseResultMap">
+		SELECT * 
 		FROM planmembers
 			WHERE PlanId = #{pid} 
 	</select>

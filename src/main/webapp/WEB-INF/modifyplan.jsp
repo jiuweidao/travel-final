@@ -42,76 +42,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</head>
 	
 	<body>
-		<div id="drawer-right">
-			<div class="cross text-right">
-				<a class="toggleDrawer" href="#"><i class="fa fa-times-circle fa-2x"></i></a>
-			</div>
-			<h2>我的窝</h2>
-			
-				<ul class="nav nav-pills nav-stacked">
-					<li>
-						<a href="<%=basePath%>myMessage"><i class="fa fa-home"></i> 个人名片</a>
-					</li>
-					<li>
-						<a href="<%=basePath%>createPlan"><i class="fa fa-bookmark"></i> 发起邀约</a>
-					</li>
-					<li>
-						<a href="<%=basePath%>myplans"><i class="fa fa-tasks"></i> 我的邀约</a>
-					</li>
-					<li>
-						<a href="<%=basePath%>myappplans"><i class="fa fa-wordpress"></i> 我的申请</a>
-					</li>
-					<li>
-						<a href="#parallax"><i class="fa fa-heart"></i> 撰写游记</a>
-					</li>
-					<li>
-						<a href="#testimonials"><i class="fa fa-thumbs-up"></i> Testimonials</a>
-					</li>
-					<li>
-						<a href="#contact"><i class="fa fa-phone-square"></i> Contact</a>
-					</li>
-				</ul>
-			<div class="social">
-				<h2>Stay Connected</h2>
-				<ul>
-					<li><a href=""><i class="fa fa-facebook-square fa-3x"></i></a></li>
-					<li><a href=""><i class="fa fa-twitter-square fa-3x"></i></a></li>
-					<li><a href=""><i class="fa fa-tumblr-square fa-3x"></i></a></li>
-					<li><a href=""><i class="fa fa-google-plus-square fa-3x"></i></a></li>
-				</ul>
-			</div>
-		</div><!-- #drawer-right -->
+		<jsp:include   page="sidebar.jsp" flush="true"/>
 		<div id="wrapper">
-			<div id="header" class="content-block header-wrapper">
-				<div class="header-wrapper-inner">
-					<section class="top clearfix">
-						<div class="pull-left">
-							<h1><a class="logo">独步</a></h1>
-						</div>
-						<div id="user_div" class="pull-right"  style="display: none">
-							<a class="toggleDrawer" href="#"><i class="fa fa-bars fa-2x"></i></a>
-						</div>
-						<div id="nologin_div" class="pull-right">
-							<a class="logo" href="login">登录/注册</a>
-						</div>
-						<div id="logined_div" class="pull-right" style="display: none">
-							<span  id="username" class="logo" href="login">${username}</span>
-						</div>
-						<div class="pull-right">
-							<a class="logo" href="index.html">出行交通</a>
-						</div>
-						<div class="pull-right">
-							<a class="logo" href="index.html">所有邀约</a>
-						</div>
-						<div class="pull-right">
-							<a class="logo" href="index.html">出行游记</a>
-						</div>
-						<div class="pull-right">
-							<a class="logo" href="index.html">首页</a>
-						</div>
-					</section>
-				</div>
-			</div><!-- header -->
+			<jsp:include   page="header.jsp" flush="true"/>
 
 			<div class="content-block" id="contact">
 				<div class="login-container text-center">
@@ -160,12 +93,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								    </div>
 								    <div class="form-group">
 								    	<label>旅行预算：</label>
-								    	<input id="budgetbottom" name="budgetbottom" type="text" class="form-control-user-half form-control-white"value="${plans.budgetbottom}"   placeholder="3000/人">
+								    	<input id="budgetbottom" name="budgetbottom" type="text" class="form-control-user-half form-control-white" value="${plans.budgetbottom}"   placeholder="3000/人">
 								   		 <span> ——</span>
 								   		<input id="budgettop" name="budgettop" type="text" "  class="form-control-user-half form-control-white" value="${plans.budgettop}" placeholder="6000/人">
 								    </div>
 								      <div class="form-group">
-								      <input id="picpath" name ="picpath" type="text" style="visibility:hidden"/>  
+								      <input id="picpath" name ="picpath" value="${plans.picpath}" type="text" style="visibility:hidden"/>  
 								    </div>
 								  <input id="addplan_btn" type="button" class="btn btn-o-white" value="提交">
 								  <input id="clear_btn" type="button" class="btn btn-o-white" value="清空">
@@ -180,7 +113,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							
 							</form>
 							<div class="col-md-6 col-md-offset-3-user-right">
-   								<img id="pic" class="upload-img" src=""/> 
+   								<img id="pic" class="upload-img" src="<%=request.getContextPath()%>${plans.picpath}"/> 
    							</div>
 							<form id="uploadForm"  class="form-user" enctype="multipart/form-data">  
 								<div class="col-md-6 col-md-offset-3-user-right">
@@ -195,15 +128,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 			</div><!-- #contact -->
 
-			<div class="content-block" id="footer">
-				<div class="container">
-					<div class="row">
-						<div class="col-xs-6">&copy; Copyright Flusk 2014</div>
-					<!-- 	<div class="col-xs-6 text-right">Theme ThemeWagon.More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a> More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a></div>
-				 -->	</div>
-				</div>
-			</div><!-- #footer -->
-
+			<jsp:include   page="footer.jsp" flush="true"/>
 		</div><!--/#wrapper-->
 
 
@@ -307,20 +232,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         	}  
      	});  
 	});
-		$('#logout_btn').click(function() {
-	$.ajax({ 
-		type: "post", 
-		url: "<%=request.getContextPath()%>" + "/logout", 
-		data: {}, 
-		dataType: "json", 
-		success: function(data) { 
-			window.location.href = "<%=request.getContextPath()%>" +  "/login";
-		},
-		error: function(data) { 
-			alert("调用失败...."); 
-		}
-	});
-});
+
 	$('#clear_btn').click(function(){
 			$("#title").val("");  
 			$("#tag").val(""); 

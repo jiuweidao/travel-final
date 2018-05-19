@@ -10,6 +10,7 @@ import com.travel.dao.PlanmembersMapper;
 import com.travel.dao.PlansMapper;
 import com.travel.pojo.Planmembers;
 import com.travel.pojo.Plans;
+import com.travel.pojo.Users;
 
 /**
  * 
@@ -27,7 +28,7 @@ public class PlansServiceImpl implements PlansService {
 	private PlanmembersMapper planmembersMapper;
 
 	@Override
-	public int insert(Plans plans) {
+	public int insert(Plans plans,String username) {
 
 		if (plansMapper.insertSelective(plans) > 0) {
 			Planmembers planmembers = new Planmembers();
@@ -35,6 +36,8 @@ public class PlansServiceImpl implements PlansService {
 			planmembers.setUserid(plans.getCreatby());
 			planmembers.setIscreater((byte) 1);
 			planmembers.setJointime(plans.getCreattime());
+			planmembers.setUsername(username);
+			planmembers.setUsertype(3);
 			planmembers.setFlag("M");
 			return planmembersMapper.insertSelective(planmembers);
 		}

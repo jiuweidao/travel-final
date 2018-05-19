@@ -43,46 +43,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</head>
 	
 	<body>
-		<div id="drawer-right">
-			<div class="cross text-right">
-				<a class="toggleDrawer" href="#"><i class="fa fa-times-circle fa-2x"></i></a>
-			</div>
-			<h2>我的窝</h2>
-			
-				<ul class="nav nav-pills nav-stacked">
-					<li>
-						<a href="<%=basePath%>myMessage"><i class="fa fa-home"></i> 个人名片</a>
-					</li>
-					<li>
-						<a href="<%=basePath%>createPlan"><i class="fa fa-bookmark"></i> 发起邀约</a>
-					</li>
-					<li>
-						<a href="<%=basePath%>myplans"><i class="fa fa-tasks"></i> 我的邀约</a>
-					</li>
-					<li>
-						<a href="<%=basePath%>myappplans"><i class="fa fa-wordpress"></i> 我的申请</a>
-					</li>
-					<li>
-						<a href="<%=basePath%>addStrategie"><i class="fa fa-heart"></i> 撰写游记</a>
-					</li>
-					<li>
-						<a href="#testimonials"><i class="fa fa-thumbs-up"></i> Testimonials</a>
-					</li>
-					<li>
-						<a href="#contact"><i class="fa fa-phone-square"></i> Contact</a>
-					</li>
-				</ul>
-			<div class="social">
-				<h2>Stay Connected</h2>
-				<ul>
-					<li><a href=""><i class="fa fa-facebook-square fa-3x"></i></a></li>
-					<li><a href=""><i class="fa fa-twitter-square fa-3x"></i></a></li>
-					<li><a href=""><i class="fa fa-tumblr-square fa-3x"></i></a></li>
-					<li><a href=""><i class="fa fa-google-plus-square fa-3x"></i></a></li>
-				</ul>
-			</div>
-		</div><!-- #drawer-right -->
-
+		<jsp:include   page="sidebar.jsp" flush="true"/>
 		<div id="wrapper">
 			<div id="header" class="content-block header-wrapper-index">
 				<div class="header-wrapper-inner">
@@ -103,7 +64,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<a class="logo" href="index.html">出行交通</a>
 						</div>
 						<div class="pull-right">
-							<a class="logo" href="allPlans">所有邀约</a>
+							<a class="logo" href="allPlans?type=0&page=1">所有邀约</a>
 						</div>
 						<div class="pull-right">
 							<a class="logo" href="index.html">出行游记</a>
@@ -322,14 +283,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 			</div><!-- #contact -->
 
-			<div class="content-block" id="footer">
-				<div class="container">
-					<div class="row">
-						<div class="col-xs-6">&copy; Copyright Flusk 2014</div>
-						<div class="col-xs-6 text-right">Theme ThemeWagon.More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a> More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a></div>
-					</div>
-				</div>
-			</div><!-- #footer -->
+		<jsp:include   page="footer.jsp" flush="true"/>
 
 
 		</div><!--/#wrapper-->
@@ -353,21 +307,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		$('#logined_div').hide();
 		$('#user_div').hide();
 	}
-	
-	$('#logout_btn').click(function() {
-		$.ajax({ 
-			type: "post", 
-			url: "<%=request.getContextPath()%>" + "/logout", 
-			dataType: "json", 
-			success: function(data) { 
-				window.location.href = "<%=request.getContextPath()%>" +  "/login";
-				
-			},
-			error: function(data) { 
-				alert("调用失败...."); 
-			}
-		});
-	});
 	</script>
 
 	</body>

@@ -1,23 +1,31 @@
 package com.travel.controller;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONObject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.travel.pojo.Plans;
+import com.travel.pojo.Strategies;
 import com.travel.pojo.Users;
 import com.travel.service.PlanmembersService;
 import com.travel.service.PlansService;
+import com.travel.service.StrategyService;
 import com.travel.service.UserService;
 import com.travel.solr.PlansSolr;
+import com.travel.solr.StrategySolr;
 
 /**
  * Controller
@@ -29,33 +37,59 @@ import com.travel.solr.PlansSolr;
 @Controller
 public class StrategieController {
 	@Resource
-	private UserService userService;
+	private StrategyService strategyService;
 	@Resource
-	private PlansService plansService;
-	@Resource
-	private PlanmembersService planmembersService;
-
-	private PlansSolr plansSolr = new PlansSolr();
+	private UserController userController;
+	
+	private StrategySolr strategySolr = new StrategySolr();
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
-	@RequestMapping("/addStrategie")
-	// 目录http://localhost:8080/shiroTset/index
-	public String allPlans(HttpServletRequest request,
-			HttpServletResponse response, Model model) throws Exception {
+	@RequestMapping("/createStrategy")
+	public String createStrategy(HttpServletRequest request) throws Exception {
 
-		Users users = (Users) request.getSession().getAttribute("user");
-
-		List<Plans> lstPlans = plansSolr.selectAll(null);
+		Users users =userController.getUsers(request);
 
 		if (users != null) {
-			String userName = users.getName();
-			if (userName == null) {
-				userName = users.getUsername();
-			}
-			request.setAttribute("username", userName);
-
+			request.setAttribute("username", users.getUsername());
 		}
 		return "createStrategy";
 	}
+	
+	@RequestMapping("/addStrategy")
+	@ResponseBody
+	public String add(HttpServletRequest request) throws Exception {
 
+		HashMap<String, String> result = new HashMap<String, String>();
+		Strategies strategies=fillStrategies(request,null);
+		
+		if(strategyService.insert(strategies)>0){
+			strategySolr.insert(strategies);
+		}
+		result.put("success", "1");
+		return JSONObject.fromObject(result).toString();
+	}
+
+	public Strategies fillStrategies(HttpServletRequest request,Strategies strategies) {
+		
+		Users users = (Users) request.getSession().getAttribute("user");
+
+		String site = request.getParameter("site");
+		String duration = request.getParameter("duration");
+		String picpath = request.getParameter("picpath");
+		String content = request.getParameter("content");
+
+		if (strategies == null) {
+			strategies = new Strategies();
+			strategies.setFlag("P");
+			strategies.setCreattime(new Date());
+			strategies.setCreatby(users.getId());
+		} 
+		
+		strategies.setSite(site);
+		strategies.setDuration(duration);
+		strategies.setContent(content);
+		strategies.setPicpath(picpath);
+
+		return strategies;
+	}
 }

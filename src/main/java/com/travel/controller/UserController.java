@@ -32,6 +32,9 @@ import com.travel.service.CheckEmailValidityUtil;
 import com.travel.service.DecriptUtil;
 import com.travel.service.UserService;
 import com.travel.solr.PlansSolr;
+import com.travel.utils.IdCardCode;
+import com.travel.utils.RestTest;
+import com.travel.utils.StringUtils;
 
 /**
  * Controller
@@ -53,17 +56,12 @@ public class UserController {
 	public String getIndex(HttpServletRequest request,
 			HttpServletResponse response, Model model) throws Exception {
 
-		Users users = (Users) request.getSession().getAttribute("user");
-
-		List<Plans> lstPlans = plansSolr.selectAll(null);
+		Users users = getUsers(request);
 		if (users != null) {
-			String userName = users.getName();
-			if (userName == null) {
-				userName = users.getUsername();
-			}
-			request.setAttribute("username", userName);
-
+			request.setAttribute("username", users.getName());
 		}
+		
+		List<Plans> lstPlans = plansSolr.selectAll(null);
 		request.setAttribute("lstPlans", lstPlans);
 		return "index";
 	}
@@ -87,15 +85,11 @@ public class UserController {
 	@RequestMapping("/myMessage")
 	public ModelAndView showMymessage(HttpServletRequest request,
 			HttpServletResponse response, Model model) {
-		Users users = (Users) request.getSession().getAttribute("user");
+		Users users = getUsers(request);
 		if (users != null) {
-			String userName = users.getName();
-			if (userName == null || "".equals(userName)) {
-				userName = users.getUsername();
-			}
-			request.setAttribute("username", userName);
-
+			request.setAttribute("username", users.getName());
 		}
+		
 		request.setAttribute("users", users);
 		ModelAndView mav = new ModelAndView("mymessage");
 		return mav;
@@ -116,8 +110,7 @@ public class UserController {
 
 		Map<String, String> result = new HashMap<String, String>();
 		try {
-			UsernamePasswordToken token = new UsernamePasswordToken(mobile,
-					DecriptUtil.MD5(password));
+			UsernamePasswordToken token = new UsernamePasswordToken(mobile,DecriptUtil.MD5(password));
 			Subject currentUser = SecurityUtils.getSubject();
 			Users loginer1 = userService.selectByAll(mobile);
 			if (!currentUser.isAuthenticated()) {
@@ -142,40 +135,91 @@ public class UserController {
 
 		return JSONObject.fromObject(result).toString();
 	}
+	
+	/*
+	 * 密码验证登录，如若未登录转跳登录界面
+	 */
+	@RequestMapping(value = "/checkCodeLogin", method = RequestMethod.POST)
+	@ResponseBody
+	public String checkCodeLogin(HttpServletRequest request) throws NoSuchAlgorithmException,
+			UnsupportedEncodingException {
 
+		String mobile = request.getParameter("mobile");
+		String code = request.getParameter("code");
+		String nologin = request.getParameter("nologin");
+		String orCode = (String) request.getSession().getAttribute("code");
+		
+		Map<String, String> result = new HashMap<String, String>();
+		
+		if (StringUtils.isNull(code)&&StringUtils.isNull(orCode)&&!code.equals(orCode)) {
+			result.put("code", "-1");
+			return JSONObject.fromObject(result).toString();
+		}
+		Users loginer = userService.selectByAll(mobile);
+		try {
+			UsernamePasswordToken token = new UsernamePasswordToken(mobile,loginer.getPassword());
+			Subject currentUser = SecurityUtils.getSubject();
+			Users loginer1 = userService.selectByAll(mobile);
+			if (!currentUser.isAuthenticated()) {
+				// 使用shiro来验证 以下两句 提交用户名/密码进行认证过
+				token.setRememberMe(true);
+
+				currentUser.login(token);// 验证角色和权限
+				Session session = currentUser.getSession();
+				session.setAttribute("user", loginer);
+				result.put("msg", "true");
+				if (nologin.equals("true")) {
+					session.setTimeout(14 * 24 * 60 * 60);
+				}
+			} else {
+				result.put("msg", "true");
+			}
+		} catch (Exception ex) {
+			System.out.println(ex);
+			result.put("msg", "false");
+		}
+		result.put("success", "1");
+		
+		return JSONObject.fromObject(result).toString();
+	}
+	
 	/*
 	 * 手机号注册
 	 */
-
 	@RequestMapping(value = "/registerByM")
 	@ResponseBody
 	public String registerByM(HttpServletResponse response,
 			HttpServletRequest request) throws Exception {
 
-		String userName = request.getParameter("username");
-		String mobile = request.getParameter("mobile");
-		String password = request.getParameter("password")/* .trim(); */;
+		String userName = request.getParameter("username").trim();;
+		String mobile = request.getParameter("mobile").trim();;
+		String password = request.getParameter("password").trim();;
+		String code = request.getParameter("code").trim();;
+		String orCode = (String) request.getSession().getAttribute("code");
 		HashMap<String, String> result = new HashMap<String, String>();
-
+		
+		if (StringUtils.isNull(code)&&StringUtils.isNull(orCode)&&!code.equals(orCode)) {
+			result.put("code", "1");
+			return JSONObject.fromObject(result).toString();
+		}
 		if (userService.selectByTelemoble(mobile) != null) {
 			result.put("mobile", "1");
+			return JSONObject.fromObject(result).toString();
 		}
 		if (userService.selectByUserName(userName) != null) {
 			result.put("userName", "1");
+			return JSONObject.fromObject(result).toString();
 		}
 
-		if (result.size() == 0) {
-			Users newUser = new Users();
-			newUser.setUsername(userName);
-			newUser.setName(userName);
-			newUser.setTelemoble(mobile);
-			newUser.setPassword(password);
-			if (userService.insert(newUser) > 0) {
-				/* springSolr.insert(newUser); */
-				result.put("success", "1");
-			} else {
-				result.put("success", "0");
-			}
+		Users newUser = new Users();
+		newUser.setUsername(userName);
+		newUser.setName(userName);
+		newUser.setTelemoble(mobile);
+		newUser.setPassword(password);
+		if (userService.insert(newUser) > 0) {
+			result.put("success", "1");
+		} else {
+			result.put("success", "0");
 		}
 
 		return JSONObject.fromObject(result).toString();
@@ -186,12 +230,6 @@ public class UserController {
 	@ResponseBody
 	public String modifyMyssage(HttpServletResponse response,
 			HttpServletRequest request, String type) throws Exception {
-
-		/*
-		 * ModelAndView mav = new ModelAndView("index"); Subject currentUser =
-		 * SecurityUtils.getSubject(); Session session =
-		 * currentUser.getSession();
-		 */
 
 		Users users = (Users) request.getSession().getAttribute("user");
 		HashMap<String, String> result = new HashMap<String, String>();
@@ -212,8 +250,7 @@ public class UserController {
 				}
 			}
 
-			if (email != null && !"".equals(email)
-					&& !email.equals(users.getEmail())) {
+			if (email != null && !"".equals(email)&& !email.equals(users.getEmail())) {
 				if (userService.selectByEmail(email) == null) {
 					if (CheckEmailValidityUtil.isEmailValid(email)) {
 						users.setEmail(email);
@@ -266,9 +303,55 @@ public class UserController {
 		Subject currentUser = SecurityUtils.getSubject();
 
 		currentUser.logout();
-		result.put("success", true);
+		result.put("success", "true");
 
 		return JSONUtils.toJSONString(result);
 	}
 
+	
+	/**
+	 * 获取验证码
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/getCode")
+	@ResponseBody
+	public String getCode(HttpServletRequest request) throws Exception {
+
+		String mobile = request.getParameter("mobile");
+		HashMap<String, String> result = new HashMap<String, String>();
+		String code = StringUtils.getStringRandom(6);
+		JSONObject jsonCode = JSONObject.fromObject(RestTest.testSendSms(code,mobile,"travel"));
+//		JSONObject jsonCode = JSONObject.fromObject("{\"code\":\"000000\"}");
+		if(jsonCode.get("code").equals("000000")){
+			request.getSession().setAttribute("code", code);
+			result.put("success", "1");
+		}else {
+			result.put("success", "-1");
+		}
+		return JSONObject.fromObject(result).toString();
+
+	}
+	
+	public Users getUsers(HttpServletRequest request) {
+		Users users = (Users) request.getSession().getAttribute("user");
+		if (users != null) {
+			if ( users.getName() == null) {
+				users.setName( users.getUsername());
+			}
+		}
+		return users;
+	}
+	
+/*
+	@RequestMapping(value = "/logout", method = RequestMethod.POST)
+	@ResponseBody
+	public String doCertification() {
+
+		Map<String, Object> result = new HashMap<String, Object>();
+		IdCardCode.getIdCarMessage(imgFile)
+
+		return JSONUtils.toJSONString(result);
+	}*/
 }

@@ -42,76 +42,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</head>
 	
 	<body>
-		<div id="drawer-right">
-			<div class="cross text-right">
-				<a class="toggleDrawer" href="#"><i class="fa fa-times-circle fa-2x"></i></a>
-			</div>
-			<h2>我的窝</h2>
-			
-				<ul class="nav nav-pills nav-stacked">
-					<li>
-						<a href="<%=basePath%>myMessage"><i class="fa fa-home"></i> 个人名片</a>
-					</li>
-					<li>
-						<a href="<%=basePath%>createPlan"><i class="fa fa-bookmark"></i> 发起邀约</a>
-					</li>
-					<li>
-						<a href="<%=basePath%>myplans"><i class="fa fa-tasks"></i> 我的邀约</a>
-					</li>
-					<li>
-						<a href="<%=basePath%>myappplans"><i class="fa fa-wordpress"></i> 我的申请</a>
-					</li>
-					<li>
-						<a href="#parallax"><i class="fa fa-heart"></i> 撰写游记</a>
-					</li>
-					<li>
-						<a href="#testimonials"><i class="fa fa-thumbs-up"></i> Testimonials</a>
-					</li>
-					<li>
-						<a href="#contact"><i class="fa fa-phone-square"></i> Contact</a>
-					</li>
-				</ul>
-			<div class="social">
-				<h2>Stay Connected</h2>
-				<ul>
-					<li><a href=""><i class="fa fa-facebook-square fa-3x"></i></a></li>
-					<li><a href=""><i class="fa fa-twitter-square fa-3x"></i></a></li>
-					<li><a href=""><i class="fa fa-tumblr-square fa-3x"></i></a></li>
-					<li><a href=""><i class="fa fa-google-plus-square fa-3x"></i></a></li>
-				</ul>
-			</div>
-		</div><!-- #drawer-right -->
+		<jsp:include   page="sidebar.jsp" flush="true"/>
 		<div id="wrapper">
-			<div id="header" class="content-block header-wrapper">
-				<div class="header-wrapper-inner">
-					<section class="top clearfix">
-						<div class="pull-left">
-							<h1><a class="logo">独步</a></h1>
-						</div>
-						<div id="user_div" class="pull-right"  style="display: none">
-							<a class="toggleDrawer" href="#"><i class="fa fa-bars fa-2x"></i></a>
-						</div>
-						<div id="nologin_div" class="pull-right">
-							<a class="logo" href="login">登录/注册</a>
-						</div>
-						<div id="logined_div" class="pull-right" style="display: none">
-							<span  id="username" class="logo" href="login">${username}</span>
-						</div>
-						<div class="pull-right">
-							<a class="logo" href="index.html">出行交通</a>
-						</div>
-						<div class="pull-right">
-							<a class="logo" href="index.html">所有邀约</a>
-						</div>
-						<div class="pull-right">
-							<a class="logo" href="index.html">出行游记</a>
-						</div>
-						<div class="pull-right">
-							<a class="logo" href="index.html">首页</a>
-						</div>
-					</section>
-				</div>
-			</div><!-- header -->
+			<jsp:include   page="header.jsp" flush="true"/>
 
 			<div class="content-block" id="contact">
 				<div class="login-container text-center">
@@ -121,23 +54,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</header>
 					<section class="block-body-user">
 						<div class="row">
-							<form id="form" class="form-user" role="form">
 							<div class="col-md-6-strategy">
 								<h2>基本信息</h2>
 								<div class="basic">
 									<div class="form-group">
-								    	<label>标&nbsp &nbsp&nbsp&nbsp&nbsp题：</label>
-								    	<input id="title" name="title" type="text" class="form-control-strategy form-control-white" placeholder="游记标题">
-								    	<a id="title_error" style="display:none;" >不能为空</a>
+								    	<label>标&nbsp&nbsp&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp&nbsp题：</label>
+								    	<input id="title" name="title" type="text" class="form-control-strategy form-control-white valid" placeholder="游记标题">
+								    	<label id="title_error" class="lable-error" style="display:none;" >不能为空</label>
 							 		</div>
 									<div class="form-group">
 								    	<label>旅行地点：</label>
-								    	<input id="tag" name="tag" type="text" class="form-control-strategy form-control-white"  placeholder="旅行地点" ><label id="name_error" style="display:none;">不能為空</label>
+								    	<input id="site" name="site" type="text" class="form-control-strategy form-control-white valid"  placeholder="旅行地点" >
+								    	<label id="site_error" class="lable-error" style="display:none;" >不能为空</label>
 								  	</div>
 								    <div class="form-group">
 								    	<label>旅行时长：</label>
-								    	<input id="departuretime" name="departuretime" type="text" class="form-control-strategy form-control-white"  placeholder="本次旅行一共几天">
-								    	<label id="telemoble_error" style="display:none;">不能為空</label>
+								    	<input id="duration" name="duration" type="text" class="form-control-strategy form-control-white valid"   placeholder="本次旅行一共几天">
+								    	<label id="duration_error" class="lable-error" style="display:none;" >不能为空</label>
+								    </div>
+								    <div class="form-group" style="display: none">
+								    	<label>图片：</label>
+								    	<input id="picpath" name="picpath" type="text" class="form-control-strategy form-control-white">
 								    </div>
 								 </div>
 								 <hr style="border-top: 1px solid white;"/>
@@ -148,77 +85,94 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								    	<div class="form-group">
 								    		<label>旅行时长：</label>
 								    		第
-								    		<input id="budgetbottom" name="budgetbottom" type="text" class="form-control-user-half form-control-white" placeholder="0">
+								    		<input id="durationbottom_1" name="durationbottom" type="text" class="form-control-user-half form-control-white valid" placeholder="0">
 								   		 		<span> ——</span>
-								   			<input id="budgettop" name="budgettop" type="text" "  class="form-control-user-half form-control-white" placeholder="1">
+								   			<input id="durationtop_1" name="durationtop" type="text" "  class="form-control-user-half form-control-white valid" placeholder="1">
 								   			天
+								   			<label id="duration_error_1" class="lable-error" style="display:none;" >不能为空</label>
 								    	</div>
 								    	<div class="form-group">
 								    		<label>出发地点：</label>
-								    		<input id="departureplace" name="departureplace" type="text" class="form-control-strategy form-control-white" placeholder="出发地点：丽江火车站">
+								    		<input id="departureplace_1" name="departureplace" type="text" class="form-control-strategy form-control-white valid" placeholder="出发地点：丽江火车站">
+								    		<label id="departureplace_error_1" class="lable-error" style="display:none;" >不能为空</label>
 								    	</div>
 								   		<div class="form-group">
 								    		<label>目的地点：</label>
-								    		<input id="destination" name="destination"  type="text" class="form-control-strategy form-control-white" placeholder="目的地：丽江古城" >
+								    		<input id="destination_1" name="destination"  type="text" class="form-control-strategy form-control-white valid" placeholder="目的地：丽江古城" >
+								    		<label id="destination_error_1" class="lable-error" style="display:none;" >不能为空</label>
 								    	</div>
 								    	<div class="form-group">
 								    		<label>交通方式：</label>
-								    		<input id="expectnum" name="expectnum"  type="text" class="form-control-strategy form-control-white"  placeholder="交通方式：班次大巴（30分钟一班）9点发车 ">
+								    		<input id="transportation_1" name="transportation"  type="text" class="form-control-strategy form-control-white valid"  placeholder="交通方式：班次大巴（30分钟一班）9点发车 ">
+								    		<label id="transportation_error_1" class="lable-error" style="display:none;" >不能为空</label>
 								    	</div>
 								    	<div class="form-group">
 								    		<label>游玩方式：</label>
-								    		<textarea id="content" name="content"  class="form-control-strategy form-control-white" placeholder="具体的玩点：1.白天去附近的茶马古道和琴海（白天古城人比较少）2.晚上一路逛古城去狮子山（免费）或者鼓楼（收费）去看古城夜景 3.逛完古城去酒吧（酒吧11点以后只能放歌不能唱，要早点去）" rows="10" required></textarea>
+								    		<textarea id="spot_1" name="content"  class="form-control-strategy form-control-white valid" placeholder="具体的玩点：1.白天去附近的茶马古道和琴海（白天古城人比较少）2.晚上一路逛古城去狮子山（免费）或者鼓楼（收费）去看古城夜景 3.逛完古城去酒吧（酒吧11点以后只能放歌不能唱，要早点去）" rows="10" required></textarea>
+								    		<label id="spot_error_1" class="lable-error" style="display:none;" >不能为空</label>
 								    	</div>
 								    	<hr style="color: white">
 									</div >
 									<div id ="schedul_2" class="schedul">
 										<div class="form-group-button">
-								    		<input type="button" class="btn btn-o-white" value="删除本项" onclick="deleteSchedul(2)">
+								    		<input id ="deleteSchedul_btn_2" type="button" class="btn btn-o-white" value="删除本项" onclick="deleteSchedul(2)">
 								    	</div>
 								    	<div class="form-group">
 								    		<label>旅行时长：</label>
 								    		第
-								    		<input id="budgetbottom" name="budgetbottom" type="text" class="form-control-user-half form-control-white">
+								    		<input id="durationbottom_2" name="durationbottom" type="text" class="form-control-user-half form-control-white valid" placeholder="0">
 								   		 		<span> ——</span>
-								   			<input id="budgettop" name="budgettop" type="text" "  class="form-control-user-half form-control-white">
+								   			<input id="durationtop_2" name="durationtop" type="text" "  class="form-control-user-half form-control-white valid" placeholder="1">
 								   			天
+								   			<label id="duration_error_2" class="lable-error" style="display:none;" >不能为空</label>
 								    	</div>
 								    	<div class="form-group">
 								    		<label>出发地点：</label>
-								    		<input id="departureplace" name="departureplace" type="text" class="form-control-strategy form-control-white" >
+								    		<input id="departureplace_2" name="departureplace" type="text" class="form-control-strategy form-control-white valid" placeholder="出发地点：丽江火车站">
+								    		<label id="departureplace_error_2" class="lable-error" style="display:none;" >不能为空</label>
 								    	</div>
 								   		<div class="form-group">
 								    		<label>目的地点：</label>
-								    		<input id="destination" name="destination"  type="text" class="form-control-strategy form-control-white" >
+								    		<input id="destination_2" name="destination"  type="text" class="form-control-strategy form-control-white valid" placeholder="目的地：丽江古城" >
+								    		<label id="destination_error_2" class="lable-error" style="display:none;" >不能为空</label>
 								    	</div>
 								    	<div class="form-group">
 								    		<label>交通方式：</label>
-								    		<input id="expectnum" name="expectnum"  type="text" class="form-control-strategy form-control-white">
+								    		<input id="transportation_2" name="transportation"  type="text" class="form-control-strategy form-control-white valid"  placeholder="交通方式：班次大巴（30分钟一班）9点发车 ">
+								    		<label id="transportation_error_2" class="lable-error" style="display:none;" >不能为空</label>
 								    	</div>
 								    	<div class="form-group">
 								    		<label>游玩方式：</label>
-								    		<textarea id="content" name="content"  class="form-control-strategy form-control-white" placeholder="Write Something" rows="10" required></textarea>
+								    		<textarea id="spot_2" name="content"  class="form-control-strategy form-control-white valid" placeholder="具体的玩点：1.白天去附近的茶马古道和琴海（白天古城人比较少）2.晚上一路逛古城去狮子山（免费）或者鼓楼（收费）去看古城夜景 3.逛完古城去酒吧（酒吧11点以后只能放歌不能唱，要早点去）" rows="10" required></textarea>
+								    		<label id="spot_error_2" class="lable-error" style="display:none;" >不能为空</label>
 								    	</div>
 								    	<hr/>
 									</div>
 								</div>
+							<div class="col-md-6-strategy">  
+								<div class="schedul"> 
+									<div class="form-group"> 
+   										<img id="pic" class="upload-img" src=""/> 
+   										</div>
+   										<div class="form-group">
+										<form id="uploadForm"  class="form-user" enctype="multipart/form-data">  
+   								 				<input id="file"  type="file" name="file"/>  
+										</form>  
+										</div>
+   										<button class="btn btn-o-white" id="upload">上传图片</button>
+   										<hr/>
+   									</div>
+   							 	</div>
+   							 	</div>
 								<input id="add_schedul_btn" type="button" class="btn btn-o-white" value="添加规划">
-							 	<input id="addplan_btn" type="button" class="btn btn-o-white" value="提交">
+							 	<input id="addStrategie_btn" type="button" class="btn btn-o-white" value="提交">
 								<input id="clear_btn" type="button" class="btn btn-o-white" value="清空">
-							</form>
 						</div>
 					</section>
 				</div>
 			</div><!-- #contact -->
 
-			<div class="content-block" id="footer">
-				<div class="container">
-					<div class="row">
-						<div class="col-xs-6">&copy; Copyright Flusk 2014</div>
-					<!-- 	<div class="col-xs-6 text-right">Theme ThemeWagon.More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a> More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a></div>
-				 -->	</div>
-				</div>
-			</div><!-- #footer -->
+			<jsp:include   page="footer.jsp" flush="true"/>
 		</div><!--/#wrapper-->
 
 		<script src="assets/js/jquery-2.1.3.min.js"></script>
@@ -232,6 +186,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	var username = $('#username').text();
 	
 	var schedulNum=2;
+	
 	if(username !=""){
 		$('#logined_div').show();
 		$('#user_div').show();
@@ -244,6 +199,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	function deleteSchedul(id){
 		$('#schedul_'+id).remove();
 		schedulNum-=1;
+		$("#deleteSchedul_btn_"+(schedulNum)).show();
 	}
 	
 	$('#add_schedul_btn').click(function() {
@@ -251,194 +207,171 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		var schedulDiv = 
 			"						<div id =\"schedul_"+schedulNum+"\" class=\"schedul\">"+
 			"							<div class=\"form-group-button\">"+
-			"					    		<input type=\"button\" class=\"btn btn-o-white\" value=\"删除本项\"  onclick=\"deleteSchedul("+schedulNum+")\">"+
+			"					    		<input id =\"deleteSchedul_btn_"+schedulNum+"\" type=\"button\" class=\"btn btn-o-white\" value=\"删除本项\"  onclick=\"deleteSchedul("+schedulNum+")\">"+
 			"					    	</div>"+
-			"					    	<div class=\"form-group\">"+
+			"							<div class=\"form-group\">"+
 			"					    		<label>旅行时长：</label>"+
 			"					    		第"+
-			"					    		<input id=\"budgetbottom\" name=\"budgetbottom\" type=\"text\" class=\"form-control-user-half form-control-white\">"+
+			"					    		<input id=\"durationbottom_"+schedulNum+"\" name=\"durationbottom\" type=\"text\" class=\"form-control-user-half form-control-white valid\" placeholder=\"0\">"+
 			"					   		 		<span> ——</span>"+
-			"					   			<input id=\"budgettop\" name=\"budgettop\" type=\"text\"   class=\"form-control-user-half form-control-white\">"+
+			"					   			<input id=\"durationtop_"+schedulNum+"\" name=\"durationtop\" type=\"text\"  class=\"form-control-user-half form-control-white valid\" placeholder=\"1\">"+
 			"					   			天"+
+			"					   			<label id=\"duration_error_"+schedulNum+"\" class=\"lable-error\" style=\"display:none;\" >不能为空</label>"+
 			"					    	</div>"+
 			"					    	<div class=\"form-group\">"+
 			"					    		<label>出发地点：</label>"+
-			"					    		<input id=\"departureplace\" name=\"departureplace\" type=\"text\" class=\"form-control-strategy form-control-white\">"+
+			"					    		<input id=\"departureplace_"+schedulNum+"\" name=\"departureplace\" type=\"text\" class=\"form-control-strategy form-control-white valid\" placeholder=\"出发地点：丽江火车站\">"+
+			"					    		<label id=\"departureplace_error_"+schedulNum+"\" class=\"lable-error\" style=\"display:none;\" >不能为空</label>"+
 			"					    	</div>"+
 			"					   		<div class=\"form-group\">"+
 			"					    		<label>目的地点：</label>"+
-			"					    		<input id=\"destination\" name=\"destination\"  type=\"text\" class=\"form-control-strategy form-control-white\">"+
+			"					    		<input id=\"destination_"+schedulNum+"\" name=\"destination\"  type=\"text\" class=\"form-control-strategy form-control-white valid\" placeholder=\"目的地：丽江古城\" >"+
+			"					    		<label id=\"destination_error_"+schedulNum+"\" class=\"lable-error\" style=\"display:none;\" >不能为空</label>"+
 			"					    	</div>"+
 			"					    	<div class=\"form-group\">"+
 			"					    		<label>交通方式：</label>"+
-			"					    		<input id=\"expectnum\" name=\"expectnum\"  type=\"text\" class=\"form-control-strategy form-control-white\">"+
+			"					    		<input id=\"transportation_"+schedulNum+"\" name=\"transportation\"  type=\"text\" class=\"form-control-strategy form-control-white valid\"  placeholder=\"交通方式：班次大巴（30分钟一班）9点发车 \">"+
+			"					    		<label id=\"transportation_error_"+schedulNum+"\" class=\"lable-error\" style=\"display:none;\" >不能为空</label>"+
 			"					    	</div>"+
 			"					    	<div class=\"form-group\">"+
 			"					    		<label>游玩方式：</label>"+
-			"					    		<textarea id=\"content\" name=\"content\"  class=\"form-control-strategy form-control-white\" placeholder=\"Write Something\" rows=\"10\" required></textarea>"+
+			"					    		<textarea id=\"spot_"+schedulNum+"\" name=\"content\"  class=\"form-control-strategy form-control-white valid\" placeholder=\"具体的玩点：1.白天去附近的茶马古道和琴海（白天古城人比较少）2.晚上一路逛古城去狮子山（免费）或者鼓楼（收费）去看古城夜景 3.逛完古城去酒吧（酒吧11点以后只能放歌不能唱，要早点去）\" rows=\"10\" required></textarea>"+
+			"					    		<label id=\"spot_error_"+schedulNum+"\" class=\"lable-error\" style=\"display:none;\" >不能为空</label>"+
 			"					    	</div>"+
 			"					    	<hr/>"+
 			"						</div>";
 			
 			$("#scheduls").append($(schedulDiv));
+			$("#deleteSchedul_btn_"+(schedulNum-1)).hide();
 	});
 	
-	$('#addplan_btn').click(function(){
+	$('#addStrategie_btn').click(function(){
 			var error="";
-			var tag=$("#tag").val();  
 			var title=$("#title").val();  
-    		var departuretime=$("#departuretime").val(); 
-    		var departureplace=$("#departureplace").val(); //出发时间 
-    		var destination=$("#destination").val();	   //目的地
-   			var expectnum=$("#expectnum").val();
-   			var content=$("#content").val();
-   			if(tag==""){
-   				error="true";
-   				$('#tag_error').show(); 
-   			}else{
-   				$('#tag_error').hide();
-   			}
+			var site=$("#site").val();  
+    		var duration=$("#duration").val(); 
+    		var picpath=$("#picpath").val(); 
+    		var content= "";
    			if(title==""){
    				error="true";
    				$('#title_error').show(); 
-   				
    			}else{
    				$('#title_error').hide();
    			}
-   			if(departuretime==""){
+   			if(site==""){
    				error="true";
-   				$('#departuretime_error').show();
+   				$('#site_error').show(); 
+   				
    			}else{
-   				$('#departuretime_error').hide();
+   				$('#site_error').hide();
    			}
-   			if(departureplace==""){
+   			if(duration==""){
    				error="true";
-   				$('#departureplace_error').show();
+   				$('#duration_error').show();
    			}else{
-   				$('#departureplace_error').hide();
-   			}
-   			if(destination==""){
-   				error="true";
-   				$('#destination_error').show();
-   			}else{
-   				$('#destination_error').hide();
-   			}
-   			if(expectnum==""){
-   				error="true";
-   				$('#expectnum_error').show();
-   			}else{
-   				$('#expectnum_error').hide();
-   			}
-   			if(content==""){
-   				error="true";
-   				$('#content_error').show();
-   			}else{
-   				$('#content_error').hide();
+   				$('#duration_error').hide();
    			}
    			
+   			
+   			for(var i= 1 ; i<=schedulNum;i++){
+   				
+				var durationbottom=$("#durationbottom_"+i).val();  
+				var durationtop=$("#durationtop_"+i).val();  
+    			var departureplace=$("#departureplace_"+i).val(); 
+    			var destination=$("#destination_"+i).val(); 
+   				var transportation=$("#transportation_"+i).val(); 
+   				var spot=$("#spot_"+i).val(); 
+   				content+="<*--*--*>"+
+   					"durationbottom:"+durationbottom+";"+
+   					"durationtop:"+durationtop+";"+
+   					"departureplace:"+departureplace+";"+
+   					"transportation:"+transportation+";"+
+   					"spot:"+spot;
+   				if(durationbottom==""||durationtop==""){
+   					error="true";
+   					$('#duration_error_'+i).show();
+   				}else{
+   					$('#duration_error_'+i).hide();
+   				}
+   				if(departureplace==""){
+   					error="true";
+   					$('#departureplace_error_'+i).show();
+   				}else{
+   					$('#departureplace_error_'+i).hide();
+   				}
+   				if(destination==""){
+   					error="true";
+   					$('#destination_error_'+i).show();
+   				}else{
+   					$('#destination_error_'+i).hide();
+   				}
+   				if(transportation==""){
+   					error="true";
+   					$('#transportation_error_'+i).show();
+   				}else{
+   					$('#transportation_error_'+i).hide();
+   				}
+   				if(spot==""){
+   					error="true";
+   					$('#spot_error_'+i).show();
+   				}else{
+   					$('#spot_error_'+i).hide();
+   				}
+   			
+   			}
    			if(error != ""){
    				return false;
    			}
    			
    			
     		$.ajax({  
-				data:$('#form').serialize(),      
+				data:"title="+title+
+						"&site="+site+ 
+						"&duration="+duration+ 
+						"&picpath="+picpath+ 
+						"&content="+content,
         		type:"POST",  
-     			datatype:'json',
-        		url:"addPlan",  
+     			dataType: "json", 
+        		url:"addStrategy",  
         		error:function(data){  
            			 alert("出错了！！:"+data);  
         		},  
         		success:function(data){  
-        			var json=JSON.parse(data);
-        			if(json.success=="1"){
-        				alert("創建成功"); 
-        				window.location.href ="<%=request.getContextPath()%>" + "/myplans"
-        			}else if(json.mobile=="1"){
-        				alert("该手机号已经被占用"); 
-        					
-        			}else if(json.userName=="1"){
-        				alert("该用户名已经被占用"); 
-        			}else{
-        				alert("注册失败"+json.msg); 
+        			if(data.success=="1"){
+        				alert("创建成功"); 
+        			}else {
+        				alert("创建失败"); 
         			}
         			
         		
-        	}  
+        	},
+        	error: function(data) { 
+				alert("调用失败...."); 
+			}
      	});  
 	});
 	
-	$('#logout_btn').click(function() {
-		$.ajax({ 
-			type: "post", 
-			url: "<%=request.getContextPath()%>" + "/logout", 
-			data: {}, 
-			dataType: "json", 
-			success: function(data) { 
-				window.location.href = "<%=request.getContextPath()%>" +  "/login";
-			},
-			error: function(data) { 
-				alert("调用失败...."); 
-			}
-		});
-	});
-	
-	$('#clear_btn').click(function(){
-			$("#title").val("");  
-			$("#tag").val(""); 
-    		$("#departuretime").val(""); 
-    		$("#departureplace").val(""); //出发时间 
-    		$("#destination").val("");	   //目的地
-   			$("#expectnum").val("");
-   			$("#content").val("");
-   			$("#endtime").val("");
-   			$("#budgetbottom").val("");
-   			$("#budgettop").val("");
-     	 
-     	 
-     	 
-	});
-	
-	function setImg(obj){//用于进行图片上传，返回地址
-            var f=$(obj).val();
-            if(f == null || f ==undefined || f == ''){
-                return false;
-            }
-            if(!/\.(?:png|jpg|bmp|gif|PNG|JPG|BMP|GIF)$/.test(f))
-            {
-                alert("类型必须是图片(.png|jpg|bmp|gif|PNG|JPG|BMP|GIF)");
-                $(obj).val('');
-                return false;
-            }
-            var data = new FormData();
-            $.each($(obj)[0].files,function(i,file){
-                data.append('file', file);
-            });
-            $.ajax({
-                type: "POST",
-                url: "uploadImg.html",
-                data: f,
-                cache: false,
-                contentType: false,    //不可缺
-                processData: false,    //不可缺
-                dataType:"json",
-                success: function(suc) {
-                    if(suc.code==0){
-                            $("#thumbUrl").val(suc.message);//将地址存储好
-                            $("#thumburlShow").attr("src",suc.message);//显示图片                                                              
-                        }else{
-                        alert("上传失败");
-                        $("#url").val("");
-                        $(obj).val('');
-                    }
-                },
-                error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    alert("上传失败，请检查网络后重试");
-                    $("#url").val("");
-                    $(obj).val('');
+ $("#upload").click(function () {  
+            var formData = new FormData($('#uploadForm')[0]);  
+            $.ajax({  
+                type: 'post',  
+                url: "uploadImg.html",  
+                data: formData,  
+                cache: false,  
+                dataType: "json", 
+                processData: false,  
+                contentType: false,  
+            }).success(function (data) {  
+                if(data.success=="true"){
+                	$("#picpath").val(data.path);
+                	$("#pic").attr("src","<%=request.getContextPath()%>"+data.path);
                 }
-            });
-        }
+            }).error(function () {  
+                alert("上传失败");  
+            });  
+        }); 
+	
+
 	</script>
 	</body>
 </html>

@@ -2296,10 +2296,12 @@ pre code {
 		width: 58.33333333%
 	}
 
-	.col-md-6 {
-		width: 30%
+	.col-md-6-login {
+		width: 35%
 	}
-	
+	.col-md-6 {
+	    width: 35%;
+	}	
 	.col-md-6-strategy {
 		width: 50%;
     	margin-left: 25%;
@@ -2486,9 +2488,12 @@ pre code {
 	}
 
 	.col-md-offset-3 {
-		margin-left: 35%
+		margin-left: 31%
 	}
 	.col-md-offset-3-user-left{
+		margin-left: 10%
+	}
+	.col-md-offset-3-usermessage-left{
 		margin-left: 15%
 	}
 	.col-md-offset-3-user-right{
@@ -2943,22 +2948,38 @@ output {
 	color: #555
 }
 .form-control {
-	display: block;
-	width: 100%;
-	height: 34px;
-	padding: 6px 12px;
-	font-size: 14px;
-	line-height: 1.42857143;
-	color: #555;
-	background-color: #fff;
-	background-image: none;
-	border: 1px solid #ccc;
-	border-radius: 4px;
-	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-	box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-	-webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
-	-o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
-	transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s
+	width: 70%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+
+.form-control-code {
+	width: 51%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 }
 
 .form-control-comment {
@@ -3089,12 +3110,12 @@ output {
 }
 
 textarea.form-control {
-	height: auto
+	height: auto;
+    width: 95%;
+    margin-left: 32px;
 }
 
-textarea.form-control {
-	height: auto
-}
+
 input[type=search] {
 	-webkit-appearance: none
 }

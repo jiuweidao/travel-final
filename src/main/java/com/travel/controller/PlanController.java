@@ -34,7 +34,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import com.travel.pojo.AllPlanmembers;
 import com.travel.pojo.Comments;
+import com.travel.pojo.PlanPage;
 import com.travel.pojo.Planmembers;
 import com.travel.pojo.Plans;
 import com.travel.pojo.Users;
@@ -59,73 +61,80 @@ public class PlanController {
 	private PlansService plansService;
 	@Resource
 	private PlanmembersService planmembersService;
-
+	@Resource
+	private UserController userController;
+	
 	private PlansSolr plansSolr = new PlansSolr();
 	private CommentsSolr commentsSolr = new CommentsSolr();
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
 	@RequestMapping("/allPlans")
-	// 目录http://localhost:8080/shiroTset/index
 	public String allPlans(HttpServletRequest request,
 			HttpServletResponse response, Model model) throws Exception {
 
-		Users users = (Users) request.getSession().getAttribute("user");
-
-		List<Plans> lstPlans = plansSolr.selectAll(null);
-
+		//加载用户信息
+		Users users = userController.getUsers(request);
 		if (users != null) {
-			String userName = users.getName();
-			if (userName == null) {
-				userName = users.getUsername();
-			}
-			request.setAttribute("username", userName);
-
+			request.setAttribute("username", users.getName());
 		}
-		request.setAttribute("lstPlans", lstPlans);
+		
+		
+		String type = request.getParameter("type");
+		String page = request.getParameter("page");
+		
+		//加载plan
+		PlanPage planPage = plansSolr.searchPlan(0,type,Integer.parseInt(page));
+		planPage.setType(type);
+		request.setAttribute("planPage", planPage);
 		return "allplans";
 	}
 
+	@RequestMapping("/myplans")
+	public String myplans(HttpServletRequest request,
+			HttpServletResponse response, Model model) throws Exception {
+
+		String type = request.getParameter("type");
+		String page = request.getParameter("page");
+		
+		//加载用户信息
+		Users users = userController.getUsers(request);
+		if (users != null) {
+			request.setAttribute("username", users.getName());
+		}
+		
+		//加载plan
+		PlanPage planPage = plansSolr.searchPlan(users.getId(),type,Integer.parseInt(page));
+		planPage.setType(type);
+		request.setAttribute("planPage", planPage);
+		return "myplans";
+	}
+	
 	@RequestMapping("/myapplans")
-	// 目录http://localhost:8080/shiroTset/index
 	public String myapplans(HttpServletRequest request,
 			HttpServletResponse response, Model model) throws Exception {
 
-		Users users = (Users) request.getSession().getAttribute("user");
+		Users users = userController.getUsers(request);
+		if (users != null) {
+			request.setAttribute("username", users.getName());
+		}
+		
 		List<Plans> lstPlans = new LinkedList<Plans>();
 		List<Integer> lstplansid = planmembersService.selectIdByUid(users
 				.getId().toString());
 		for (Integer id : lstplansid) {
 			lstPlans.addAll(plansSolr.searchById(id.toString()));
 		}
-		if (users != null) {
-			String userName = users.getName();
-			if (userName == null) {
-				userName = users.getUsername();
-			}
-			request.setAttribute("username", userName);
-
-		}
 		request.setAttribute("lstPlans", lstPlans);
 		return "myapplans";
 	}
 
 	@RequestMapping("/createPlan")
-	// 目录http://localhost:8080/shiroTset/index
 	public String createPlan(HttpServletRequest request,
 			HttpServletResponse response, Model model) {
 
-		/*
-		 * Subject currentUser = SecurityUtils.getSubject(); Session session =
-		 * currentUser.getSession(); Users users=(Users)
-		 * session.getAttribute("user");
-		 */
-		Users users = (Users) request.getSession().getAttribute("user");
+		Users users = userController.getUsers(request);
 		if (users != null) {
-			String userName = users.getName();
-			if (userName == null) {
-				userName = users.getUsername();
-			}
-			request.setAttribute("username", userName);
+			request.setAttribute("username", users.getName());
 		}
 
 		return "createplan";
@@ -142,8 +151,10 @@ public class PlanController {
 
 		HashMap<String, String> result = new HashMap<String, String>();
 		Plans plans = fillPlan(request, null);
-
-		if (plansService.insert(plans) > 0) {
+		
+		Users users = userController.getUsers(request);
+		
+		if (plansService.insert(plans,users.getName()) > 0) {
 			plansSolr.insert(plans);
 		}
 		result.put("success", "1");
@@ -192,82 +203,80 @@ public class PlanController {
 	public String showMymessage(HttpServletRequest request,
 			HttpServletResponse response, Model model) throws Exception {
 
-		Users users = (Users) request.getSession().getAttribute("user");
-
+		//加载参数
 		String pid = request.getParameter("id");
+		
+		//获取用户信息和plan
+		Users users = userController.getUsers(request);
+
 		Plans plans = plansSolr.searchById(pid).get(0);
 		if (users != null) {
-			String userName = users.getName();
-			if (userName == null || "".equals(userName)) {
-				userName = users.getUsername();
-			}
-			request.setAttribute("username", userName);
+			request.setAttribute("username", users.getName());
 			request.setAttribute("uid", users.getId());
-			if (planmembersService.selectIdByUidAndPid(users.getId().toString(), plans.getId().toString()) > 0) {
+			int id =planmembersService.selectIdByUidAndPid(users.getId().toString(), plans.getId().toString())  ;
+			if (id> 0) {
 				plans.setIsmember(true);
 			}
 		}
 
+		//获取邀约评论
 		List<Comments> lstAllComments = commentsSolr.searchCommentByPlanId(pid,1);
 		for (Comments comment : lstAllComments) {
 			List<Comments> lstAllNotes = commentsSolr.searchNoteByPlanId(pid,comment.getId());
 			comment.addComment(lstAllNotes);
 		}
 
-		List<Integer> lstPlanmemberId = planmembersService.selectUserIdByPid(pid);
-		List<Users> lstPlanmember = new LinkedList<>();
-		for (Integer uid : lstPlanmemberId) {
-			Users u = userService.selectByPrimaryKey(uid);
-			lstPlanmember.add(u);
+		//获取邀约成员
+		AllPlanmembers allPlanmembers = new AllPlanmembers();
+		List<Planmembers> lstPlanmembers = planmembersService.selectUserIdByPid(pid);// new LinkedList<>();
+	
+		for (Planmembers planmembers : lstPlanmembers) {
+			switch (planmembers.getUsertype()) {
+			case 3:
+				allPlanmembers.setCreater(planmembers);
+				break;
+			case 0:
+				allPlanmembers.addWaitVerifiedPlanmembers(planmembers);
+				break;
+			case 1:
+				allPlanmembers.addVerifiedPlanmembers(planmembers);
+				break;
+			case 2:
+				allPlanmembers.addUnVerifiedPlanmembers(planmembers);
+				break;
+			default:
+				break;
+			}
 		}
 		
+		//加载数据
 		request.setAttribute("lstComments", lstAllComments);
-		request.setAttribute("lstPlanmember", lstPlanmember);
+		request.setAttribute("allPlanmembers", allPlanmembers);
 		request.setAttribute("plans", plans);
 
-		return "plandetail1";
+		return "plandetail";
 	}
 
-	@RequestMapping("/myplans")
-	// 目录http://localhost:8080/shiroTset/index
-	public String myplans(HttpServletRequest request,
-			HttpServletResponse response, Model model) throws Exception {
-
-		Users users = (Users) request.getSession().getAttribute("user");
-
-		List<Plans> lstPlans = plansSolr.selectAll(users.getId().toString());
-		if (users != null) {
-			String userName = users.getName();
-			if (userName == null) {
-				userName = users.getUsername();
-			}
-			request.setAttribute("username", userName);
-
-		}
-		request.setAttribute("lstPlans", lstPlans);
-		return "myplans";
-	}
 
 	@RequestMapping("/myappplans")
 	// 目录http://localhost:8080/shiroTset/index
 	public String myappplans(HttpServletRequest request,
 			HttpServletResponse response, Model model) throws Exception {
 
-		Users users = (Users) request.getSession().getAttribute("user");
+		//加载用户信息
+		Users users = userController.getUsers(request);
+		if (users != null) {
+			request.setAttribute("username", users.getName());
+		}
+		
+		//加载plan
 		List<Plans> lstPlans = new LinkedList<Plans>();
-		List<Integer> lstplansid = planmembersService.selectIdByUid(users
-				.getId().toString());
+		List<Integer> lstplansid = planmembersService.selectIdByUid(users.getId().toString());
+		
 		for (Integer id : lstplansid) {
 			lstPlans.addAll(plansSolr.searchById(id.toString()));
 		}
-		if (users != null) {
-			String userName = users.getName();
-			if (userName == null) {
-				userName = users.getUsername();
-			}
-			request.setAttribute("username", userName);
-
-		}
+		
 		request.setAttribute("lstPlans", lstPlans);
 		return "myappplans";
 	}
@@ -277,29 +286,29 @@ public class PlanController {
 	public String appPlan(HttpServletResponse response,
 			HttpServletRequest request) throws Exception {
 
-		Users users = (Users) request.getSession().getAttribute("user");
+		Users users = userController.getUsers(request);
+		
 		String planId = request.getParameter("id");
 
 		HashMap<String, String> result = new HashMap<String, String>();
 
-		Plans plans = plansService.selectPlansById(Integer.parseInt(planId));
-
-		if (planmembersService.selectIdByUidAndPid(users.getId().toString(),
-				planId.toString()) < 0) {
+		if (planmembersService.selectIdByUidAndPid(users.getId().toString(),planId.toString()) < 0) {
 			Planmembers planmembers = new Planmembers();
 			planmembers.setPlanid(Integer.parseInt(planId));
 			planmembers.setUserid(users.getId());
 			planmembers.setJointime(new Date());
 			planmembers.setIscreater((byte) 0);
+			planmembers.setUsername(users.getName());
+			planmembers.setUsertype(0);
+			planmembers.setFlag("M");
 			planmembersService.insert(planmembers);
-			plans.setPresentnum(planmembersService.selectCountByPid(planId));
-			plansService.update(plans);
+
 			result.put("success", "1");
 		} else {
 			result.put("planmembers", "1");
 		}
 
-		return "redirect:myappplans";
+		return JSONObject.fromObject(result).toString();
 
 	}
 
@@ -373,44 +382,6 @@ public class PlanController {
 
 	}
 
-
-	@RequestMapping("springUpload")
-	public String springUpload(HttpServletRequest request)
-			throws IllegalStateException, IOException {
-		long startTime = System.currentTimeMillis();
-		// 将当前上下文初始化给 CommonsMutipartResolver （多部分解析器）
-		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(
-				request.getSession().getServletContext());
-
-		MultipartHttpServletRequest multiRequest1 = (MultipartHttpServletRequest) request;
-		// 获取multiRequest 中所有的文件名
-		Iterator iter1 = multiRequest1.getFileNames();
-		// 检查form中是否有enctype="multipart/form-data"
-		if (multipartResolver.isMultipart(request)) {
-			// 将request变成多部分request
-			MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
-			// 获取multiRequest 中所有的文件名
-			Iterator iter = multiRequest.getFileNames();
-
-			while (iter.hasNext()) {
-				// 一次遍历所有文件
-				MultipartFile file = multiRequest.getFile(iter.next()
-						.toString());
-				if (file != null) {
-					String path = "E:/springUpload"
-							+ file.getOriginalFilename();
-					// 上传
-					file.transferTo(new File(path));
-				}
-
-			}
-
-		}
-		long endTime = System.currentTimeMillis();
-		System.out.println("方法三的运行时间：" + String.valueOf(endTime - startTime)
-				+ "ms");
-		return "/success";
-	}
 
 	
 	private Plans fillPlan(HttpServletRequest request, Plans plans)

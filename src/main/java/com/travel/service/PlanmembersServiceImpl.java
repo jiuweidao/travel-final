@@ -73,7 +73,7 @@ public class PlanmembersServiceImpl implements PlanmembersService{
 	}
 
 	@Override
-	public List<Integer> selectUserIdByPid(String pid) {
+	public List<Planmembers> selectUserIdByPid(String pid) {
 		// TODO Auto-generated method stub
 		return planmembersMapper.selectUserIdByPid(pid);
 	}

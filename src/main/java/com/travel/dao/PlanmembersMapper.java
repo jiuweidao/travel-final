@@ -68,7 +68,7 @@ public interface PlanmembersMapper {
      * @param pid
      * @return
      */
-    List<Integer> selectUserIdByPid(String pid);
+    List<Planmembers> selectUserIdByPid(String pid);
     
     int deleteByPid(String pid);
 }

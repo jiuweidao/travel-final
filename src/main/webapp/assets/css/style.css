@@ -90,6 +90,11 @@ span {
     color: white;
     background: transparent;
 }
+.btn.btn-code-white {
+    border: 1px solid white;
+    color: white;
+    background: transparent;
+}
 .btn.btn-o-white:hover {
     background: white;
     color: #6a6a6a;
@@ -401,6 +406,11 @@ span {
     color: gray;
     font-size: 18px;
 }
+.content-block .login-container .unchoose-btn{
+	color: gray;
+    font-size: 13px;
+    margin-top: 20px;
+}
 .animate-comment{
 	background: #4d615e0d;
     margin-top: 10px;
@@ -463,6 +473,7 @@ span {
     font-size: 12px;
     color: #d8b6bc;
     margin-left: 5px;
+    margin-top: 15px;
 }
 
 .col-md-6 .lable-content-error{
@@ -470,6 +481,45 @@ span {
     font-size: 12px;
     color: #d8b6bc;
     margin-left: 250px;
+}
+
+.valid:-moz-placeholder {
+    color: #8d9799;  
+}
+
+.valid::-moz-placeholder {
+    color: #8d9799;
+}
+
+input.valid:-ms-input-placeholder{
+    color: #8d9799;
+}
+
+input.valid::-webkit-input-placeholder {
+    color: #8d9799;
+}
+
+textarea.valid:-ms-input-placeholder{
+    color: #8d9799;
+}
+
+textarea.valid::-webkit-input-placeholder {
+    color: #8d9799;
+}
+.invalid:-moz-placeholder {
+    color: #be5f5f;
+}
+
+.invalid::-moz-placeholder {
+    color: #be5f5f;
+}
+
+input.invalid:-ms-input-placeholder{
+    color: #be5f5f;
+}
+
+input.invalid::-webkit-input-placeholder {
+    color:#be5f5f;
 }
 /*////////////////////////////////////////////////////////////////////////
 //  05 - Recent works
@@ -520,7 +570,9 @@ span {
 }
 
 
-
+.option-span{
+	weigth:50px;
+}
 
 
 /*////////////////////////////////////////////////////////////////////////

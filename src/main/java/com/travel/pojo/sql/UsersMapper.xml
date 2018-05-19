@@ -7,6 +7,7 @@
     <result column="Name" property="name" jdbcType="VARCHAR" />
     <result column="Email" property="email" jdbcType="VARCHAR" />
     <result column="Telemoble" property="telemoble" jdbcType="VARCHAR" />
+    <result column="IdNum" property="idnum" jdbcType="VARCHAR" />
     <result column="UserType" property="usertype" jdbcType="VARCHAR" />
     <result column="Password" property="password" jdbcType="VARCHAR" />
     <result column="RegTime" property="regtime" jdbcType="TIMESTAMP" />
@@ -14,10 +15,11 @@
     <result column="Score" property="score" jdbcType="INTEGER" />
     <result column="CreatTime" property="creattime" jdbcType="TIMESTAMP" />
     <result column="Flag" property="flag" jdbcType="VARCHAR" />
+    <result column="IconPath" property="iconpath" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    Id, UserName, `Name`, Email, Telemoble, UserType, `Password`, RegTime, LastLoginTime, 
-    Score, CreatTime, Flag
+    Id, UserName, `Name`, Email, Telemoble, IdNum, UserType, `Password`, RegTime, LastLoginTime, 
+    Score, CreatTime, Flag, IconPath
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -31,13 +33,15 @@
   </delete>
   <insert id="insert" parameterType="com.travel.pojo.Users" useGeneratedKeys="true" keyProperty="id" >
     insert into users (UserName, `Name`, Email, 
-      Telemoble, UserType, `Password`, 
-      RegTime, LastLoginTime, Score, 
-      CreatTime, Flag)
+      Telemoble, IdNum, UserType, 
+      `Password`, RegTime, LastLoginTime, 
+      Score, CreatTime, Flag, 
+      IconPath)
     values (#{username,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
-      #{telemoble,jdbcType=VARCHAR}, #{usertype,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{regtime,jdbcType=TIMESTAMP}, #{lastlogintime,jdbcType=TIMESTAMP}, #{score,jdbcType=INTEGER}, 
-      #{creattime,jdbcType=TIMESTAMP}, #{flag,jdbcType=VARCHAR})
+      #{telemoble,jdbcType=VARCHAR}, #{idnum,jdbcType=VARCHAR}, #{usertype,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{regtime,jdbcType=TIMESTAMP}, #{lastlogintime,jdbcType=TIMESTAMP}, 
+      #{score,jdbcType=INTEGER}, #{creattime,jdbcType=TIMESTAMP}, #{flag,jdbcType=VARCHAR}, 
+      #{iconpath,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.travel.pojo.Users" useGeneratedKeys="true" keyProperty="id" >
     insert into users
@@ -46,6 +50,7 @@
       `Name`,
       Email,
       Telemoble,
+      IdNum,
       UserType,
       `Password`,
       RegTime,
@@ -53,12 +58,14 @@
       Score,
       CreatTime,
       Flag,
+      IconPath,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       #{username,jdbcType=VARCHAR},
       #{name,jdbcType=VARCHAR},
       #{email,jdbcType=VARCHAR},
       #{telemoble,jdbcType=VARCHAR},
+      #{idnum,jdbcType=VARCHAR},
       #{usertype,jdbcType=VARCHAR},
       #{password,jdbcType=VARCHAR},
       #{regtime,jdbcType=TIMESTAMP},
@@ -66,6 +73,7 @@
       #{score,jdbcType=INTEGER},
       #{creattime,jdbcType=TIMESTAMP},
       #{flag,jdbcType=VARCHAR},
+      #{iconpath,jdbcType=VARCHAR},
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.travel.pojo.Users" >
@@ -82,6 +90,9 @@
       </if>
       <if test="telemoble != null" >
         Telemoble = #{telemoble,jdbcType=VARCHAR},
+      </if>
+      <if test="idnum != null" >
+        IdNum = #{idnum,jdbcType=VARCHAR},
       </if>
       <if test="usertype != null" >
         UserType = #{usertype,jdbcType=VARCHAR},
@@ -104,6 +115,9 @@
       <if test="flag != null" >
         Flag = #{flag,jdbcType=VARCHAR},
       </if>
+      <if test="iconpath != null" >
+        IconPath = #{iconpath,jdbcType=VARCHAR},
+      </if>
     </set>
     where Id = #{id,jdbcType=INTEGER}
   </update>
@@ -113,16 +127,19 @@
       `Name` = #{name,jdbcType=VARCHAR},
       Email = #{email,jdbcType=VARCHAR},
       Telemoble = #{telemoble,jdbcType=VARCHAR},
+      IdNum = #{idnum,jdbcType=VARCHAR},
       UserType = #{usertype,jdbcType=VARCHAR},
       `Password` = #{password,jdbcType=VARCHAR},
       RegTime = #{regtime,jdbcType=TIMESTAMP},
       LastLoginTime = #{lastlogintime,jdbcType=TIMESTAMP},
       Score = #{score,jdbcType=INTEGER},
       CreatTime = #{creattime,jdbcType=TIMESTAMP},
-      Flag = #{flag,jdbcType=VARCHAR}
+      Flag = #{flag,jdbcType=VARCHAR},
+      IconPath = #{iconpath,jdbcType=VARCHAR}
     where Id = #{id,jdbcType=INTEGER}
   </update>
   
+  <!--自定义  -->
   <select id="selectByTelemoble" parameterType="String" resultType="INTEGER">
 		SELECT id 
 		FROM users 

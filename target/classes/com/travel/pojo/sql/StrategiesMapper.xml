@@ -9,9 +9,10 @@
     <result column="Creatby" property="creatby" jdbcType="INTEGER" />
     <result column="CreatTime" property="creattime" jdbcType="TIMESTAMP" />
     <result column="Flag" property="flag" jdbcType="VARCHAR" />
+    <result column="PicPath" property="picpath" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    Id, Site, Duration, Content, Creatby, CreatTime, Flag
+    Id, Site, Duration, Content, Creatby, CreatTime, Flag, PicPath
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -25,11 +26,11 @@
   </delete>
   <insert id="insert" parameterType="com.travel.pojo.Strategies" useGeneratedKeys="true" keyProperty="id" >
     insert into strategies (Site, Duration, Content, 
-      Creatby, CreatTime, Flag
-      )
+      Creatby, CreatTime, Flag, 
+      PicPath)
     values (#{site,jdbcType=VARCHAR}, #{duration,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
-      #{creatby,jdbcType=INTEGER}, #{creattime,jdbcType=TIMESTAMP}, #{flag,jdbcType=VARCHAR}
-      )
+      #{creatby,jdbcType=INTEGER}, #{creattime,jdbcType=TIMESTAMP}, #{flag,jdbcType=VARCHAR}, 
+      #{picpath,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.travel.pojo.Strategies" useGeneratedKeys="true" keyProperty="id" >
     insert into strategies
@@ -40,6 +41,7 @@
       Creatby,
       CreatTime,
       Flag,
+      PicPath,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       #{site,jdbcType=VARCHAR},
@@ -48,6 +50,7 @@
       #{creatby,jdbcType=INTEGER},
       #{creattime,jdbcType=TIMESTAMP},
       #{flag,jdbcType=VARCHAR},
+      #{picpath,jdbcType=VARCHAR},
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.travel.pojo.Strategies" >
@@ -71,6 +74,9 @@
       <if test="flag != null" >
         Flag = #{flag,jdbcType=VARCHAR},
       </if>
+      <if test="picpath != null" >
+        PicPath = #{picpath,jdbcType=VARCHAR},
+      </if>
     </set>
     where Id = #{id,jdbcType=INTEGER}
   </update>
@@ -81,7 +87,8 @@
       Content = #{content,jdbcType=VARCHAR},
       Creatby = #{creatby,jdbcType=INTEGER},
       CreatTime = #{creattime,jdbcType=TIMESTAMP},
-      Flag = #{flag,jdbcType=VARCHAR}
+      Flag = #{flag,jdbcType=VARCHAR},
+      PicPath = #{picpath,jdbcType=VARCHAR}
     where Id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

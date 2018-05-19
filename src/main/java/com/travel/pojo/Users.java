@@ -6,75 +6,87 @@ import java.util.Date;
 public class Users implements Serializable {
     /**
      * users.Id
-     * @ibatorgenerated 2017-07-04 18:24:18
+     * @ibatorgenerated 2018-05-17 20:56:23
      */
     private Integer id;
 
     /**
      * users.UserName
-     * @ibatorgenerated 2017-07-04 18:24:18
+     * @ibatorgenerated 2018-05-17 20:56:23
      */
     private String username;
 
     /**
      * users.Name
-     * @ibatorgenerated 2017-07-04 18:24:18
+     * @ibatorgenerated 2018-05-17 20:56:23
      */
     private String name;
 
     /**
      * users.Email
-     * @ibatorgenerated 2017-07-04 18:24:18
+     * @ibatorgenerated 2018-05-17 20:56:23
      */
     private String email;
 
     /**
      * users.Telemoble
-     * @ibatorgenerated 2017-07-04 18:24:18
+     * @ibatorgenerated 2018-05-17 20:56:23
      */
     private String telemoble;
 
     /**
+     * users.IdNum
+     * @ibatorgenerated 2018-05-17 20:56:23
+     */
+    private String idnum;
+
+    /**
      * users.UserType
-     * @ibatorgenerated 2017-07-04 18:24:18
+     * @ibatorgenerated 2018-05-17 20:56:23
      */
     private String usertype;
 
     /**
      * users.Password
-     * @ibatorgenerated 2017-07-04 18:24:18
+     * @ibatorgenerated 2018-05-17 20:56:23
      */
     private String password;
 
     /**
      * users.RegTime
-     * @ibatorgenerated 2017-07-04 18:24:18
+     * @ibatorgenerated 2018-05-17 20:56:23
      */
     private Date regtime;
 
     /**
      * users.LastLoginTime
-     * @ibatorgenerated 2017-07-04 18:24:18
+     * @ibatorgenerated 2018-05-17 20:56:23
      */
     private Date lastlogintime;
 
     /**
      * users.Score (旅游平均分)
-     * @ibatorgenerated 2017-07-04 18:24:18
+     * @ibatorgenerated 2018-05-17 20:56:23
      */
     private Integer score;
 
     /**
      * users.CreatTime (创建时间)
-     * @ibatorgenerated 2017-07-04 18:24:18
+     * @ibatorgenerated 2018-05-17 20:56:23
      */
     private Date creattime;
 
     /**
      * users.Flag
-     * @ibatorgenerated 2017-07-04 18:24:18
+     * @ibatorgenerated 2018-05-17 20:56:23
      */
     private String flag;
+
+    /**
+     * users.IconPath
+     * @ibatorgenerated 2018-05-17 20:56:23
+     */
+    private String iconpath;
 
     public Integer getId() {
         return id;
@@ -114,6 +126,14 @@ public class Users implements Serializable {
 
     public void setTelemoble(String telemoble) {
         this.telemoble = telemoble;
+    }
+
+    public String getIdnum() {
+        return idnum;
+    }
+
+    public void setIdnum(String idnum) {
+        this.idnum = idnum;
     }
 
     public String getUsertype() {
@@ -170,5 +190,13 @@ public class Users implements Serializable {
 
     public void setFlag(String flag) {
         this.flag = flag;
+    }
+
+    public String getIconpath() {
+        return iconpath;
+    }
+
+    public void setIconpath(String iconpath) {
+        this.iconpath = iconpath;
     }
 }

@@ -42,45 +42,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</head>
 	
 	<body>
-		<div id="drawer-right">
-			<div class="cross text-right">
-				<a class="toggleDrawer" href="#"><i class="fa fa-times-circle fa-2x"></i></a>
-			</div>
-			<h2>我的窝</h2>
-			
-				<ul class="nav nav-pills nav-stacked">
-					<li>
-						<a href="<%=basePath%>myMessage"><i class="fa fa-home"></i> 个人名片</a>
-					</li>
-					<li>
-						<a href="<%=basePath%>createPlan"><i class="fa fa-bookmark"></i> 发起邀约</a>
-					</li>
-					<li>
-						<a href="<%=basePath%>myplans"><i class="fa fa-tasks"></i> 我的邀约</a>
-					</li>
-					<li>
-						<a href="<%=basePath%>myappplans"><i class="fa fa-wordpress"></i> 我的申请</a>
-					</li>
-					<li>
-						<a href="#parallax"><i class="fa fa-heart"></i> 撰写游记</a>
-					</li>
-					<li>
-						<a href="#testimonials"><i class="fa fa-thumbs-up"></i> Testimonials</a>
-					</li>
-					<li>
-						<a href="#contact"><i class="fa fa-phone-square"></i> Contact</a>
-					</li>
-				</ul>
-			<div class="social">
-				<h2>Stay Connected</h2>
-				<ul>
-					<li><a href=""><i class="fa fa-facebook-square fa-3x"></i></a></li>
-					<li><a href=""><i class="fa fa-twitter-square fa-3x"></i></a></li>
-					<li><a href=""><i class="fa fa-tumblr-square fa-3x"></i></a></li>
-					<li><a href=""><i class="fa fa-google-plus-square fa-3x"></i></a></li>
-				</ul>
-			</div>
-		</div><!-- #drawer-right -->
+		<jsp:include   page="sidebar.jsp" flush="true"/>
 		<div id="wrapper">
 			
 			<div id="header" class="content-block header-wrapper">
@@ -129,19 +91,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<h1>个人信息</h1>
 								<form id="message_form" class="form-user" role="form">
 									<div class="form-group">
-								    	<label>昵称：</label><input id="name" name="name" type="text" class="form-control-user form-control-white"  value="${users.name}" placeholder="Your Name" ><label id="name_error" style="display:none;">不能為空</label>
+								    	<label>昵称：</label>
+								    	<input id="name" name="name" type="text" class="form-control-user form-control-white"  value="${users.name}" placeholder="Your Name" >
+								    	<label id="name_error" class="lable-error" style="display:none;" >不能为空</label>
 								  	</div>
 								    <div class="form-group">
-								    	<label>手机：</label><input id="telemoble" name="telemoble"type="text" class="form-control-user form-control-white" value="${users.telemoble}"  placeholder="Enter email"><label id="telemoble_error" style="display:none;">不能為空</label>
+								    	<label>手机：</label>
+								    	<input id="telemoble" name="telemoble"type="text" class="form-control-user form-control-white" value="${users.telemoble}"  placeholder="Enter email">
+								    	<label id="telemoble_error" class="lable-error" style="display:none;">不能為空</label>
 								    </div>
 								    <div class="form-group">
-								    	<label>邮箱：</label><input id="email" name="email" type="text" class="form-control-user form-control-white" value="${users.email}" placeholder="Enter email" ><label id="email_error" style="display:none;">不能為空</label>
+								    	<label>邮箱：</label>
+								    	<input id="email" name="email" type="text" class="form-control-user form-control-white" value="${users.email}" placeholder="Enter email" >
+								    	<label id="email_error" class="lable-error" style="display:none;">不能為空</label>
 								    </div>
 								    <div class="form-group">
-								    	<label>阶级：</label><input id="class" type="text" class="form-control-user form-control-white" value=""  readonly="true">
+								    	<label>阶级：</label>
+								    	<input id="class" type="text" class="form-control-user form-control-white" value=""  readonly="true">
 								    </div>
 								    <div class="form-group">
-								    	<label>积分：</label><input id="score" type="text" class="form-control-user form-control-white" value="${users.score}" readonly="true">
+								    	<label>积分：</label>
+								    	<input id="score" type="text" class="form-control-user form-control-white" value="${users.score}" readonly="true">
 								    </div>
 								  <input id="modifyMessage_btn" type="button" class="btn btn-o-white" value="修改">
 								  <input id="clear_btn" type="button" class="btn btn-o-white" value="清空">
@@ -151,13 +121,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<h1>修改密码</h1>
 								<form id="password_form" class="form-user" role="form">
 									<div class="form-group">
-								    	<label>原密码：</label><input id="original_password" name="original_password" type="password" class="form-control-user form-control-white"  required><label id="original_password_error" style="display:none;">不能為空</label>
+								    	<label>原密码：</label>
+								    	<input id="original_password" name="original_password" type="password" class="form-control-user form-control-white"  required>
+								    	<label id="original_password_error" class="lable-error" style="display:none;">不能為空</label>
 								  	</div>
 								    <div class="form-group">
-								    	<label>新密码：</label><input id="password" name="password"  type="password" class="form-control-user form-control-white"  required><label id="password_error" style="display:none;">不能為空</label>
+								    	<label>新密码：</label>
+								    	<input id="password" name="password"  type="password" class="form-control-user form-control-white"  required>
+								    	<label id="password_error" class="lable-error" style="display:none;">不能為空</label>
 								    </div>
 								    <div class="form-group">
-								    	<label>再输入：</label><input id="repassword" name="repassword"  type="password" class="form-control-user form-control-white" required><label id="repassword_error" style="display:none;">不能為空</label>
+								    	<label>再输入：</label>
+								    	<input id="repassword" name="repassword"  type="password" class="form-control-user form-control-white" required>
+								    	<label id="repassword_error" class="lable-error" style="display:none;">不能為空</label>
 								    </div>
 								 	<input id="modifyPassworde_btn" type="button" class="btn btn-o-white" value="修改">
 								</form>
@@ -167,15 +143,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 			</div><!-- #contact -->
 
-			<div class="content-block" id="footer">
-				<div class="container">
-					<div class="row">
-						<div class="col-xs-6">&copy; Copyright Flusk 2014</div>
-					<!-- 	<div class="col-xs-6 text-right">Theme ThemeWagon.More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a> More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a></div>
-				 -->	</div>
-				</div>
-			</div><!-- #footer -->
-
+			<jsp:include   page="footer.jsp" flush="true"/>
 		</div><!--/#wrapper-->
 
 
@@ -220,22 +188,29 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                  error="true";
 			}
    			if(telemoble==""){
-                 $('#telemoble_error').show();
+                 $('#telemoble_error').removeAttr("style");
                  $('#telemoble_error').text("不能为空");
                  error="true";
              }else if(telemoble.length !=11||!mobileReg.test(telemoble)){
-                 $('#telemoble_error').show();
+                 $('#telemoble_error').removeAttr("style");
                  $('#telemoble_error').text("手机号格式不正确");
              	 error="true";
     		}
     		
-    		if(email !=""){
+    		if(email==""){
+                 $('#email_error').removeAttr("style");
+                 $('#email_error').text("不能为空");
+                 error="true";
+             }else if(email !=""){
                  if(!emailReg.test(email)){
-             	 	$('#email_error').show();
+             	 	$('#email_error').removeAttr("style");
+             	 	
+					$('#email_error').removeAttr("style");
                  	$('#email_error').text(" 邮箱格式不正确");
              	 	error="true";
              	}
              }
+             
              if(error!=""){
              	return false;
              }
@@ -278,18 +253,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     		$('#repassword_error').hide();
     		$('#password_error').hide();
     		
+    		if(originALPassword==""){
+    			$('#original_password_error').removeAttr("style");
+    			$('#original_password_error').text(" 不能为空");
+    			error="true";
+    		}
+    		
     		if(password==""){
-    			$('#password_error').show();
+    			$('#password_error').removeAttr("style");
     			$('#password_error').text(" 不能为空");
     			error="true";
     		}
     		if(password.length>15||password.length<6){//6-15
-    			$('#password_error').show();
+    			$('#password_error').removeAttr("style");
     			$('#password_error').text(" 密码为6-15位");
     			error="true";
   			}
   			if(password != repassword){//6-15
-    			$('#repassword_error').show();
+    			$('#repassword_error').removeAttr("style");
     			$('#repassword_error').text(" 两次密码不一致");
     			error="true";
   			}
@@ -314,31 +295,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						$("#password").val("");  
     					$("#original_password").val("");
         			}else if(json.password=="f"){
-        				$('#original_password_error').show();
+        				$('#original_password_error').removeAttr("style");
     					$('#original_password_error').text(" 密码错误");
         					
         			}else{
         				alert("修改失败"); 
         			}
-        			
-        		
         	}  
      	});  
     });
-    	$('#logout_btn').click(function() {
-	$.ajax({ 
-		type: "post", 
-		url: "<%=request.getContextPath()%>" + "/logout", 
-		data: {}, 
-		dataType: "json", 
-		success: function(data) { 
-			window.location.href = "<%=request.getContextPath()%>" +  "/login";
-		},
-		error: function(data) { 
-			alert("调用失败...."); 
-		}
-	});
-});
+    
 	$('#clear_btn').click(function(){
 			$("#title").val("");  
 			$("#tag").val(""); 

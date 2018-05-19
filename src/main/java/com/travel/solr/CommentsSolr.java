@@ -74,8 +74,7 @@ public class CommentsSolr {
 		// 执行搜索、搜索结果
 		QueryResponse queryResponse = client.query(query);
 		SolrDocumentList results = queryResponse.getResults();
-		Map<String, Map<String, List<String>>> highlighting = queryResponse
-				.getHighlighting();
+		Map<String, Map<String, List<String>>> highlighting = queryResponse.getHighlighting();
 
 		for (SolrDocument solrDocument : results) {
 			Comments comment = new Comments();
@@ -121,8 +120,7 @@ public class CommentsSolr {
 		// 执行搜索、搜索结果
 		QueryResponse queryResponse = client.query(query);
 		SolrDocumentList results = queryResponse.getResults();
-		Map<String, Map<String, List<String>>> highlighting = queryResponse
-				.getHighlighting();
+		Map<String, Map<String, List<String>>> highlighting = queryResponse.getHighlighting();
 
 		for (SolrDocument solrDocument : results) {
 			Comments comment = new Comments();

@@ -20,7 +20,7 @@ import com.travel.pojo.Users;
 public interface PlansService {
 	
 	
-	int insert(Plans plans);
+	int insert(Plans plans,String username);
 	
 	List<Plans> selectAllPlansByUid(String uid);
 	

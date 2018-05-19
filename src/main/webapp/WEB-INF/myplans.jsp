@@ -31,17 +31,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<link rel="stylesheet" href="assets/css/bootstrap.min.css">
 		<link rel="stylesheet" href="assets/css/font-awesome.min.css">
 		<link rel="stylesheet" href="assets/css/style.css" media="screen"/>
-
+ 		<link rel="stylesheet" href="css/paging.css">
 		<!-- Animate.css -->
-	<link rel="stylesheet" href="css/animate.css">
-	<!-- Magnific Popup -->
-	<link rel="stylesheet" href="css/magnific-popup.css">
-	<!-- Salvattore -->
-	<link rel="stylesheet" href="css/salvattore.css">
-	<!-- Theme Style -->
-	<link rel="stylesheet" href="css/style.css">
-	<!-- Modernizr JS -->
-	<script src="js/modernizr-2.6.2.min.js"></script>
+		<link rel="stylesheet" href="css/animate.css">
+		<!-- Magnific Popup -->
+		<link rel="stylesheet" href="css/magnific-popup.css">
+		<!-- Salvattore -->
+		<link rel="stylesheet" href="css/salvattore.css">
+		<!-- Theme Style -->
+		<link rel="stylesheet" href="css/style.css">
+		<!-- Modernizr JS -->
+		<script src="js/modernizr-2.6.2.min.js"></script>
 
 		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 		<!--[if lt IE 9]>
@@ -55,334 +55,51 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</head>
 	
 	<body>
-		<div id="drawer-right">
-			<div class="cross text-right">
-				<a class="toggleDrawer" href="#"><i class="fa fa-times-circle fa-2x"></i></a>
-			</div>
-			<h2>我的窝</h2>
-			
-				<ul class="nav nav-pills nav-stacked">
-					<li>
-						<a href="<%=basePath%>myMessage"><i class="fa fa-home"></i> 个人名片</a>
-					</li>
-					<li>
-						<a href="<%=basePath%>createPlan"><i class="fa fa-bookmark"></i> 发起邀约</a>
-					</li>
-					<li>
-						<a href="<%=basePath%>myplans"><i class="fa fa-tasks"></i> 我的邀约</a>
-					</li>
-					<li>
-						<a href="<%=basePath%>myappplans"><i class="fa fa-wordpress"></i> 我的申请</a>
-					</li>
-					<li>
-						<a href="#parallax"><i class="fa fa-heart"></i> 撰写游记</a>
-					</li>
-					<li>
-						<a href="#testimonials"><i class="fa fa-thumbs-up"></i> Testimonials</a>
-					</li>
-					<li>
-						<a href="#contact"><i class="fa fa-phone-square"></i> Contact</a>
-					</li>
-				</ul>
-			<div class="social">
-				<h2>Stay Connected</h2>
-				<ul>
-					<li><a href=""><i class="fa fa-facebook-square fa-3x"></i></a></li>
-					<li><a href=""><i class="fa fa-twitter-square fa-3x"></i></a></li>
-					<li><a href=""><i class="fa fa-tumblr-square fa-3x"></i></a></li>
-					<li><a href=""><i class="fa fa-google-plus-square fa-3x"></i></a></li>
-				</ul>
-			</div>
-		</div><!-- #drawer-right -->
+		<jsp:include   page="sidebar.jsp" flush="true"/>
 		<div id="wrapper">
-			<div id="header" class="content-block header-wrapper">
-				<div class="header-wrapper-inner">
-					<section class="top solid-plan clearfix">
-						<div class="pull-left">
-							<h1><a class="logo">独步</a></h1>
-						</div>
-						<div id="user_div" class="pull-right"  style="display: none">
-							<a class="toggleDrawer" href="#"><i class="fa fa-bars fa-2x"></i></a>
-						</div>
-						<div id="nologin_div" class="pull-right">
-							<a class="logo" href="login">登录/注册</a>
-						</div>
-						<div id="logined_div" class="pull-right" style="display: none">
-							<span  id="username" class="logo" href="login">${username}</span>
-						</div>
-						<div class="pull-right">
-							<a class="logo" href="index.html">出行交通</a>
-						</div>
-						<div class="pull-right">
-							<a class="logo" href="index.html">所有邀约</a>
-						</div>
-						<div class="pull-right">
-							<a class="logo" href="index.html">出行游记</a>
-						</div>
-						<div class="pull-right">
-							<a class="logo" href="index.html">首页</a>
-						</div>
-					</section>
-				</div>
-			</div><!-- header -->
-<div id="fh5co-main">
-		<div class="container">
-
-			<div class="row">
-
-        <div id="fh5co-board" data-columns>
-
-        	<div class="item">
-        		<div class="animate-box">
-	        		<a href="images/img_1.jpg" class="image-popup fh5co-board-img" title="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo, eos?"><img src="images/img_1.jpg" alt="Free HTML5 Bootstrap template"></a>
-        		</div>
-        		<div class="fh5co-desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo, eos?</div>
-        	</div>
-        	<div class="item">
-        		<div class="animate-box">
-	        		<a href="images/img_2.jpg" class="image-popup fh5co-board-img"><img src="images/img_2.jpg" alt="Free HTML5 Bootstrap template"></a>
-	        		<div class="fh5co-desc">Veniam voluptatum voluptas tempora debitis harum totam vitae hic quos.</div>
-        		</div>
-        	</div>
-        	<div class="item">
-        		<div class="animate-box">
-	        		<a href="images/img_3.jpg" class="image-popup fh5co-board-img"><img src="images/img_3.jpg" alt="Free HTML5 Bootstrap template"></a>
-	        		<div class="fh5co-desc">Optio commodi quod vitae, vel, officiis similique quaerat odit dicta.</div>
-        		</div>
-        	</div>
-        	<div class="item">
-        		<div class="animate-box">
-	        		<a href="images/img_4.jpg" class="image-popup fh5co-board-img"><img src="images/img_4.jpg" alt="Free HTML5 Bootstrap template"></a>
-	        		<div class="fh5co-desc">Dolore itaque deserunt sit, at exercitationem delectus, consequuntur quaerat sapiente.</div>
-        		</div>
-        	</div>
-        	<div class="item">
-        		<div class="animate-box">
-	        		<a href="images/img_5.jpg" class="image-popup fh5co-board-img"><img src="images/img_5.jpg" alt="Free HTML5 Bootstrap template"></a>
-	        		<div class="fh5co-desc">Tempora distinctio inventore, nisi excepturi pariatur tempore sit quasi animi.</div>
-        		</div>
-        	</div>
-        	<div class="item">
-        		<div class="animate-box">
-	        		<a href="images/img_6.jpg" class="image-popup fh5co-board-img"><img src="images/img_6.jpg" alt="Free HTML5 Bootstrap template"></a>
-	        		<div class="fh5co-desc">Sequi, eaque suscipit accusamus. Necessitatibus libero, unde a nesciunt repellendus!</div>
-        		</div>
-        	</div>
-        	<div class="item">
-        		<div class="animate-box">
-	        		<a href="images/img_7.jpg" class="image-popup fh5co-board-img"><img src="images/img_7.jpg" alt="Free HTML5 Bootstrap template"></a>
-	        		<div class="fh5co-desc">Necessitatibus distinctio eos ipsam cum hic temporibus assumenda deleniti, soluta.</div>
-        		</div>
-        	</div>
-        	<div class="item">
-        		<div class="animate-box">
-	        		<a href="images/img_8.jpg" class="image-popup fh5co-board-img"><img src="images/img_8.jpg" alt="Free HTML5 Bootstrap template"></a>
-	        		<div class="fh5co-desc">Debitis voluptatum est error nulla voluptate eum maiores animi quasi?</div>
-        		</div>
-        	</div>
-        	<div class="item">
-        		<div class="animate-box">
-	        		<a href="images/img_9.jpg" class="image-popup fh5co-board-img"><img src="images/img_9.jpg" alt="Free HTML5 Bootstrap template"></a>
-	        		<div class="fh5co-desc">Maxime qui eius quisquam quidem quos unde consectetur accusamus adipisci!</div>
-        		</div>
-        	</div>
-        	<div class="item">
-        		<div class="animate-box">
-	        		<a href="images/img_21.jpg" class="image-popup fh5co-board-img"><img src="images/img_21.jpg" alt="Free HTML5 Bootstrap template"></a>
-	        		<div class="fh5co-desc">Deleniti aliquid, accusantium, consectetur harum eligendi vitae quaerat reiciendis sit?</div>
-        		</div>
-        	</div>
-        	<div class="item">
-        		<div class="animate-box">
-	        		<a href="images/img_10.jpg" class="image-popup fh5co-board-img"><img src="images/img_10.jpg" alt="Free HTML5 Bootstrap template"></a>
-	        		<div class="fh5co-desc">Incidunt, eaque et. Et odio excepturi, eveniet facilis explicabo assumenda.</div>
-        		</div>
-        	</div>
-        	<div class="item">
-        		<div class="animate-box">
-	        		<a href="images/img_11.jpg" class="image-popup fh5co-board-img"><img src="images/img_11.jpg" alt="Free HTML5 Bootstrap template"></a>
-	        		<div class="fh5co-desc">Laborum dolores nihil voluptates quas alias distinctio fugiat tempora sit.</div>
-        		</div>
-        	</div>
-        	<div class="item">
-        		<div class="animate-box">
-	        		<a href="images/img_12.jpg" class="image-popup fh5co-board-img"><img src="images/img_12.jpg" alt="Free HTML5 Bootstrap template"></a>
-	        		<div class="fh5co-desc">Sit, quis nulla amet numquam fugit, in reiciendis laboriosam dolor.</div>
-        		</div>
-        	</div>
-        	<div class="item">
-        		<div class="animate-box">
-	        		<a href="images/img_13.jpg" class="image-popup fh5co-board-img"><img src="images/img_13.jpg" alt="Free HTML5 Bootstrap template"></a>
-	        		<div class="fh5co-desc">Possimus explicabo voluptatem natus nisi similique ipsa repudiandae? Quibusdam, fuga.</div>
-        		</div>
-        	</div>
-        	<div class="item">
-        		<div class="animate-box">
-	        		<a href="images/img_14.jpg" class="image-popup fh5co-board-img"><img src="images/img_14.jpg" alt="Free HTML5 Bootstrap template"></a>
-	        		<div class="fh5co-desc">Magni repellendus iusto mollitia, quibusdam facilis incidunt. Sunt, repellat, voluptatem.</div>
-        		</div>
-        	</div>
-        	<div class="item">
-        		<div class="animate-box">
-	        		<a href="images/img_15.jpg" class="image-popup fh5co-board-img"><img src="images/img_15.jpg" alt="Free HTML5 Bootstrap template"></a>
-	        		<div class="fh5co-desc">Unde iure rerum cupiditate explicabo quam aut vel earum numquam.</div>
-        		</div>
-        	</div>
-        	<div class="item">
-        		<div class="animate-box">
-	        		<a href="images/img_16.jpg" class="image-popup fh5co-board-img"><img src="images/img_16.jpg" alt="Free HTML5 Bootstrap template"></a>
-	        		<div class="fh5co-desc">Qui nisi error dolorum dolor delectus, alias doloremque perspiciatis nemo.</div>
-        		</div>
-        	</div>
-        	<div class="item">
-        		<div class="animate-box">
-	        		<a href="images/img_18.jpg" class="image-popup fh5co-board-img"><img src="images/img_18.jpg" alt="Free HTML5 Bootstrap template"></a>
-	        		<div class="fh5co-desc">Neque porro vero cumque natus nam voluptatibus, ratione, commodi labore.</div>
-        		</div>
-        	</div>
-        	<div class="item">
-        		<div class="animate-box">
-	        		<a href="images/img_17.jpg" class="image-popup fh5co-board-img"><img src="images/img_17.jpg" alt="Free HTML5 Bootstrap template"></a>
-	        		<div class="fh5co-desc">Quisquam quia totam, sit ea maxime sint sed excepturi quod.</div>
-        		</div>
-        	</div>
-        	<div class="item">
-        		<div class="animate-box">
-	        		<a href="images/img_19.jpg" class="image-popup fh5co-board-img"><img src="images/img_19.jpg" alt="Free HTML5 Bootstrap template"></a>
-	        		<div class="fh5co-desc">Nesciunt non iste ex nemo sapiente eum, provident nam corporis.</div>
-        		</div>
-        	</div>
-        	<div class="item">
-        		<div class="animate-box">
-	        		<a href="images/img_20.jpg" class="image-popup fh5co-board-img"><img src="images/img_20.jpg" alt="Free HTML5 Bootstrap template"></a>
-	        		<div class="fh5co-desc">Harum repellat labore est cum ipsa, nesciunt neque mollitia adipisci?</div>
-        		</div>
-        	</div>
-        	
-        	<div class="item">
-        		<div class="animate-box">
-	        		<a href="images/img_22.jpg" class="image-popup fh5co-board-img"><img src="images/img_22.jpg" alt="Free HTML5 Bootstrap template"></a>
-	        		<div class="fh5co-desc">Quos repellendus repudiandae debitis reprehenderit cupiditate cumque accusamus exercitationem, harum.</div>
-        		</div>
-        	</div>
-        	<div class="item">
-        		<div class="animate-box">
-	        		<a href="images/img_23.jpg" class="image-popup fh5co-board-img"><img src="images/img_23.jpg" alt="Free HTML5 Bootstrap template"></a>
-	        		<div class="fh5co-desc">Sunt numquam itaque delectus, dignissimos dolorem obcaecati vel, atque eos.</div>
-        		</div>
-        	</div>
-        	<div class="item">
-        		<div class="animate-box">
-	        		<a href="images/img_24.jpg" class="image-popup fh5co-board-img"><img src="images/img_24.jpg" alt="Free HTML5 Bootstrap template"></a>
-	        		<div class="fh5co-desc">Adipisci consequuntur ipsa fugit perspiciatis eligendi. Omnis blanditiis, totam placeat.</div>
-        		</div>
-        	</div>
-        	<div class="item">
-        		<div class="animate-box">
-	        		<a href="images/img_25.jpg" class="image-popup fh5co-board-img"><img src="images/img_25.jpg" alt="Free HTML5 Bootstrap template"></a>
-	        		<div class="fh5co-desc">Quos repellendus repudiandae debitis reprehenderit cupiditate cumque accusamus exercitationem, harum.</div>
-        		</div>
-        	</div>
-        	<div class="item">
-        		<div class="animate-box">
-	        		<a href="images/img_26.jpg" class="image-popup fh5co-board-img"><img src="images/img_26.jpg" alt="Free HTML5 Bootstrap template"></a>
-	        		<div class="fh5co-desc">Sunt numquam itaque delectus, dignissimos dolorem obcaecati vel, atque eos.</div>
-        		</div>
-        	</div>
-        	<div class="item">
-        		<div class="animate-box">
-	        		<a href="images/img_27.jpg" class="image-popup fh5co-board-img"><img src="images/img_27.jpg" alt="Free HTML5 Bootstrap template"></a>
-	        		<div class="fh5co-desc">Adipisci consequuntur ipsa fugit perspiciatis eligendi. Omnis blanditiis, totam placeat.</div>
-        		</div>
-        	</div>
-        	<div class="item">
-        		<div class="animate-box">
-	        		<a href="images/img_28.jpg" class="image-popup fh5co-board-img"><img src="images/img_28.jpg" alt="Free HTML5 Bootstrap template"></a>
-	        		<div class="fh5co-desc">Adipisci consequuntur ipsa fugit perspiciatis eligendi. Omnis blanditiis, totam placeat.</div>
-        		</div>
-        	</div>
-        	<div class="item">
-        		<div class="animate-box">
-	        		<a href="images/img_29.jpg" class="image-popup fh5co-board-img"><img src="images/img_29.jpg" alt="Free HTML5 Bootstrap template"></a>
-	        		<div class="fh5co-desc">Adipisci consequuntur ipsa fugit perspiciatis eligendi. Omnis blanditiis, totam placeat.</div>
-        		</div>
-        	</div>
-        	<div class="item">
-        		<div class="animate-box">
-	        		<a href="images/img_30.jpg" class="image-popup fh5co-board-img"><img src="images/img_30.jpg" alt="Free HTML5 Bootstrap template"></a>
-	        		<div class="fh5co-desc">Adipisci consequuntur ipsa fugit perspiciatis eligendi. Omnis blanditiis, totam placeat.</div>
-        		</div>
-        	</div>
-        </div>
-        </div>
-       </div>
-	</div>
-
-			<div class="content-block-plans" id="blog">
+			<jsp:include   page="header.jsp" flush="true"/>
+			<div id="fh5co-main">
 				<div class="container">
-					<header class="block-heading cleafix">
-						<h1>出发中</h1>
-					</header>
-					<section class="block-body">
-						<div class="row">
-							<c:forEach items="${lstPlans}" var="list" varStatus="status"><%-- ${list.createtime} --%>
-								<div class="col-sm-4 blog-post">
-									<c:if test='${list.picpath == null}'>
-											<img src="assets/images/bike_water1-1000x600.jpg">
+				<div class="row">
+					<h2>
+						<a href="myplans?type=0&page=1" >邀约中</a> 
+						<a href="myplans?type=1&page=1" >出游中</a>
+						<a href="myplans?type=2&page=1" >已结束</a>
+					</h2>
+        			<div id="fh5co-board" data-columns>
+						<c:forEach items="${planPage.lstPlans}" var="list" varStatus="status">
+        					<div class="item">
+        						<div class="animate-box">
+	        						<c:if test='${list.picpath == null}'>
+										<a href="assets/images/bike_water1-1000x600.jpg" class="image-popup fh5co-board-img" title="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo, eos?">
+											<img src="assets/images/bike_water1-1000x600.jpg" alt="Free HTML5 Bootstrap template">
+							   			</a>
 									</c:if>
 									<c:if test='${list.picpath != null}'>
+										<a href="<%=request.getContextPath()%>${list.picpath}" class="image-popup fh5co-board-img" title="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo, eos?">
 											<img src="<%=request.getContextPath()%>${list.picpath}">
+										</a>
 									</c:if>
-									<a href="plandetail?id=${list.id}"><h3>${list.title}</h3></a>
-									<div class="date"><fmt:formatDate value="${list.creattime}" pattern="yyyy-MM-dd"/> </div>
+        						</div>
+        						<div class="fh5co-desc">
+        							<a href="plandetail?id=${list.id}">
+        								<h3>${list.title}</h3>
+        							</a>
+									<div class="date">
+										<fmt:formatDate value="${list.creattime}" pattern="yyyy-MM-dd"/> 
+									</div>
 									<div>期望人数:${list.expectnum}/目前人数:${list.presentnum}</div>
 									<p>${list.detail}</p>
-								</div>
-							</c:forEach>
-			
-						</div>
-					</section>
-				</div>
-				<div class="container">
-					<header class="block-heading cleafix">
-						<h1>邀约中</h1>
-					</header>
-					<section class="block-body">
-						<div class="row">
-							<c:forEach items="${lstPlans}" var="list" varStatus="status"><%-- ${list.createtime} --%>
-								<div class="col-sm-4 blog-post">
-									<c:if test='${list.picpath == null}'>
-											<img src="assets/images/bike_water1-1000x600.jpg">
-									</c:if>
-									<c:if test='${list.picpath != null}'>
-											<img src="<%=request.getContextPath()%>${list.picpath}">
-									</c:if>
-									<a href="plandetail?id=${list.id}"><h3>${list.title}</h3></a>
-									<div class="date"><fmt:formatDate value="${list.creattime}" pattern="yyyy-MM-dd"/> </div>
-									<div>期望人数:${list.expectnum}/目前人数:${list.presentnum}</div>
-									<p>${list.detail}</p>
-								</div>
-							</c:forEach>
-			
-						</div>
-					</section>
-				</div>
-			</div><!-- #blog -->
-			
-			
-			
-		
-			
-			<div class="content-block" id="footer">
-				<div class="container">
-					<div class="row">
-						<div class="col-xs-6">&copy; Copyright Flusk 2014</div>
-					<!-- 	<div class="col-xs-6 text-right">Theme ThemeWagon.More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a> More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a></div>
-				 -->	</div>
-				</div>
-			</div><!-- #footer -->
-
-		</div><!--/#wrapper-->
+        						</div>
+        					</div>
+        				</c:forEach>
+       	 			</div>
+        		</div>
+      		</div>
+		</div>
+		<div class="box" id="box"></div>
+		<jsp:include   page="footer.jsp" flush="true"/>
+	</div><!--/#wrapper-->
 
 
 
@@ -394,6 +111,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<script src="assets/js/jquery.scrollTo.min.js"></script>
 		<script src="assets/js/script.js"></script>
 		<script src="js/datePicker/WdatePicker.js"></script>
+			<!-- jQuery -->
+	<script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+	<!-- jQuery Easing -->
+	<script src="js/jquery.easing.1.3.js"></script>
+	<!-- Bootstrap -->
+	<script src="http://www.jq22.com/jquery/bootstrap-3.3.4.js"></script>
+	<!-- Waypoints -->
+	<script src="js/jquery.waypoints.min.js"></script>
+	<!-- Magnific Popup -->
+	<script src="js/jquery.magnific-popup.min.js"></script>
+	<!-- Salvattore -->
+	<script src="js/salvattore.min.js"></script>
+	<!-- Main JS -->
+	<script src="js/main.js"></script>
+	<script src="js/paging.js"></script>
+		
 	<script type="text/javascript">
 	var username = $('#username').text();
 	
@@ -491,20 +224,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         	}  
      	});  
 	});
-		$('#logout_btn').click(function() {
-	$.ajax({ 
-		type: "post", 
-		url: "<%=request.getContextPath()%>" + "/logout", 
-		data: {}, 
-		dataType: "json", 
-		success: function(data) { 
-			window.location.href = "<%=request.getContextPath()%>" +  "/login";
-		},
-		error: function(data) { 
-			alert("调用失败...."); 
-		}
-	});
-});
 	$('#clear_btn').click(function(){
 			$("#title").val("");  
 			$("#tag").val(""); 
@@ -516,9 +235,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    			$("#endtime").val("");
    			$("#budgetbottom").val("");
    			$("#budgettop").val("");
-     	 
-     	 
-     	 
 	});
 	
 	function setImg(obj){//用于进行图片上传，返回地址
@@ -561,6 +277,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 }
             });
         }
+        
+     var setTotalCount = ${planPage.count};
+        $('#box').paging({
+            initPageNo: 1, // 初始页码
+              totalPages: setTotalCount%10==0?(setTotalCount/10):(parseInt(setTotalCount/10)+1), //总页数
+            totalCount: '合计' + setTotalCount + '条数据', // 条目总数
+            slideSpeed: 600, // 缓动速度。单位毫秒
+            jump: true, //是否支持跳转
+            callback: function(page) { // 回调函数
+                console.log(page);
+            }
+        })
+        
+     $('#pageSelect').children().click(function(){
+       	pageIndex = $(this).index() + 1;
+       	var type=
+        window.location.href ="<%=request.getContextPath()%>" + "/myplans?page="+pageIndex+"&type="+ ${planPage.type};
+     });
+        
 	</script>
 	</body>
 </html>

@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.solr.client.solrj.SolrQuery.ORDER;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.client.solrj.impl.HttpSolrServer;
 import org.apache.solr.client.solrj.response.QueryResponse;
@@ -15,6 +16,7 @@ import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
 
+import com.travel.pojo.PlanPage;
 import com.travel.pojo.Plans;
 
 public class PlansSolr {
@@ -143,9 +145,8 @@ public class PlansSolr {
 		return lstPlans;
 	}
 
-	/*
-	    *//**
-	 * 用姓名查找
+	/**
+	 * 用planid找
 	 * 
 	 * @param name
 	 * @return
@@ -185,8 +186,7 @@ public class PlansSolr {
 			plans.setPresentnum((int) solrDocument.get("presentnum"));
 
 			plans.setDetail((String) solrDocument.get("detail"));
-			plans.setCreatby(Integer.parseInt((String) solrDocument
-					.get("creatby")));
+			plans.setCreatby(Integer.parseInt((String) solrDocument.get("creatby")));
 			plans.setCreattime((Date) solrDocument.get("creattime"));
 
 			plans.setScore((double) solrDocument.get("score"));
@@ -200,6 +200,66 @@ public class PlansSolr {
 		return lstPlans;
 	}
 
+	/**
+	 * 用planid找
+	 * 
+	 * @param name
+	 * @return
+	 * @throws Exception
+	 */
+	public PlanPage searchPlan(int uid,String type,int page) throws Exception {
+
+		PlanPage planPage = new PlanPage();
+		HttpSolrClient client = new HttpSolrClient(serverUrl);
+
+		// 创建查询对象
+		SolrQuery query = new SolrQuery();
+		if (uid==0) {
+			query.setQuery("type:" + type);
+		}else {
+			query.setQuery("creatby:" + uid + " AND type:" + type);
+		}
+		query.setSort("creattime", ORDER.desc);
+		query.setRows(30);
+		query.setStart((page-1) * 30);
+
+		// 执行搜索、搜索结果
+		QueryResponse queryResponse = client.query(query);
+		SolrDocumentList results = queryResponse.getResults();
+		Map<String, Map<String, List<String>>> highlighting = queryResponse.getHighlighting();
+		planPage.setCount((int)results.getNumFound());
+		for (SolrDocument solrDocument : results) {
+			Plans plans = new Plans();
+			plans.setId(Integer.parseInt((String) solrDocument.get("id")));
+			plans.setTitle((String) solrDocument.get("title"));
+			plans.setTag((String) solrDocument.get("tag"));
+
+			plans.setType((int) solrDocument.get("type"));
+			plans.setBudgettop((int) solrDocument.get("budgettop"));
+			plans.setBudgetbottom((int) solrDocument.get("budgetbottom"));
+
+			plans.setDepartureplace((String) solrDocument.get("departureplace"));
+			plans.setDestination((String) solrDocument.get("destination"));
+			plans.setDeparturetime((Date) solrDocument.get("departuretime"));
+
+			plans.setEndtime((Date) solrDocument.get("endtime"));
+			plans.setExpectnum((int) solrDocument.get("expectnum"));
+			plans.setPresentnum((int) solrDocument.get("presentnum"));
+
+			plans.setDetail((String) solrDocument.get("detail"));
+			plans.setCreatby(Integer.parseInt((String) solrDocument.get("creatby")));
+			plans.setCreattime((Date) solrDocument.get("creattime"));
+
+			plans.setScore((double) solrDocument.get("score"));
+			plans.setCommentcount((int) solrDocument.get("CommentCount"));
+			plans.setNotecount((int) solrDocument.get("NoteCount"));
+			plans.setPicpath((String) solrDocument.get("picpath"));
+			
+			planPage.addPlans(plans);
+		}
+
+		return planPage;
+	}
 	/**
 	 * 查找byId
 	 * 
