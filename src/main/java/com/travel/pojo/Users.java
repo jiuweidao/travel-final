@@ -6,85 +6,115 @@ import java.util.Date;
 public class Users implements Serializable {
     /**
      * users.Id
-     * @ibatorgenerated 2018-05-17 20:56:23
+     * @ibatorgenerated 2018-05-19 20:20:30
      */
     private Integer id;
 
     /**
      * users.UserName
-     * @ibatorgenerated 2018-05-17 20:56:23
+     * @ibatorgenerated 2018-05-19 20:20:30
      */
     private String username;
 
     /**
      * users.Name
-     * @ibatorgenerated 2018-05-17 20:56:23
+     * @ibatorgenerated 2018-05-19 20:20:30
      */
     private String name;
 
     /**
      * users.Email
-     * @ibatorgenerated 2018-05-17 20:56:23
+     * @ibatorgenerated 2018-05-19 20:20:30
      */
     private String email;
 
     /**
      * users.Telemoble
-     * @ibatorgenerated 2018-05-17 20:56:23
+     * @ibatorgenerated 2018-05-19 20:20:30
      */
     private String telemoble;
 
     /**
-     * users.IdNum
-     * @ibatorgenerated 2018-05-17 20:56:23
-     */
-    private String idnum;
-
-    /**
-     * users.UserType
-     * @ibatorgenerated 2018-05-17 20:56:23
+     * users.UserType (U 未审核用户，V实名用户)
+     * @ibatorgenerated 2018-05-19 20:20:30
      */
     private String usertype;
 
     /**
      * users.Password
-     * @ibatorgenerated 2018-05-17 20:56:23
+     * @ibatorgenerated 2018-05-19 20:20:30
      */
     private String password;
 
     /**
+     * users.IdName
+     * @ibatorgenerated 2018-05-19 20:20:30
+     */
+    private String idname;
+
+    /**
+     * users.Sex
+     * @ibatorgenerated 2018-05-19 20:20:30
+     */
+    private String sex;
+
+    /**
+     * users.IdNum
+     * @ibatorgenerated 2018-05-19 20:20:30
+     */
+    private String idnum;
+
+    /**
+     * users.Birth
+     * @ibatorgenerated 2018-05-19 20:20:30
+     */
+    private String birth;
+
+    /**
+     * users.Nationlity
+     * @ibatorgenerated 2018-05-19 20:20:30
+     */
+    private String nationlity;
+
+    /**
+     * users.Address
+     * @ibatorgenerated 2018-05-19 20:20:31
+     */
+    private String address;
+
+    /**
      * users.RegTime
-     * @ibatorgenerated 2018-05-17 20:56:23
+     * @ibatorgenerated 2018-05-19 20:20:31
      */
     private Date regtime;
 
     /**
      * users.LastLoginTime
-     * @ibatorgenerated 2018-05-17 20:56:23
+     * @ibatorgenerated 2018-05-19 20:20:31
      */
     private Date lastlogintime;
 
     /**
      * users.Score (旅游平均分)
-     * @ibatorgenerated 2018-05-17 20:56:23
+     * @ibatorgenerated 2018-05-19 20:20:31
      */
     private Integer score;
 
     /**
      * users.CreatTime (创建时间)
-     * @ibatorgenerated 2018-05-17 20:56:23
+     * @ibatorgenerated 2018-05-19 20:20:31
      */
     private Date creattime;
 
     /**
      * users.Flag
-     * @ibatorgenerated 2018-05-17 20:56:23
+     * @ibatorgenerated 2018-05-19 20:20:31
      */
     private String flag;
 
     /**
      * users.IconPath
-     * @ibatorgenerated 2018-05-17 20:56:23
+     * @ibatorgenerated 2018-05-19 20:20:31
      */
     private String iconpath;
 
@@ -128,14 +158,6 @@ public class Users implements Serializable {
         this.telemoble = telemoble;
     }
 
-    public String getIdnum() {
-        return idnum;
-    }
-
-    public void setIdnum(String idnum) {
-        this.idnum = idnum;
-    }
-
     public String getUsertype() {
         return usertype;
     }
@@ -150,6 +172,54 @@ public class Users implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getIdname() {
+        return idname;
+    }
+
+    public void setIdname(String idname) {
+        this.idname = idname;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public String getIdnum() {
+        return idnum;
+    }
+
+    public void setIdnum(String idnum) {
+        this.idnum = idnum;
+    }
+
+    public String getBirth() {
+        return birth;
+    }
+
+    public void setBirth(String birth) {
+        this.birth = birth;
+    }
+
+    public String getNationlity() {
+        return nationlity;
+    }
+
+    public void setNationlity(String nationlity) {
+        this.nationlity = nationlity;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public Date getRegtime() {

@@ -243,7 +243,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	}
 	
 	$('#appplan_btn').click(function(){
-			
+		if("${usertype}"=="U"){
+			alert("实名认证后才能发起邀约");
+			return;
+		}
     		$.ajax({  
 				data:"id=" +${plans.id},      
         		type:"POST",  

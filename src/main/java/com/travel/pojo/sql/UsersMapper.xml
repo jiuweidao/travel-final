@@ -7,9 +7,14 @@
     <result column="Name" property="name" jdbcType="VARCHAR" />
     <result column="Email" property="email" jdbcType="VARCHAR" />
     <result column="Telemoble" property="telemoble" jdbcType="VARCHAR" />
-    <result column="IdNum" property="idnum" jdbcType="VARCHAR" />
     <result column="UserType" property="usertype" jdbcType="VARCHAR" />
     <result column="Password" property="password" jdbcType="VARCHAR" />
+    <result column="IdName" property="idname" jdbcType="VARCHAR" />
+    <result column="Sex" property="sex" jdbcType="VARCHAR" />
+    <result column="IdNum" property="idnum" jdbcType="VARCHAR" />
+    <result column="Birth" property="birth" jdbcType="VARCHAR" />
+    <result column="Nationlity" property="nationlity" jdbcType="VARCHAR" />
+    <result column="Address" property="address" jdbcType="VARCHAR" />
     <result column="RegTime" property="regtime" jdbcType="TIMESTAMP" />
     <result column="LastLoginTime" property="lastlogintime" jdbcType="TIMESTAMP" />
     <result column="Score" property="score" jdbcType="INTEGER" />
@@ -18,8 +23,8 @@
     <result column="IconPath" property="iconpath" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    Id, UserName, `Name`, Email, Telemoble, IdNum, UserType, `Password`, RegTime, LastLoginTime, 
-    Score, CreatTime, Flag, IconPath
+    Id, UserName, `Name`, Email, Telemoble, UserType, `Password`, IdName, Sex, IdNum, 
+    Birth, Nationlity, Address, RegTime, LastLoginTime, Score, CreatTime, Flag, IconPath
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -33,15 +38,19 @@
   </delete>
   <insert id="insert" parameterType="com.travel.pojo.Users" useGeneratedKeys="true" keyProperty="id" >
     insert into users (UserName, `Name`, Email, 
-      Telemoble, IdNum, UserType, 
-      `Password`, RegTime, LastLoginTime, 
-      Score, CreatTime, Flag, 
-      IconPath)
+      Telemoble, UserType, `Password`, 
+      IdName, Sex, IdNum, 
+      Birth, Nationlity, Address, 
+      RegTime, LastLoginTime, Score, 
+      CreatTime, Flag, IconPath
+      )
     values (#{username,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
-      #{telemoble,jdbcType=VARCHAR}, #{idnum,jdbcType=VARCHAR}, #{usertype,jdbcType=VARCHAR}, 
-      #{password,jdbcType=VARCHAR}, #{regtime,jdbcType=TIMESTAMP}, #{lastlogintime,jdbcType=TIMESTAMP}, 
-      #{score,jdbcType=INTEGER}, #{creattime,jdbcType=TIMESTAMP}, #{flag,jdbcType=VARCHAR}, 
-      #{iconpath,jdbcType=VARCHAR})
+      #{telemoble,jdbcType=VARCHAR}, #{usertype,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{idname,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{idnum,jdbcType=VARCHAR}, 
+      #{birth,jdbcType=VARCHAR}, #{nationlity,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{regtime,jdbcType=TIMESTAMP}, #{lastlogintime,jdbcType=TIMESTAMP}, #{score,jdbcType=INTEGER}, 
+      #{creattime,jdbcType=TIMESTAMP}, #{flag,jdbcType=VARCHAR}, #{iconpath,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.travel.pojo.Users" useGeneratedKeys="true" keyProperty="id" >
     insert into users
@@ -50,9 +59,14 @@
       `Name`,
       Email,
       Telemoble,
-      IdNum,
       UserType,
       `Password`,
+      IdName,
+      Sex,
+      IdNum,
+      Birth,
+      Nationlity,
+      Address,
       RegTime,
       LastLoginTime,
       Score,
@@ -65,9 +79,14 @@
       #{name,jdbcType=VARCHAR},
       #{email,jdbcType=VARCHAR},
       #{telemoble,jdbcType=VARCHAR},
-      #{idnum,jdbcType=VARCHAR},
       #{usertype,jdbcType=VARCHAR},
       #{password,jdbcType=VARCHAR},
+      #{idname,jdbcType=VARCHAR},
+      #{sex,jdbcType=VARCHAR},
+      #{idnum,jdbcType=VARCHAR},
+      #{birth,jdbcType=VARCHAR},
+      #{nationlity,jdbcType=VARCHAR},
+      #{address,jdbcType=VARCHAR},
       #{regtime,jdbcType=TIMESTAMP},
       #{lastlogintime,jdbcType=TIMESTAMP},
       #{score,jdbcType=INTEGER},
@@ -91,14 +110,29 @@
       <if test="telemoble != null" >
         Telemoble = #{telemoble,jdbcType=VARCHAR},
       </if>
-      <if test="idnum != null" >
-        IdNum = #{idnum,jdbcType=VARCHAR},
-      </if>
       <if test="usertype != null" >
         UserType = #{usertype,jdbcType=VARCHAR},
       </if>
       <if test="password != null" >
         `Password` = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="idname != null" >
+        IdName = #{idname,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        Sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="idnum != null" >
+        IdNum = #{idnum,jdbcType=VARCHAR},
+      </if>
+      <if test="birth != null" >
+        Birth = #{birth,jdbcType=VARCHAR},
+      </if>
+      <if test="nationlity != null" >
+        Nationlity = #{nationlity,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        Address = #{address,jdbcType=VARCHAR},
       </if>
       <if test="regtime != null" >
         RegTime = #{regtime,jdbcType=TIMESTAMP},
@@ -127,9 +161,14 @@
       `Name` = #{name,jdbcType=VARCHAR},
       Email = #{email,jdbcType=VARCHAR},
       Telemoble = #{telemoble,jdbcType=VARCHAR},
-      IdNum = #{idnum,jdbcType=VARCHAR},
       UserType = #{usertype,jdbcType=VARCHAR},
       `Password` = #{password,jdbcType=VARCHAR},
+      IdName = #{idname,jdbcType=VARCHAR},
+      Sex = #{sex,jdbcType=VARCHAR},
+      IdNum = #{idnum,jdbcType=VARCHAR},
+      Birth = #{birth,jdbcType=VARCHAR},
+      Nationlity = #{nationlity,jdbcType=VARCHAR},
+      Address = #{address,jdbcType=VARCHAR},
       RegTime = #{regtime,jdbcType=TIMESTAMP},
       LastLoginTime = #{lastlogintime,jdbcType=TIMESTAMP},
       Score = #{score,jdbcType=INTEGER},

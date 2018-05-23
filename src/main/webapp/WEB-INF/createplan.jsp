@@ -114,11 +114,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<div class="col-md-6 col-md-offset-3-user-right">
    								<img id="pic" class="upload-img" src=""/> 
    							</div>
-							<form id="uploadForm"  class="form-user" enctype="multipart/form-data">  
+   							<div class="col-md-6 col-md-offset-3-user-right">
+							<form id="uploadForm"  class="form-user-upload" enctype="multipart/form-data">  
 								<div class="col-md-6 col-md-offset-3-user-right">
    								 <input id="file"  type="file" name="file"/>  
    								 </div>
 							</form>  
+							</div>
 							<div class="col-md-6 col-md-offset-3-user-right">
    								<button class="btn btn-o-white" id="upload">上传图片</button>
    							 </div>
@@ -156,6 +158,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	}
 	
 	$('#addplan_btn').click(function(){
+	
+		if("${usertype}"=="U"){
+			alert("实名认证后才能发起邀约");
+			return;
+		}
 			var error="";
 			var tag=$("#tag").val();  
 			var title=$("#title").val();  
@@ -252,6 +259,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	});
 	
 	 $("#upload").click(function () {  
+	 	if("${usertype}"=="U"){
+			alert("实名认证后才能发起邀约");
+			return;
+		}
             var formData = new FormData($('#uploadForm')[0]);  
             $.ajax({  
                 type: 'post',  

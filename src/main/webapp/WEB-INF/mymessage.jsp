@@ -3,6 +3,7 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
 <!DOCTYPE html>
 <!--[if IE 7 ]><html class="ie ie7 lte9 lte8 lte7" lang="en-US"><![endif]-->
 <!--[if IE 8]><html class="ie ie8 lte9 lte8" lang="en-US">	<![endif]-->
@@ -137,6 +138,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								    </div>
 								 	<input id="modifyPassworde_btn" type="button" class="btn btn-o-white" value="修改">
 								</form>
+							</div>
+							
+						</div>
+						<div class="row">
+							<div class="col-md-6 col-md-offset-3-user-left">
+								<h1>实名验证</h1>
+								<c:if test="${users.usertype=='U'}">
+									<div class="form-group">
+								    	<label>验证：</label>
+								    		<input id="certification" name="certification"   class="form-control-user form-control-white" value="待验证"readonly="true" >
+								  	</div>
+								  	<div class="form-group">
+										<form id="uploadForm"  class="form-user-upload" enctype="multipart/form-data">  
+   								 			<input id="file"  type="file" name="file"/>  
+										</form>  
+									</div>
+   									<button class="btn btn-o-white" id="doCertification">提交验证</button>
+   								</c:if>
+   								<c:if test="${users.usertype=='V'}">
+									<div class="form-group">
+								    	<label>验证：</label>
+								    		<input id="certification" name="certification" class="form-control-user form-control-white" value="验证通过"readonly="true" >
+								  	</div>
+   								</c:if>
 							</div>
 						</div>
 					</section>
@@ -305,6 +330,31 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      	});  
     });
     
+     $("#doCertification").click(function () {  
+            var formData = new FormData($('#uploadForm')[0]);  
+            $.ajax({  
+                type: 'post',  
+                url: "doCertification",  
+                data: formData,  
+                cache: false,  
+                dataType: "json", 
+                processData: false,  
+                contentType: false,  
+            }).success(function (data) {  
+                if(data.success=="true"){
+                	$("#picpath").val(data.path);
+                	$("#certification").val("验证通过");
+                	$('#doCertification').hide();
+                	$('#uploadForm').hide();
+                }else{
+                	alert("验证失败请重试"); 
+                	$("#certification").val("验证失败请重试");
+                }
+            }).error(function () {  
+                alert("上传失败");  
+            });  
+        }); 
+        
 	$('#clear_btn').click(function(){
 			$("#title").val("");  
 			$("#tag").val(""); 

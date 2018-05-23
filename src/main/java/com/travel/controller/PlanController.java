@@ -135,6 +135,7 @@ public class PlanController {
 		Users users = userController.getUsers(request);
 		if (users != null) {
 			request.setAttribute("username", users.getName());
+			request.setAttribute("usertype", users.getUsertype());
 		}
 
 		return "createplan";
@@ -213,6 +214,7 @@ public class PlanController {
 		if (users != null) {
 			request.setAttribute("username", users.getName());
 			request.setAttribute("uid", users.getId());
+			request.setAttribute("usertype", users.getUsertype());
 			int id =planmembersService.selectIdByUidAndPid(users.getId().toString(), plans.getId().toString())  ;
 			if (id> 0) {
 				plans.setIsmember(true);

@@ -103,9 +103,9 @@ public class RestTest {
 			String sid = "15d127d9be151bacc93bbe433e421ae7";
 			String token = "1586aeb06b9b014f1aa64d44fc26337a";
 			String appid = "97d399a69fc0447383310003d26bc498";
-			String templateid = "325139";
-			String param = "xbx";
-			String mobile = "15927498431";
+			String templateid = "325971";//"325139";
+			String param = "潘先生，您好，已经审核过您的3号的套餐，";
+			String mobile = "15629135880";
 			String uid = "123";
 //			testSendSms(sid, token, appid, templateid, param, mobile, uid);
 			testSendSms( param,  mobile,  uid);

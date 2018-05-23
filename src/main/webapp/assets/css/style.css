@@ -354,6 +354,12 @@ span {
 .block-body-user {
 	margin-top: 0px;
 }
+
+.block-body-user .row{
+	margin-right: -15px;
+    margin-left: -15px;
+    margin-bottom: 50px;
+}
 #services {
 	background-image: url(../images/traffic.jpg);
 	color: white;

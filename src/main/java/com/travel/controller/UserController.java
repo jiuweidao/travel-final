@@ -22,7 +22,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.druid.support.json.JSONUtils;
@@ -32,6 +34,7 @@ import com.travel.service.CheckEmailValidityUtil;
 import com.travel.service.DecriptUtil;
 import com.travel.service.UserService;
 import com.travel.solr.PlansSolr;
+import com.travel.utils.FileUtils;
 import com.travel.utils.IdCardCode;
 import com.travel.utils.RestTest;
 import com.travel.utils.StringUtils;
@@ -344,14 +347,49 @@ public class UserController {
 		return users;
 	}
 	
-/*
-	@RequestMapping(value = "/logout", method = RequestMethod.POST)
+
+	@RequestMapping(value = "/doCertification", method = RequestMethod.POST)
 	@ResponseBody
-	public String doCertification() {
+	public String doCertification(@RequestParam(value = "file", required = false) MultipartFile file,
+			HttpServletRequest request) {
 
+		Users users = (Users) request.getSession().getAttribute("user");
 		Map<String, Object> result = new HashMap<String, Object>();
-		IdCardCode.getIdCarMessage(imgFile)
-
+		String path=FileUtils.uploadPicture(file,request);
+		result.put("path", path);
+		String IdCardData=IdCardCode.getIdCarMessage("D:/apache-tomcat-7.0.77/webapps/mytravel"+path);
+		
+		if(IdCardData.equals("-1")){
+			result.put("success", "-1");
+			return JSONUtils.toJSONString(result);
+		}
+		
+		JSONObject jsonIdCardData = JSONObject.fromObject(IdCardData);
+		String verificationResult =IdCardCode.verificateIdCard(jsonIdCardData.getString("num"), jsonIdCardData.getString("name"));
+		
+		if(verificationResult.equals("-1")){
+			result.put("success", "-1");
+			return JSONUtils.toJSONString(result);
+		}
+		JSONObject jsonVerificationResult = JSONObject.fromObject(verificationResult);
+		if (!jsonVerificationResult.getJSONObject("data").getString("code").equals("1000")||
+				(jsonVerificationResult.getJSONObject("idCardInfo").getString("area").equals(jsonIdCardData.getString("address"))&&
+						jsonVerificationResult.getJSONObject("idCardInfo").getString("birthday").equals(jsonIdCardData.getString("birth"))&&
+						jsonVerificationResult.getJSONObject("idCardInfo").getString("sex").equals(jsonIdCardData.getString("sex")))) {
+			result.put("success", "-1");
+			return JSONUtils.toJSONString(result);
+		}
+		
+		users.setIdname(jsonIdCardData.getString("name"));
+		users.setIdnum(jsonIdCardData.getString("num"));
+		users.setSex(jsonIdCardData.getString("sex"));
+		users.setBirth(jsonIdCardData.getString("birth"));
+		users.setAddress(jsonIdCardData.getString("address"));
+		users.setNationlity(jsonIdCardData.getString("nationality"));
+		users.setUsertype("V");
+		users.setIconpath(path);
+		userService.updateUser(users);
+		result.put("success", "true");
 		return JSONUtils.toJSONString(result);
-	}*/
+	}
 }

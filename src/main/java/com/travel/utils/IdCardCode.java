@@ -123,11 +123,50 @@ public class IdCardCode {
                 return out.toJSONString();
             }else{
                 System.out.println(res_obj.toJSONString());
-                res_obj.toJSONString();
+                return res_obj.toJSONString();
+                
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 		return "-1";
     }
+    
+    public static String verificateIdCard(String idNum,String name) {
+    	  String host = "http://idcardpho.market.alicloudapi.com";
+  	    String path = "/idcardinfo/photo";
+  	    String method = "GET";
+  	    String appcode = "dc7528c3072048b99d2a40c228217f2f";
+  	    Map<String, String> headers = new HashMap<String, String>();
+  	    //最后在header中的格式(中间是英文空格)为Authorization:APPCODE 83359fd73fe94948385f570e3c139105
+  	    headers.put("Authorization", "APPCODE " + appcode);
+  	    Map<String, String> querys = new HashMap<String, String>();
+  	    querys.put("idcard", idNum);
+  	    querys.put("realname", name);
+
+  	    try {
+  	    	/**
+  	    	* 重要提示如下:
+  	    	* HttpUtils请从
+  	    	* https://github.com/aliyun/api-gateway-demo-sign-java/blob/master/src/main/java/com/aliyun/api/gateway/demo/util/HttpUtils.java
+  	    	* 下载
+  	    	*
+  	    	* 相应的依赖请参照
+  	    	* https://github.com/aliyun/api-gateway-demo-sign-java/blob/master/pom.xml
+  	    	*/
+  	    	HttpResponse response = HttpUtils.doGet(host, path, method, headers, querys);
+  	    	System.out.println(response.toString());
+  	    	System.out.println(EntityUtils.toString(response.getEntity()));
+  	    	return EntityUtils.toString(response.getEntity());
+  	    	//获取response的body
+  	    } catch (Exception e) {
+  	    	e.printStackTrace();
+  	    	return "-1";
+  	    }
+	}
+    
+    public static void main(String[] args) {
+    	String data =verificateIdCard("500382199608073807","肖槟欣");
+    	System.out.print(data);
+	}
 }

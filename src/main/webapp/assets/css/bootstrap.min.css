@@ -2327,6 +2327,17 @@ pre code {
 	.col-md-6 .form-user{
 		margin-top: 20px;
 	}
+	
+	.col-md-6 .form-user-upload{
+		margin-top: 20px;
+    	margin-bottom: 20px;
+    	margin-left: 100px;
+	}
+	.row .form-user-upload{
+		margin-top: 20px;
+    	margin-bottom: 20px;
+    	margin-left: 100px;
+	}
 	.col-md-5 {
 		width: 41.66666667%
 	}

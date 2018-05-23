@@ -26,6 +26,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import com.travel.utils.FileUtils;
+
 @Controller
 public class FileUploadController {
 
@@ -37,7 +39,7 @@ public class FileUploadController {
 			HttpServletRequest request) {
 
 		Map<String, String> result = new HashMap<String, String>();
-		String path=uploadPicture(file,request);
+		String path=FileUtils.uploadPicture(file,request);
 		result.put("success", "true");
 		result.put("path", path);
 		return JSONObject.fromObject(result).toString();

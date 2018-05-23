@@ -20,7 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class FileUtils {
 
 
-	public String uploadPicture(MultipartFile file,HttpServletRequest request) {
+	public static String uploadPicture(MultipartFile file,HttpServletRequest request) {
 
 		File targetFile = null;
 		String msg = "";// 返回存储路径
