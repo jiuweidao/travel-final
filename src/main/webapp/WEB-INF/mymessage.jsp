@@ -45,48 +45,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<body>
 		<jsp:include   page="sidebar.jsp" flush="true"/>
 		<div id="wrapper">
-			
-			<div id="header" class="content-block header-wrapper">
-				<div class="header-wrapper-inner">
-					<section class="top clearfix">
-						<div class="pull-left">
-							<h1><a class="logo">独步</a></h1>
-						</div>
-						<div id="user_div" class="pull-right"  style="display: none">
-							<a class="toggleDrawer" href="#"><i class="fa fa-bars fa-2x"></i></a>
-						</div>
-						<div id="nologin_div" class="pull-right">
-							<a class="logo" href="login">登录/注册</a>
-						</div>
-						<div id="logined_div" class="pull-right" style="display: none">
-							<span  id="username" class="logo" href="login">${username}</span>
-						</div>
-						<div class="pull-right">
-							<a class="logo" href="index.html">出行交通</a>
-						</div>
-						<div class="pull-right">
-							<a class="logo" href="index.html">所有邀约</a>
-						</div>
-						<div class="pull-right">
-							<a class="logo" href="index.html">出行游记</a>
-						</div>
-						<div class="pull-right">
-							<a class="logo" href="index.html">首页</a>
-						</div>
-					
-						
-					</section>
-				
-				</div>
-			</div><!-- header -->
-
+		<jsp:include   page="header.jsp" flush="true"/>
 			<div class="content-block" id="contact">
 				<div class="login-container text-center">
 					<header class="block-heading cleafix">
 						<span  class="choosed" >窩的名片</span>
 						<p>travel alone not lonely</p>
 					</header>
-				<section class="block-body-user">
+					<section class="block-body-user">
+						<div class="row">
+							<div class="col-md-6 col-md-offset-3-user-left">
+								<div class="icon">
+									<img id="pic" src="<%=request.getContextPath()%>${users.iconpath}">
+								</div>
+									<form id="uploadUserIconForm"  class="form-user-upload" enctype="multipart/form-data">  
+   								 		<input  type="file" name="file"/>  
+									</form>  
+							
+   								<button class="btn btn-o-white" id="uploadUserIcon">上传头像</button>
+							</div>
+						</div>
 						<div class="row">
 							<div class="col-md-6 col-md-offset-3-user-left">
 								<h1>个人信息</h1>
@@ -107,6 +85,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								    	<label id="email_error" class="lable-error" style="display:none;">不能為空</label>
 								    </div>
 								    <div class="form-group">
+								    	<label>签名：</label>
+								    		<textarea id="sign" name="sign"  class="form-control-user form-control-white" placeholder="Write Something" rows="10" >${users.sign}</textarea>
+								    </div>
+								    <div class="form-group">
 								    	<label>阶级：</label>
 								    	<input id="class" type="text" class="form-control-user form-control-white" value=""  readonly="true">
 								    </div>
@@ -116,6 +98,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								    </div>
 								  <input id="modifyMessage_btn" type="button" class="btn btn-o-white" value="修改">
 								  <input id="clear_btn" type="button" class="btn btn-o-white" value="清空">
+								</form>
+							</div>
+							<div class="col-md-6 col-md-offset-3-user-right">
+								<h1>紧急联系方式</h1>
+								<form id="contact_form" class="form-user" role="form">
+									<div class="form-group">
+								    	<label>一般联系人：</label>
+								    	<input id="contact1" name="contact1" type="text" class="form-control-user form-control-white" value="${users.contact1}"   >
+								  	</div>
+								    <div class="form-group">
+								    	<label>特别联系人：</label>
+								    	<input id="contact2" name="contact2"  type="text" class="form-control-user form-control-white" value="${users.contact2}"  >
+								    </div>
+								   
+								 	<input id="modifyContact_btn" type="button" class="btn btn-o-white" value="修改">
 								</form>
 							</div>
 							<div class="col-md-6 col-md-offset-3-user-right">
@@ -163,6 +160,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								  	</div>
    								</c:if>
 							</div>
+							
 						</div>
 					</section>
 				</div>
@@ -267,6 +265,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      	});  
     });
     
+     $('#modifyContact_btn').click(function(){
+    		
+    	var contact1=$("#contact1").val(); 
+		var contact2=$("#contact2").val();  
+    
+    	$.ajax({  
+			data:$('#contact_form').serialize()+"&type=c",      
+        	type:"POST",  
+     		dataType:'json',
+        	url:"modifyMyssage",  
+        	error:function(data){  
+           		 alert("出错了！！:"+data);  
+        	},  
+        	success:function(data){  
+       			if(data.success=="1"){
+       				alert("修改成功"); 
+        		}else{
+       				alert("修改失败"); 
+       			}
+       	}  
+    	});  
+   });
     $('#modifyPassworde_btn').click(function(){
     		
     		var originALPassword=$("#original_password").val(); 
@@ -354,7 +374,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 alert("上传失败");  
             });  
         }); 
-        
+       
+        $("#uploadUserIcon").click(function () {  
+            var formData = new FormData($('#uploadUserIconForm')[0]);  
+            $.ajax({  
+                type: 'post',  
+                url: "uploadUserIcon",  
+                data: formData,  
+                cache: false,  
+                dataType: "json", 
+                processData: false,  
+                contentType: false,  
+            }).success(function (data) {  
+                if(data.success=="true"){
+                	$("#pic").attr("src","<%=request.getContextPath()%>"+data.path);
+                }else{
+                	alert("验证失败请重试"); 
+                }
+            }).error(function () {  
+                alert("上传失败");  
+            });  
+        });  
 	$('#clear_btn').click(function(){
 			$("#title").val("");  
 			$("#tag").val(""); 

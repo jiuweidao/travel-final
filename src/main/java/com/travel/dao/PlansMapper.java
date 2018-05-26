@@ -2,6 +2,8 @@ package com.travel.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.travel.pojo.Plans;
 
 public interface PlansMapper {
@@ -55,4 +57,6 @@ public interface PlansMapper {
     
     
     List<Plans> selectAllPlansByUid(String uid);
+    
+    int selectCount (@Param("uid") int uid,@Param("type") int type);
 }

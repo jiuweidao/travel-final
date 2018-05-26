@@ -29,4 +29,6 @@ public interface PlansService {
 	int update(Plans plans);
 	
 	int delete(int id);
+	
+	int selectCount(int uid ,int type);
 }

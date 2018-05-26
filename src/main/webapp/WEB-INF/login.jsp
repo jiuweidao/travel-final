@@ -352,7 +352,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         		},  
         		success: function(data) { 
         			var json=JSON.parse(data);
-					if(json.msg=="true"){
+					if(json.success=="1"){
 						//登录成功
 						window.location.href ="<%=request.getContextPath()%>" + "/index";
 					}else{

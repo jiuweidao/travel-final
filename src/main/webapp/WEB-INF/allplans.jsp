@@ -62,9 +62,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div class="container">
 				<div class="row">
 					<h2>
-						<a href="allPlans?type=0&page=1" >邀约中</a> 
-						<a href="allPlans?type=1&page=1" >出游中</a>
-						<a href="allPlans?type=2&page=1" >已结束</a>
+						<a href="allPlans?type=0&page=1&id= ${planPage.id}" >邀约中</a> 
+						<a href="allPlans?type=1&page=1&id= ${planPage.id}" >出游中</a>
+						<a href="allPlans?type=2&page=1&id= ${planPage.id}" >已结束</a>
 					</h2>
         			<div id="fh5co-board" data-columns>
 					<c:forEach items="${planPage.lstPlans}" var="list" varStatus="status">
@@ -127,160 +127,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script src="js/paging.js"></script>
 		
 	<script type="text/javascript">
-	var username = $('#username').text();
-	
-	if(username !=""){
-		$('#logined_div').show();
-		$('#user_div').show();
-		$('#nologin_div').hide();
-	}else{
-		$('#nologin_div').show();
-		$('#logined_div').hide();
-		$('#user_div').hide();
-	}
-	
-	$('#addplan_btn').click(function(){
-			var error="";
-			var tag=$("#tag").val();  
-			var title=$("#title").val();  
-    		var departuretime=$("#departuretime").val(); 
-    		var departureplace=$("#departureplace").val(); //出发时间 
-    		var destination=$("#destination").val();	   //目的地
-   			var expectnum=$("#expectnum").val();
-   			var content=$("#content").val();
-   			if(tag==""){
-   				error="true";
-   				$('#tag_error').show(); 
-   			}else{
-   				$('#tag_error').hide();
-   			}
-   			if(title==""){
-   				error="true";
-   				$('#title_error').show(); 
-   				
-   			}else{
-   				$('#title_error').hide();
-   			}
-   			if(departuretime==""){
-   				error="true";
-   				$('#departuretime_error').show();
-   			}else{
-   				$('#departuretime_error').hide();
-   			}
-   			if(departureplace==""){
-   				error="true";
-   				$('#departureplace_error').show();
-   			}else{
-   				$('#departureplace_error').hide();
-   			}
-   			if(destination==""){
-   				error="true";
-   				$('#destination_error').show();
-   			}else{
-   				$('#destination_error').hide();
-   			}
-   			if(expectnum==""){
-   				error="true";
-   				$('#expectnum_error').show();
-   			}else{
-   				$('#expectnum_error').hide();
-   			}
-   			if(content==""){
-   				error="true";
-   				$('#content_error').show();
-   			}else{
-   				$('#content_error').hide();
-   			}
-   			
-   			if(error != ""){
-   				return false;
-   			}
-   			
-   			
-    		$.ajax({  
-				data:$('#form').serialize(),      
-        		type:"POST",  
-     			datatype:'json',
-        		url:"addPlan",  
-        		error:function(data){  
-           			 alert("出错了！！:"+data);  
-        		},  
-        		success:function(data){  
-        			var json=JSON.parse(data);
-        			if(json.success=="1"){
-        				alert("創建成功"); 
-        				window.location.href ="<%=request.getContextPath()%>" + "/myplans"
-        			}else if(json.mobile=="1"){
-        				alert("该手机号已经被占用"); 
-        					
-        			}else if(json.userName=="1"){
-        				alert("该用户名已经被占用"); 
-        			}else{
-        				alert("注册失败"+json.msg); 
-        			}
-        			
-        		
-        	}  
-     	});  
-	});
 
-	$('#clear_btn').click(function(){
-			$("#title").val("");  
-			$("#tag").val(""); 
-    		$("#departuretime").val(""); 
-    		$("#departureplace").val(""); //出发时间 
-    		$("#destination").val("");	   //目的地
-   			$("#expectnum").val("");
-   			$("#content").val("");
-   			$("#endtime").val("");
-   			$("#budgetbottom").val("");
-   			$("#budgettop").val("");
-     	 
-     	 
-     	 
-	});
-	
-	function setImg(obj){//用于进行图片上传，返回地址
-            var f=$(obj).val();
-            if(f == null || f ==undefined || f == ''){
-                return false;
-            }
-            if(!/\.(?:png|jpg|bmp|gif|PNG|JPG|BMP|GIF)$/.test(f))
-            {
-                alert("类型必须是图片(.png|jpg|bmp|gif|PNG|JPG|BMP|GIF)");
-                $(obj).val('');
-                return false;
-            }
-            var data = new FormData();
-            $.each($(obj)[0].files,function(i,file){
-                data.append('file', file);
-            });
-            $.ajax({
-                type: "POST",
-                url: "uploadImg.html",
-                data: f,
-                cache: false,
-                contentType: false,    //不可缺
-                processData: false,    //不可缺
-                dataType:"json",
-                success: function(suc) {
-                    if(suc.code==0){
-                            $("#thumbUrl").val(suc.message);//将地址存储好
-                            $("#thumburlShow").attr("src",suc.message);//显示图片                                                              
-                        }else{
-                        alert("上传失败");
-                        $("#url").val("");
-                        $(obj).val('');
-                    }
-                },
-                error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    alert("上传失败，请检查网络后重试");
-                    $("#url").val("");
-                    $(obj).val('');
-                }
-            });
-        }
-        
      var setTotalCount = ${planPage.count};
         $('#box').paging({
             initPageNo: 1, // 初始页码
@@ -296,7 +143,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      $('#pageSelect').children().click(function(){
        	pageIndex = $(this).index() + 1;
        	var type=
-        window.location.href ="<%=request.getContextPath()%>" + "/myplans?page="+pageIndex+"&type="+ ${planPage.type};
+        window.location.href ="<%=request.getContextPath()%>" + "/myplans?page="+pageIndex+"&type="+ ${planPage.type}+"&id="+ ${planPage.id};
      });
         
 	</script>

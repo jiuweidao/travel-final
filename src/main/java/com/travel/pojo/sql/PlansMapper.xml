@@ -189,8 +189,16 @@
   <select id="selectAllPlansByUid" parameterType="String" resultMap="BaseResultMap">
 		SELECT * 
 		FROM plans
+		WHERE Flag='M'
 		<if test="uid != null" >
-			WHERE Creatby = #{uid}
+			AND Creatby = #{uid}
 		</if>>
+	</select>
+ <select id="selectCount"  resultType="INTEGER">
+		SELECT COUNT(id)
+		FROM plans
+		WHERE Creatby = #{uid} 
+		AND Type = #{type}
+		AND Flag='M'
 	</select>
 </mapper>

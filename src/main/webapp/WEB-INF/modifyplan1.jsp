@@ -239,7 +239,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				data:$('#form').serialize(),      
         		type:"POST",  
      			datatype:'json',
-        		url:"modify?id="+${plans.id},  
+        		url:"modify?id="+"${plans.id}",  
         		error:function(data){  
            			 alert("出错了！！:"+data);  
         		},  

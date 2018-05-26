@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.travel.pojo.Me;
 import com.travel.pojo.Plans;
 import com.travel.pojo.Strategies;
 import com.travel.pojo.Users;
@@ -47,11 +48,11 @@ public class StrategieController {
 	@RequestMapping("/createStrategy")
 	public String createStrategy(HttpServletRequest request) throws Exception {
 
-		Users users =userController.getUsers(request);
-
-		if (users != null) {
-			request.setAttribute("username", users.getUsername());
+		Me me = userController.getMe(request);
+		if (me != null) {
+			request.setAttribute("me", me);
 		}
+		
 		return "createStrategy";
 	}
 	

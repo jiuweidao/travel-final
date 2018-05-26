@@ -2,6 +2,7 @@ package com.travel.service;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
@@ -30,6 +31,5 @@ public interface UserService {
 	int insert(Users record);
 	
 	int updateUser(Users users);
-	
 	
 }

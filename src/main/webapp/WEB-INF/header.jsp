@@ -56,13 +56,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<a class="logo" href="login">登录/注册</a>
 						</div>
 						<div id="logined_div" class="pull-right" style="display: none">
-							<span  id="username" href="login">${username}</span>
+							<span  id="username" href="login">${me.username}</span>
 						</div>
 						<div class="pull-right">
 							<a class="logo" href="index.html">出行交通</a>
 						</div>
 						<div class="pull-right">
-							<a class="logo" href="allPlans?type=0&page=1">所有邀约</a>
+							<a class="logo" href="allPlans?type=0&page=1&id=0">所有邀约</a>
 						</div>
 						<div class="pull-right">
 							<a class="logo" href="index.html">出行游记</a>
@@ -85,7 +85,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<script src="assets/js/jquery.scrollTo.min.js"></script>
 		<script src="assets/js/script.js"></script>
 	<script type="text/javascript">
+	var username = $('#username').text();
 	
+	if(username !=""){
+		$('#logined_div').show();
+		$('#user_div').show();
+		$('#nologin_div').hide();
+	}else{
+		$('#nologin_div').show();
+		$('#logined_div').hide();
+		$('#user_div').hide();
+	}
 	</script>
 
 	</body>

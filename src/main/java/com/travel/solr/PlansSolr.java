@@ -91,7 +91,7 @@ public class PlansSolr {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<Plans> selectAll(String createby) throws Exception {
+	public List<Plans> selectForIndex() throws Exception {
 
 		List<Plans> lstPlans = new LinkedList<Plans>();
 
@@ -99,12 +99,12 @@ public class PlansSolr {
 
 		// 创建查询对象
 		SolrQuery query = new SolrQuery();
-		if (createby == null || "".equals(createby)) {
-			query.set("q", "*:*");// q 查询字符串，如果查询所有*:*
-		} else {
-			query.setQuery("creatby:" + createby);
-		}
+		query.setQuery("type:0" );
+		query.setSort("creattime", ORDER.desc);
+		query.setRows(6);
+	
 
+		
 		// 执行搜索、搜索结果
 		QueryResponse queryResponse = client.query(query);
 		SolrDocumentList results = queryResponse.getResults();
@@ -207,21 +207,21 @@ public class PlansSolr {
 	 * @return
 	 * @throws Exception
 	 */
-	public PlanPage searchPlan(int uid,String type,int page) throws Exception {
+	public PlanPage searchPlanPage(String uid,String type,int page,int num) throws Exception {
 
 		PlanPage planPage = new PlanPage();
 		HttpSolrClient client = new HttpSolrClient(serverUrl);
 
 		// 创建查询对象
 		SolrQuery query = new SolrQuery();
-		if (uid==0) {
+		if ("0".equals(uid)) {
 			query.setQuery("type:" + type);
 		}else {
 			query.setQuery("creatby:" + uid + " AND type:" + type);
 		}
 		query.setSort("creattime", ORDER.desc);
-		query.setRows(30);
-		query.setStart((page-1) * 30);
+		query.setRows(num);
+		query.setStart((page-1) * num);
 
 		// 执行搜索、搜索结果
 		QueryResponse queryResponse = client.query(query);
@@ -259,6 +259,66 @@ public class PlansSolr {
 		}
 
 		return planPage;
+	}
+	
+	/**
+	 * 用planid找
+	 * 
+	 * @param name
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Plans> searchPlanLst(int uid,String type,int page,int num) throws Exception {
+
+		List<Plans> lstPlans = new LinkedList<>();
+		HttpSolrClient client = new HttpSolrClient(serverUrl);
+
+		// 创建查询对象
+		SolrQuery query = new SolrQuery();
+		if (uid==0) {
+			query.setQuery("type:" + type);
+		}else {
+			query.setQuery("creatby:" + uid + " AND type:" + type);
+		}
+		query.setSort("creattime", ORDER.desc);
+		query.setRows(num);
+		query.setStart((page-1) * num);
+
+		// 执行搜索、搜索结果
+		QueryResponse queryResponse = client.query(query);
+		SolrDocumentList results = queryResponse.getResults();
+		Map<String, Map<String, List<String>>> highlighting = queryResponse.getHighlighting();
+		for (SolrDocument solrDocument : results) {
+			Plans plans = new Plans();
+			plans.setId(Integer.parseInt((String) solrDocument.get("id")));
+			plans.setTitle((String) solrDocument.get("title"));
+			plans.setTag((String) solrDocument.get("tag"));
+
+			plans.setType((int) solrDocument.get("type"));
+			plans.setBudgettop((int) solrDocument.get("budgettop"));
+			plans.setBudgetbottom((int) solrDocument.get("budgetbottom"));
+
+			plans.setDepartureplace((String) solrDocument.get("departureplace"));
+			plans.setDestination((String) solrDocument.get("destination"));
+			plans.setDeparturetime((Date) solrDocument.get("departuretime"));
+
+			plans.setEndtime((Date) solrDocument.get("endtime"));
+			plans.setExpectnum((int) solrDocument.get("expectnum"));
+			plans.setPresentnum((int) solrDocument.get("presentnum"));
+
+			plans.setDetail((String) solrDocument.get("detail"));
+			plans.setCreatby(Integer.parseInt((String) solrDocument.get("creatby")));
+			plans.setCreattime((Date) solrDocument.get("creattime"));
+
+			plans.setScore((double) solrDocument.get("score"));
+			plans.setCommentcount((int) solrDocument.get("CommentCount"));
+			plans.setNotecount((int) solrDocument.get("NoteCount"));
+			plans.setPicpath((String) solrDocument.get("picpath"));
+			
+			lstPlans.add(plans);
+		}
+
+		return lstPlans;
 	}
 	/**
 	 * 查找byId

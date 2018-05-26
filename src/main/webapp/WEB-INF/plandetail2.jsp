@@ -114,7 +114,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</c:if>
 					  	<c:if test='${plans.type == "0"}'>
 							<c:if test='${uid == plans.creatby}'>
-								<p><a id="" href="modifyPlan?id=${plans.id}" class="btn btn-primary">修改邀约</a><a id="delete_btn" href="deletePlan?id=${plans.id}" class="btn btn-primary">取消出行</a><a id="addplan_btn" href="leave?id=${plans.id}" class="btn btn-primary">出发</a> </p>
+								<p><a id="" href="modifyPlan?id=${plans.id}" class="btn btn-primary">修改邀约</a>
+								<a id="delete_btn" href="deletePlan?id=${plans.id}" class="btn btn-primary">取消出行</a>
+								<a id="addplan_btn" href="leave?id=${plans.id}" class="btn btn-primary">出发</a> </p>
 							</c:if>
 							<c:if test='${uid != plans.creatby}'>
 								<c:if test='${plans.ismember == true}'>

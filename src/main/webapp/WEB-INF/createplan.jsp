@@ -67,12 +67,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								  	</div>
 								    <div class="form-group">
 								    	<label>开始时间：</label>
-								    	 <input id="departuretime" name="departuretime"  type="text" class="form-control-user form-control-white valid"  >
+								    	 <input id="departuretime" name="departuretime"  type="text" class="form-control-user form-control-white valid" readonly="true" >
 								    	<label id="departuretime_error" class="lable-error"  style="display:none;">不能為空</label>
 								    </div>
 								    <div class="form-group">
 								    	<label>结束时间：</label>
-								    	<input id="endtime" name="endtime"  type="text" class="form-control-user form-control-white valid">
+								    	<input id="endtime" name="endtime"  type="text" class="form-control-user form-control-white valid" readonly="true">
 								    	<label id="email_error" class="lable-error"  style="display:none;">不能為空</label>
 								    </div>
 								    <div class="form-group">
@@ -102,7 +102,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								  <input id="addplan_btn" type="button" class="btn btn-o-white" value="提交">
 								  <input id="clear_btn" type="button" class="btn btn-o-white" value="清空">
 							</div>
-							<div class="col-md-6 col-md-offset-3-user-right">
+							<div class="col-md-6 col-md-offset-3-user-left">
 								<h1>详细说明：</h1>
 								<label id="content_error" class="lable-content-error" style="display:none;">不能為空</label>
 								<div class="form-group">
@@ -111,10 +111,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							</div>
 							
 							</form>
-							<div class="col-md-6 col-md-offset-3-user-right">
+							<div class="col-md-6 col-md-offset-3-user-left">
    								<img id="pic" class="upload-img" src=""/> 
    							</div>
-   							<div class="col-md-6 col-md-offset-3-user-right">
+   							<div class="col-md-6 col-md-offset-3-user-left">
 							<form id="uploadForm"  class="form-user-upload" enctype="multipart/form-data">  
 								<div class="col-md-6 col-md-offset-3-user-right">
    								 <input id="file"  type="file" name="file"/>  
@@ -145,21 +145,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<script src="js/datePicker/WdatePicker.js"></script>
 		<script src="laydate/laydate.js"></script> 
 	<script type="text/javascript">
-	var username = $('#username').text();
-	
-	if(username !=""){
-		$('#logined_div').show();
-		$('#user_div').show();
-		$('#nologin_div').hide();
-	}else{
-		$('#nologin_div').show();
-		$('#logined_div').hide();
-		$('#user_div').hide();
-	}
-	
 	$('#addplan_btn').click(function(){
 	
-		if("${usertype}"=="U"){
+		if(username==""){
+			alert("请先登录");
+			return;
+		}
+		if("${me.usertype}"=="U"){
 			alert("实名认证后才能发起邀约");
 			return;
 		}
@@ -233,7 +225,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         			var json=JSON.parse(data);
         			if(json.success=="1"){
         				alert("創建成功"); 
-        				window.location.href ="<%=request.getContextPath()%>" + "/myplans"
+        				window.location.href ="<%=request.getContextPath()%>" + "/myplans?type=0&page=1"
         			}else {
         				alert("创建失败"); 
         					
@@ -273,7 +265,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 processData: false,  
                 contentType: false,  
             }).success(function (data) {  
-                alert(data); 
                 if(data.success=="true"){
                 	$("#picpath").val(data.path);
                 	$("#pic").attr("src","<%=request.getContextPath()%>"+data.path);

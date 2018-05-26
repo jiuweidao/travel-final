@@ -103,7 +103,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								  <input id="addplan_btn" type="button" class="btn btn-o-white" value="提交">
 								  <input id="clear_btn" type="button" class="btn btn-o-white" value="清空">
 							</div>
-							<div class="col-md-6 col-md-offset-3-user-right">
+							<div class="col-md-6 col-md-offset-3-user-left">
 								<h1>详细说明：</h1>
 								<label id="content_error" class="lable-content-error" style="display:none;">不能為空</label>
 								<div class="form-group">
@@ -112,7 +112,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							</div>
 							
 							</form>
-							<div class="col-md-6 col-md-offset-3-user-right">
+							<div class="col-md-6 col-md-offset-3-user-left">
    								<img id="pic" class="upload-img" src="<%=request.getContextPath()%>${plans.picpath}"/> 
    							</div>
 							<form id="uploadForm"  class="form-user" enctype="multipart/form-data">  
@@ -120,7 +120,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    								 <input id="file"  type="file" name="file"/>  
    								 </div>
 							</form>  
-							<div class="col-md-6 col-md-offset-3-user-right">
+							<div class="col-md-6 col-md-offset-3-user-left">
    								<button class="btn btn-o-white" id="upload">上传图片</button>
    							 </div>
 							</div>
@@ -142,17 +142,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<script src="assets/js/script.js"></script>
 		<script src="js/datePicker/WdatePicker.js"></script>
 	<script type="text/javascript">
-	var username = $('#username').text();
-	
-	if(username !=""){
-		$('#logined_div').show();
-		$('#user_div').show();
-		$('#nologin_div').hide();
-	}else{
-		$('#nologin_div').show();
-		$('#logined_div').hide();
-		$('#user_div').hide();
-	}
 	
 	$('#addplan_btn').click(function(){
 			var error="";
@@ -216,7 +205,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				data:$('#form').serialize(),      
         		type:"POST",  
      			datatype:'json',
-        		url:"modify?id="+${plans.id},   
+        		url:"modify?id=${plans.id}",   
         		error:function(data){  
            			 alert("出错了！！:"+data);  
         		},  

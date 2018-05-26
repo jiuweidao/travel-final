@@ -96,18 +96,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 				</div>
 					</div>
-					<div class="col-md-6-plan-pic animate-box" data-animate-effect="fadeInLeft">
+					<div id="btn_div" class="col-md-6-plan-pic animate-box" data-animate-effect="fadeInLeft">
+						<c:if test='${plans.type == "2"}'>
+							<p><a id="" href="#" class="btn btn-primary">已结束</a></p>
+						</c:if>
 					  	<c:if test='${plans.type == "1"}'>
 							<p><a id="" href="#" class="btn btn-primary">出游中</a></p>
 						</c:if>
 					  	<c:if test='${plans.type == "0"}'>
-							<c:if test='${uid == plans.creatby}'>
+							<c:if test='${me.id == plans.creatby}'>
 								<p>
 									<a id="" href="modifyPlan?id=${plans.id}" class="btn btn-primary">修改邀约</a>
 									<a id="delete_btn" href="deletePlan?id=${plans.id}" class="btn btn-primary">取消出行</a>
-									<a id="addplan_btn" href="leave?id=${plans.id}" class="btn btn-primary">出发</a> </p>
+									<a id="leave_btn" href="" class="btn btn-primary">出发</a> </p>
 							</c:if>
-							<c:if test='${uid != plans.creatby}'>
+							<c:if test='${me.id != plans.creatby}'>
 								<c:if test='${plans.ismember == true}'>
 									<p><a id="" href="#" class="btn btn-primary">已申请</a> </p>
 								</c:if>
@@ -147,7 +150,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											${commentsItem.content} 
 											<br/>
 											<button id ="${commentsItem.id}_comment_btn" class="btn btn-primary-note" onclick="showNoteDiv(${commentsItem.id})">回复</button>
-											<c:if test="${commentsItem.creatby==uid}">
+											<c:if test="${commentsItem.creatby==me.id}">
 												<button id ="${commentsItem.id}_delete_btn" class="btn btn-primary-note-delete" onclick="deleteDiv(${commentsItem.id},0)">删除</button>
 											</c:if>
 										</p>
@@ -174,7 +177,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 														${item.content}
 														<br/> 
 														<button  id ="${item.id}_comment_btn" class="btn btn-primary-note" onclick="showNoteDiv(${item.id})">回复</button>
-														<c:if test="${item.creatby==uid}">
+														<c:if test="${item.creatby==me.id}">
 															<button id ="${item.id}_delete_btn" class="btn btn-primary-note-delete" onclick="deleteDiv(0,${item.id})">删除</button>
 														</c:if>
 													</p>
@@ -229,8 +232,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<script src="js/utils.js"></script>
 		<script type="text/javascript" src="js/jquery.dropdown.js"></script>
 	<script type="text/javascript">
-	var username = $('#username').text();
-	var uid =  $('#userId').text();
+	var uid =  "${me.id}";
 	
 	if(username !=""){
 		$('#logined_div').show();
@@ -257,13 +259,38 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         		},  
         		success:function(data){  
         			if(data.success=="1"){
-        				$('#appplan_btn').text("已申请");
+        				var btn_div = "<a  href=\"#\" class=\"btn btn-primary\">已申请</a>";
+        				$("#btn_div").empty();
+						$("#lstComments_div").prepend($(btn_div));
         			}else{
         				alert("申请失败"+data.msg); 
         			}
         		} 
      		});  
 	});
+	
+	$('#leave_btn').click(function(){
+	
+    		$.ajax({  
+				data:"id=" +${plans.id},      
+        		type:"POST",  
+     			dataType:'json',
+        		url:"leave",  
+        		error:function(data){  
+           			 alert("出错了！！:"+data);  
+        		},  
+        		success:function(data){  
+        			if(data.success=="1"){
+        				var btn_div = "<a  href=\"#\" class=\"btn btn-primary\">出游中</a>";
+        				$("#btn_div").empty();
+						$("#lstComments_div").prepend($(btn_div));
+        			}else{
+        				alert("申请失败"+data.msg); 
+        			}
+        		} 
+     		});  
+	});
+	
 	
 	
 	$('#comment_to_plan_btn').click(function() {
@@ -348,7 +375,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			dataType: "json", 
 			success: function(data) { 
 				if(data.success=="1"){
-					var uid =  $('#userId').text();;
 					var noteDiv = 
 						"<div id =\""+data.id+"st_note_div\">"+
 						"	<div class=\"fh5co-text animate-box\">"+

@@ -183,19 +183,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<script src="assets/js/script.js"></script>
 		<script src="js/datePicker/WdatePicker.js"></script>
 	<script type="text/javascript">
-	var username = $('#username').text();
 	
 	var schedulNum=2;
 	
-	if(username !=""){
-		$('#logined_div').show();
-		$('#user_div').show();
-		$('#nologin_div').hide();
-	}else{
-		$('#nologin_div').show();
-		$('#logined_div').hide();
-		$('#user_div').hide();
-	}
+	
 	function deleteSchedul(id){
 		$('#schedul_'+id).remove();
 		schedulNum-=1;

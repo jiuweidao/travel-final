@@ -28,7 +28,7 @@ public class StringUtils {
     //生成随机数字和字母,  
     public static boolean isNull(String string) {  
           
-        if (string==null||string.trim().equals("")) {
+        if (string==null||"".equals(string)) {
         	return true; 
 		}
         return false;

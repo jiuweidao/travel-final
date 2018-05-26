@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.travel.dao.PlannumUsersMapper" >
+  <resultMap id="BaseResultMap" type="com.travel.pojo.PlannumUsers" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="Uid" property="uid" jdbcType="INTEGER" />
+    <result column="TypeFNum" property="typefnum" jdbcType="INTEGER" />
+    <result column="Type0Num" property="type0num" jdbcType="INTEGER" />
+    <result column="Type1Num" property="type1num" jdbcType="INTEGER" />
+    <result column="Type2Num" property="type2num" jdbcType="INTEGER" />
+    <result column="CreatbyName" property="creatbyname" jdbcType="VARCHAR" />
+    <result column="CreatTime" property="creattime" jdbcType="TIMESTAMP" />
+    <result column="Flag" property="flag" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    Id, `Uid`, TypeFNum, Type0Num, Type1Num, Type2Num, CreatbyName, CreatTime, Flag
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from plannum_users
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from plannum_users
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.travel.pojo.PlannumUsers" useGeneratedKeys="true" keyProperty="id" >
+    insert into plannum_users (`Uid`, TypeFNum, Type0Num, 
+      Type1Num, Type2Num, CreatbyName, 
+      CreatTime, Flag)
+    values (#{uid,jdbcType=INTEGER}, #{typefnum,jdbcType=INTEGER}, #{type0num,jdbcType=INTEGER}, 
+      #{type1num,jdbcType=INTEGER}, #{type2num,jdbcType=INTEGER}, #{creatbyname,jdbcType=VARCHAR}, 
+      #{creattime,jdbcType=TIMESTAMP}, #{flag,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.travel.pojo.PlannumUsers" useGeneratedKeys="true" keyProperty="id" >
+    insert into plannum_users
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      `Uid`,
+      TypeFNum,
+      Type0Num,
+      Type1Num,
+      Type2Num,
+      CreatbyName,
+      CreatTime,
+      Flag,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{uid,jdbcType=INTEGER},
+      #{typefnum,jdbcType=INTEGER},
+      #{type0num,jdbcType=INTEGER},
+      #{type1num,jdbcType=INTEGER},
+      #{type2num,jdbcType=INTEGER},
+      #{creatbyname,jdbcType=VARCHAR},
+      #{creattime,jdbcType=TIMESTAMP},
+      #{flag,jdbcType=VARCHAR},
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.travel.pojo.PlannumUsers" >
+    update plannum_users
+    <set >
+      <if test="uid != null" >
+        `Uid` = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="typefnum != null" >
+        TypeFNum = #{typefnum,jdbcType=INTEGER},
+      </if>
+      <if test="type0num != null" >
+        Type0Num = #{type0num,jdbcType=INTEGER},
+      </if>
+      <if test="type1num != null" >
+        Type1Num = #{type1num,jdbcType=INTEGER},
+      </if>
+      <if test="type2num != null" >
+        Type2Num = #{type2num,jdbcType=INTEGER},
+      </if>
+      <if test="creatbyname != null" >
+        CreatbyName = #{creatbyname,jdbcType=VARCHAR},
+      </if>
+      <if test="creattime != null" >
+        CreatTime = #{creattime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="flag != null" >
+        Flag = #{flag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.travel.pojo.PlannumUsers" >
+    update plannum_users
+    set `Uid` = #{uid,jdbcType=INTEGER},
+      TypeFNum = #{typefnum,jdbcType=INTEGER},
+      Type0Num = #{type0num,jdbcType=INTEGER},
+      Type1Num = #{type1num,jdbcType=INTEGER},
+      Type2Num = #{type2num,jdbcType=INTEGER},
+      CreatbyName = #{creatbyname,jdbcType=VARCHAR},
+      CreatTime = #{creattime,jdbcType=TIMESTAMP},
+      Flag = #{flag,jdbcType=VARCHAR}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <!--自定义  -->
+  <select id="selectUserTop" parameterType="int" resultMap="BaseResultMap">
+		SELECT * FROM plannum_users
+		ORDER BY (Type1Num+Type2Num) DESC
+		LIMIT #{topNum,jdbcType=INTEGER}
+ </select>
+	
+ <update id="updateByUidSelective" parameterType="com.travel.pojo.PlannumUsers" >
+    update plannum_users
+    <set >
+      <if test="uid != null" >
+        `Uid` = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="type0num != null" >
+        Type0Num = #{type0num,jdbcType=INTEGER},
+      </if>
+      <if test="type1num != null" >
+        Type1Num = #{type1num,jdbcType=INTEGER},
+      </if>
+      <if test="type2num != null" >
+        Type2Num = #{type2num,jdbcType=INTEGER},
+      </if>
+      <if test="creatbyname != null" >
+        CreatbyName = #{creatbyname,jdbcType=VARCHAR},
+      </if>
+      <if test="creattime != null" >
+        CreatTime = #{creattime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="flag != null" >
+        Flag = #{flag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where Uid = #{uid,jdbcType=INTEGER}
+  </update>
+  
+     <select id="selectByUid" parameterType="int" resultMap="BaseResultMap">
+		SELECT * FROM plannum_users
+		where Uid = #{uid,jdbcType=INTEGER}
+ </select>
+</mapper>

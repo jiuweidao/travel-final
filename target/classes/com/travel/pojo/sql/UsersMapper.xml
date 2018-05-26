@@ -21,10 +21,14 @@
     <result column="CreatTime" property="creattime" jdbcType="TIMESTAMP" />
     <result column="Flag" property="flag" jdbcType="VARCHAR" />
     <result column="IconPath" property="iconpath" jdbcType="VARCHAR" />
+    <result column="IdcardPath" property="idcardpath" jdbcType="VARCHAR" />
+    <result column="Ip" property="ip" jdbcType="VARCHAR" />
+    <result column="sign" property="sign" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     Id, UserName, `Name`, Email, Telemoble, UserType, `Password`, IdName, Sex, IdNum, 
-    Birth, Nationlity, Address, RegTime, LastLoginTime, Score, CreatTime, Flag, IconPath
+    Birth, Nationlity, Address, RegTime, LastLoginTime, Score, CreatTime, Flag, IconPath, 
+    IdcardPath, Ip, sign
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -42,14 +46,16 @@
       IdName, Sex, IdNum, 
       Birth, Nationlity, Address, 
       RegTime, LastLoginTime, Score, 
-      CreatTime, Flag, IconPath
+      CreatTime, Flag, IconPath, 
+      IdcardPath, Ip, sign
       )
     values (#{username,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{telemoble,jdbcType=VARCHAR}, #{usertype,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{idname,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{idnum,jdbcType=VARCHAR}, 
       #{birth,jdbcType=VARCHAR}, #{nationlity,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
       #{regtime,jdbcType=TIMESTAMP}, #{lastlogintime,jdbcType=TIMESTAMP}, #{score,jdbcType=INTEGER}, 
-      #{creattime,jdbcType=TIMESTAMP}, #{flag,jdbcType=VARCHAR}, #{iconpath,jdbcType=VARCHAR}
+      #{creattime,jdbcType=TIMESTAMP}, #{flag,jdbcType=VARCHAR}, #{iconpath,jdbcType=VARCHAR}, 
+      #{idcardpath,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, #{sign,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.travel.pojo.Users" useGeneratedKeys="true" keyProperty="id" >
@@ -73,6 +79,9 @@
       CreatTime,
       Flag,
       IconPath,
+      IdcardPath,
+      Ip,
+      sign,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       #{username,jdbcType=VARCHAR},
@@ -93,6 +102,9 @@
       #{creattime,jdbcType=TIMESTAMP},
       #{flag,jdbcType=VARCHAR},
       #{iconpath,jdbcType=VARCHAR},
+      #{idcardpath,jdbcType=VARCHAR},
+      #{ip,jdbcType=VARCHAR},
+      #{sign,jdbcType=VARCHAR},
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.travel.pojo.Users" >
@@ -152,6 +164,15 @@
       <if test="iconpath != null" >
         IconPath = #{iconpath,jdbcType=VARCHAR},
       </if>
+      <if test="idcardpath != null" >
+        IdcardPath = #{idcardpath,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null" >
+        Ip = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="sign != null" >
+        sign = #{sign,jdbcType=VARCHAR},
+      </if>
     </set>
     where Id = #{id,jdbcType=INTEGER}
   </update>
@@ -174,7 +195,10 @@
       Score = #{score,jdbcType=INTEGER},
       CreatTime = #{creattime,jdbcType=TIMESTAMP},
       Flag = #{flag,jdbcType=VARCHAR},
-      IconPath = #{iconpath,jdbcType=VARCHAR}
+      IconPath = #{iconpath,jdbcType=VARCHAR},
+      IdcardPath = #{idcardpath,jdbcType=VARCHAR},
+      Ip = #{ip,jdbcType=VARCHAR},
+      sign = #{sign,jdbcType=VARCHAR}
     where Id = #{id,jdbcType=INTEGER}
   </update>
   
@@ -203,5 +227,4 @@
 		WHERE 
 			(Telemoble = #{key} OR UserName = #{key} OR Email = #{key})
 	</select>
-	
 </mapper>

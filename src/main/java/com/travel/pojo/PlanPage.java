@@ -7,6 +7,8 @@ import java.util.List;
 
 public class PlanPage implements Serializable {
 	
+	private String id;
+	
 	private List<Plans> lstPlans;
 	
 	private int count;
@@ -40,5 +42,11 @@ public class PlanPage implements Serializable {
 	}
 	public void setType(String type) {
 		this.type = type;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
 	}
 }

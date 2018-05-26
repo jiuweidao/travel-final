@@ -51,13 +51,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			
 				<ul class="nav nav-pills nav-stacked">
 					<li>
-						<a href="<%=basePath%>myMessage"><i class="fa fa-home"></i> 个人名片</a>
+						<a href="<%=basePath%>myMessage"><i class="fa fa-home"></i> 基本信息</a>
+					</li>
+					<li>
+						<a href="<%=basePath%>userMessage?id=${me.id}"><i class="fa fa-home"></i> 个人名片</a>
 					</li>
 					<li>
 						<a href="<%=basePath%>createPlan"><i class="fa fa-bookmark"></i> 发起邀约</a>
 					</li>
 					<li>
-						<a href="<%=basePath%>myplans?type=0&page=1"><i class="fa fa-tasks"></i> 我的邀约</a>
+						<a href="<%=basePath%>allPlans?type=0&page=1&id=${me.id}"><i class="fa fa-tasks"></i> 我的邀约</a>
 					</li>
 					<li>
 						<a href="<%=basePath%>myappplans"><i class="fa fa-heart"></i> 我的申请</a>

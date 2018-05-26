@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.travel.pojo.Comments;
+import com.travel.pojo.Me;
 import com.travel.pojo.Plans;
 import com.travel.pojo.Users;
 import com.travel.service.CommentsService;
@@ -47,7 +48,9 @@ public class CommentController {
 	private PlanmembersService planmembersService;
 	@Resource
 	private PlansService plansService;
-
+	@Resource
+	private UserController userController;
+	
 	private CommentsSolr commentsSolr = new CommentsSolr();
 	private PlansSolr plansSolr = new PlansSolr();
 	protected Logger logger = LoggerFactory.getLogger(getClass());
@@ -90,9 +93,7 @@ public class CommentController {
 
 		HashMap<String, String> result = new HashMap<String, String>();
 
-		Subject currentUser = SecurityUtils.getSubject();
-		Session session = currentUser.getSession();
-		Users users = (Users) session.getAttribute("user");
+		Me me = userController.getMe(request);
 
 		String strPlanId = request.getParameter("planid");
 		String commentId = request.getParameter("commentId");
@@ -107,8 +108,8 @@ public class CommentController {
 		comment.setType(Integer.parseInt(type));
 		comment.setContent(content);
 		comment.setTrageid(Integer.parseInt(commentCreateby));
-		comment.setCreatby(users.getId());
-		comment.setCreatbyname(users.getName());
+		comment.setCreatby(me.getId());
+		comment.setCreatbyname(me.getName());
 		comment.setCreattime(new Date());
 		comment.setFlag("M");
 

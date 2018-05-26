@@ -4,13 +4,17 @@ import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.travel.dao.ContactsMapper;
 import com.travel.dao.UsersMapper;
+import com.travel.pojo.Contacts;
+import com.travel.pojo.PlannumUsers;
 import com.travel.pojo.Users;
 
 
@@ -25,6 +29,10 @@ public class UserServiceImpl implements UserService{
 	
 	@Resource
 	private UsersMapper usersMapper;
+	@Resource
+	private ContactsMapper contactsMapper;
+	@Resource
+	private PlannumUserService plannumUserService;
 
 	public Users selectByPrimaryKey(Integer id) {
 		
@@ -53,7 +61,26 @@ public class UserServiceImpl implements UserService{
 	
 	public int insert(Users users) {
 		Users filledusers = fillUser(users);
-		return usersMapper.insertSelective(users);
+		
+		if (usersMapper.insertSelective(filledusers)<=0) {
+			return 0;
+		}
+		
+		PlannumUsers plannumUsers = new  PlannumUsers();
+		plannumUsers.setCreattime(users.getCreattime());
+		plannumUsers.setFlag("M");
+		plannumUsers.setType0num(0);
+		plannumUsers.setType1num(0);
+		plannumUsers.setType2num(0);
+		plannumUsers.setTypefnum(0);
+		plannumUsers.setUid(users.getId());
+		if (plannumUserService.insert(plannumUsers)<=0) {
+			return 0;
+		}
+		
+		Contacts contacts = new Contacts();
+		contactsMapper.insertSelective(contacts);
+		return 1;
 	}
 	
 	
@@ -76,6 +103,7 @@ public class UserServiceImpl implements UserService{
 		// TODO Auto-generated method stub
 		return usersMapper.updateByPrimaryKeySelective(users);
 	}
+
 	
 
 

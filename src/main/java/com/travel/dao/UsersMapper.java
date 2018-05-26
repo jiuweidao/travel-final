@@ -1,5 +1,6 @@
 package com.travel.dao;
 
+
 import com.travel.pojo.Users;
 
 public interface UsersMapper {
@@ -59,5 +60,6 @@ public interface UsersMapper {
     Integer selectByEmail(String key);
     
     Users selectByAll(String key);
+    
     
 }

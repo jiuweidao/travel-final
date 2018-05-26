@@ -58,7 +58,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<a class="logo" href="login">登录/注册</a>
 						</div>
 						<div id="logined_div" class="pull-right" style="display: none">
-							<span  id="username" href="login">${username}</span>
+							<span  id="username" href="login">${me.username}</span>
 						</div>
 						<div class="pull-right">
 							<a class="logo" href="index.html">出行交通</a>
@@ -79,10 +79,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</section>
 					<section class="center">
 						<div class="slogan">
-							SLIM &amp; STYLISH
-						</div>
+							<!-- SLIM &amp; STYLISH -->
+							<p>
+							旅行，有些许流浪，些许浑然忘我的逍遥<br/>
+							却总躲不过一种孑然一身，隐入苍茫孤独自然的苍凉<br>
+							</p>
+							</div>
 						<div class="secondary-slogan">
-							The Flusk Theme By ThemeWagon.
+							Travel alone not longly.
+							
 						</div>
 					</section>
 					<section class="bottom">
@@ -94,7 +99,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div><!-- header -->
 
 			
-			<div class="content-block" id="portfolio">
+			<!-- <div class="content-block" id="portfolio">
 				<div class="container">
 					<header class="block-heading cleafix">
 						<a href="#" class="btn btn-o btn-lg pull-right">查看更多</a>
@@ -138,7 +143,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</div>
 					</section>
 				</div>
-			</div><!-- #portfolio --><!-- <div class="copyrights">Collect from <a href="http://www.cssmoban.com/"  title="网站模板">网站模板</a></div> -->
+			</div> --><!-- #portfolio --><!-- <div class="copyrights">Collect from <a href="http://www.cssmoban.com/"  title="网站模板">网站模板</a></div> -->
 
 			<!-- <div class="content-block parallax" id="services">
 				<div class="container text-center">
@@ -178,33 +183,37 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div class="content-block" id="blog">
 				<div class="container">
 					<header class="block-heading cleafix">
-						<a href="#" class="btn btn-o btn-lg pull-right">查看更多</a>
-						<h1>From the Blog</h1>
+						<a href="allPlans?type=0&page=1" class="btn btn-o btn-lg pull-right">查看更多</a>
+						<h1>最新邀约</h1>
 						<p>Keep up with the latest happenings.</p>
 					</header>
 					<section class="block-body">
 						<div class="row">
-							<div class="col-sm-4 blog-post">
-								<img src="assets/images/bike_water1-1000x600.jpg">
-								<a href="#"><h2>Design Your Mind</h2></a>
-								<div class="date">3 Nov, 2014</div>
-								<p>In at accumsan risus. Nam id volutpat ante. Etiam vel mi mattis, vulputate nunc nec, sodales nibh. Etiam nulla magna, gravida eget ultricies sit amet, hendrerit in lorem.</p>
-								<a href="">Read More</a>
+							<c:forEach items="${lstPlans}" var="item" varStatus="status">
+								<div class="col-sm-4 blog-post">
+									<c:if test='${item.picpath == null}'>
+										<img src="assets/images/bike_water1-1000x600.jpg">
+									</c:if>
+									<c:if test='${item.picpath != null}'>
+										<img src="<%=request.getContextPath()%>${item.picpath}">
+									</c:if>
+								
+										<a href="plandetail?id=${item.id}">
+        								<h3>${item.title}</h3>
+        							</a>
+									<div class="date">
+										<fmt:formatDate value="${item.creattime}" pattern="yyyy-MM-dd"/> 
+									</div>
+									<div>期望人数:${item.expectnum}/目前人数:${list.presentnum}</div>
+									<p>${item.detail}</p>
+									
+								<!-- 	<a href="#"><h2>Design Your Mind</h2></a>
+									<div class="date">3 Nov, 2014</div>
+									<p>In at accumsan risus. Nam id volutpat ante. Etiam vel mi mattis, vulputate nunc nec, sodales nibh. Etiam nulla magna, gravida eget ultricies sit amet, hendrerit in lorem.</p>
+									<a href="">Read More</a> -->
 							</div>
-							<div class="col-sm-4 blog-post">
-								<img src="assets/images/mac_glasses1-1000x600.jpg">
-								<a href="#"><h2>Winter Is Comming</h2></a>
-								<div class="date">3 Nov, 2014</div>
-								<p>In at accumsan risus. Nam id volutpat ante. Etiam vel mi mattis, vulputate nunc nec, sodales nibh. Etiam nulla magna, gravida eget ultricies sit amet, hendrerit in lorem.</p>
-								<a href="">Read More</a>
-							</div>
-							<div class="col-sm-4 blog-post">
-								<img src="assets/images/road-1000x600.jpg">
-								<a href="#"><h2>The Illustration</h2></a>
-								<div class="date">3 Nov, 2014</div>
-								<p>In at accumsan risus. Nam id volutpat ante. Etiam vel mi mattis, vulputate nunc nec, sodales nibh. Etiam nulla magna, gravida eget ultricies sit amet, hendrerit in lorem.</p>
-								<a href="">Read More</a>
-							</div>
+							</c:forEach>
+						
 						</div>
 					</section>
 				</div>
@@ -221,67 +230,56 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div class="content-block" id="testimonials">
 				<div class="container">
 					<header class="block-heading cleafix">
-						<h1>Testimonials</h1>
-						<p>Some happy customers have to say.</p>
+						<h1>出游达人</h1>
+						<p>not alone.</p>
 					</header>
 					<section class="block-body">
 						<div class="row">
-							<div class="col-md-4">
-								<div class="testimonial">
-									<img src="assets/images/testimonial_31-190x190.jpg">
-									<p>In at accumsan risus. Nam id volutpat ante. Etiam vel mi mattis, vulputate nunc nec, sodales nibh. Etiam nulla magna, gravida eget ultricies sit amet, hendrerit in lorem.</p>
-									<strong>Jhon Doe</strong><br/>
-									<span>Head of Ideas, Technext</span>
-								</div>
+							<c:forEach items="${lstTopUsers}" var="item" varStatus="status">
+								<div class="col-md-4">
+									<div class="testimonial">
+										<c:if test='${item.iconpath == null}'>
+											<img src="assets/images/bike_water1-1000x600.jpg">
+										</c:if>
+										<c:if test='${item.iconpath != null}'>
+											<img id="pic" src="<%=request.getContextPath()%>${item.iconpath}">
+										</c:if>
+										<a href="userMessage?id=${item.id}">
+											<strong>${item.username}</strong>
+										</a>
+										<br/>
+										<table>
+											<tr>
+    											<th>发起中</th>
+    											<th>出行中</th>
+    											<th>已结束</th>
+    											<th>取消出行</th>
+    											<th>成功率</th>
+  											</tr>
+  											<tr>
+  												<td>${item.type0num}</td>
+  												<td>${item.type1num}</td>
+    											<td>${item.type2num}</td>
+    											<td>${item.typefnum}</td>
+    											<td>${item.successRate}%</td>
+ 											 </tr>
+										</table>
+										 <p>${item.sign}</p>
+									
+									</div>
 							</div>
-							<div class="col-md-4">
-								<div class="testimonial">
-									<img src="assets/images/testimonial_11-190x190.jpg">
-									<p>In at accumsan risus. Nam id volutpat ante. Etiam vel mi mattis, vulputate nunc nec, sodales nibh. Etiam nulla magna, gravida eget ultricies sit amet, hendrerit in lorem.</p>
-									<strong>Jane Doe</strong><br/>
-									<span>CEO, Apple Inc</span>
-								</div>
-							</div>
-							<div class="col-md-4">
-								<div class="testimonial">
-									<img src="assets/images/testimonial_22-190x190.jpg">
-									<p>In at accumsan risus. Nam id volutpat ante. Etiam vel mi mattis, vulputate nunc nec, sodales nibh. Etiam nulla magna, gravida eget ultricies sit amet, hendrerit in lorem.</p>
-									<strong>Albert Doe</strong><br/>
-									<span>Team Lead, Design Studio</span>
-								</div>
-							</div>
+							
+							
+							</c:forEach>
+						
+						
 						</div>
 					</section>
 				</div>
 			</div><!-- /#testimonials -->
 
 
-			<div class="content-block" id="contact">
-				<div class="container text-center">
-					<header class="block-heading cleafix">
-						<h1>Contact Us</h1>
-						<p>Feel free to drop us a line.</p>
-					</header>
-					<section class="block-body">
-						<div class="row">
-							<div class="col-md-6 col-md-offset-3">
-								<form class="" role="form">
-									<div class="form-group">
-								    	<input type="email" class="form-control form-control-white" id="subject" placeholder="Your Name" required>
-								  	</div>
-								    <div class="form-group">
-								    	<input type="email" class="form-control form-control-white" id="exampleInputEmail2" placeholder="Enter email" required>
-								    </div>
-								    <div class="form-group">
-								    	<textarea class="form-control form-control-white" placeholder="Write Something" required></textarea>
-								    </div>
-								  <input type="submit" class="btn btn-o-white" value="Say Hello">
-								</form>
-							</div>
-						</div>
-					</section>
-				</div>
-			</div><!-- #contact -->
+		
 
 		<jsp:include   page="footer.jsp" flush="true"/>
 
