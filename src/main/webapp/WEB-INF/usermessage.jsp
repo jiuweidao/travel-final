@@ -80,7 +80,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								    </div>
 								    <div class="form-group">
 								   		<label class="lable-user">签名：</label>
-								    	${users.score}
+								   		&nbsp
+								    </div>
+								    <div class="form-group-user">
+								   
+								   		<p style="text-indent:25px">${users.sign}</p>
+								    </div>
+								    <div class="form-group">
+								   	<a href="createReport?id=${users.id}" class="btn btn-o-white btn">举报该用户</a>
 								    </div>
 								  	
 							</div>
@@ -163,6 +170,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <div class="container">
 			<h2>
 				已结束
+				<a href="allPlans?type=2&page=1&id=${users.id}" class="btn btn-o-white btn-lg pull-right">查看更多</a>
 			</h2>
         	<div id="fh5co-board" data-columns>
 				<c:forEach items="${lstPlans2}" var="list" varStatus="status">

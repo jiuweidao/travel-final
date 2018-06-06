@@ -75,4 +75,28 @@
       Flag = #{flag,jdbcType=VARCHAR}
     where Id = #{id,jdbcType=INTEGER}
   </update>
+    <update id="updateByUidSelective" parameterType="com.travel.pojo.Contacts" >
+    update contacts
+    <set >
+      <if test="contact1 != null" >
+        contact1 = #{contact1,jdbcType=VARCHAR},
+      </if>
+      <if test="contact2 != null" >
+        contact2 = #{contact2,jdbcType=VARCHAR},
+      </if>
+      <if test="creattime != null" >
+        CreatTime = #{creattime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="flag != null" >
+        Flag = #{flag,jdbcType=VARCHAR},
+      </if>
+    </set>
+      where  UserId = #{userid,jdbcType=INTEGER}
+  </update>
+    <select id="selectByUid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    *
+    from contacts
+    where  UserId = #{userid,jdbcType=INTEGER}
+  </select>
 </mapper>

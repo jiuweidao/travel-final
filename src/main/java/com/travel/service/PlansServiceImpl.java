@@ -47,6 +47,7 @@ public class PlansServiceImpl implements PlansService {
 		planmembers.setJointime(plans.getCreattime());
 		planmembers.setUsername(username);
 		planmembers.setUsertype(3);
+		planmembers.setIsontravel(0);
 		planmembers.setFlag("M");
 		if(planmembersMapper.insertSelective(planmembers)<=0) {
 			return 0;

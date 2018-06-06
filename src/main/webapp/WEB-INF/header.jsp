@@ -56,7 +56,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<a class="logo" href="login">登录/注册</a>
 						</div>
 						<div id="logined_div" class="pull-right" style="display: none">
-							<span  id="username" href="login">${me.username}</span>
+							<span  id="username" href="login">${me.name}</span>
 						</div>
 						<div class="pull-right">
 							<a class="logo" href="index.html">出行交通</a>

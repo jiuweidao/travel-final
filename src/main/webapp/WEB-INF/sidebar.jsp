@@ -50,6 +50,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<h2>我的窝</h2>
 			
 				<ul class="nav nav-pills nav-stacked">
+					<c:if test="${me.isontravel==1}">
+						<li>
+							<a href="#"><i class="fa fa-home"></i> 邀约打卡</a>
+						</li>
+					</c:if>
 					<li>
 						<a href="<%=basePath%>myMessage"><i class="fa fa-home"></i> 基本信息</a>
 					</li>
@@ -72,14 +77,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<a href="<%=basePath%>createStrategy"><i class="fa fa-wordpress"></i> 撰写游记</a>
 					</li>
 					<li>
-						<a href="#testimonials"><i class="fa fa-thumbs-up"></i> Testimonials</a>
+						<a href="myReport"><i class="fa fa-thumbs-up"></i> 我的举报</a>
 					</li>
 					<li>
 						<a id ="logout_btn"><i class="fa fa-phone-square"></i> 退出登录</a>
 					</li>
 				</ul>
 			<div class="social">
-				<h2>Stay Connected</h2>
 				<ul>
 					<li><a href=""><i class="fa fa-facebook-square fa-3x"></i></a></li>
 					<li><a href=""><i class="fa fa-twitter-square fa-3x"></i></a></li>

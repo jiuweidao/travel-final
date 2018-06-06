@@ -28,6 +28,12 @@ public class Me implements Serializable {
      */
     private String usertype;
     
+    /**
+     * users.IsOnTravel (是否在出游中)
+     * @ibatorgenerated 2018-05-30 11:55:10
+     */
+    private Integer isontravel;
+    
     public Integer getId() {
         return id;
     }
@@ -58,5 +64,13 @@ public class Me implements Serializable {
 
 	public void setUsertype(String usertype) {
 		this.usertype = usertype;
+	}
+
+	public Integer getIsontravel() {
+		return isontravel;
+	}
+
+	public void setIsontravel(Integer isontravel) {
+		this.isontravel = isontravel;
 	}
 }

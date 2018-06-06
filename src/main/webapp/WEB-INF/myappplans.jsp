@@ -31,6 +31,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<link rel="stylesheet" href="assets/css/bootstrap.min.css">
 		<link rel="stylesheet" href="assets/css/font-awesome.min.css">
 		<link rel="stylesheet" href="assets/css/style.css" media="screen"/>
+ 		<link rel="stylesheet" href="css/paging.css">
+		<!-- Animate.css -->
+		<link rel="stylesheet" href="css/animate.css">
+		<!-- Magnific Popup -->
+		<link rel="stylesheet" href="css/magnific-popup.css">
+		<!-- Salvattore -->
+		<link rel="stylesheet" href="css/salvattore.css">
+		<!-- Theme Style -->
+		<link rel="stylesheet" href="css/style.css">
+		<!-- Modernizr JS -->
+		<script src="js/modernizr-2.6.2.min.js"></script>
 
 		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 		<!--[if lt IE 9]>
@@ -43,100 +54,53 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    <![endif]-->
 	</head>
 	
-	<body>
-		<jsp:include   page="sidebar.jsp" flush="true"/>
-		<div id="wrapper">
-			<div id="header" class="content-block header-wrapper">
-				<div class="header-wrapper-inner">
-					<section class="top solid-plan clearfix">
-						<div class="pull-left">
-							<h1><a class="logo">独步</a></h1>
-						</div>
-						<div id="user_div" class="pull-right"  style="display: none">
-							<a class="toggleDrawer" href="#"><i class="fa fa-bars fa-2x"></i></a>
-						</div>
-						<div id="nologin_div" class="pull-right">
-							<a class="logo" href="login">登录/注册</a>
-						</div>
-						<div id="logined_div" class="pull-right" style="display: none">
-							<span  id="username" class="logo" href="login">${username}</span>
-						</div>
-						<div class="pull-right">
-							<a class="logo" href="index.html">出行交通</a>
-						</div>
-						<div class="pull-right">
-							<a class="logo" href="index.html">所有邀约</a>
-						</div>
-						<div class="pull-right">
-							<a class="logo" href="index.html">出行游记</a>
-						</div>
-						<div class="pull-right">
-							<a class="logo" href="index.html">首页</a>
-						</div>
-					</section>
-				</div>
-			</div><!-- header -->
-
-			<div class="content-block-plans" id="blog">
-				<div class="container">
-					<header class="block-heading cleafix">
-						<h1>我的邀约</h1>
-					</header>
-					<section class="block-body">
+<body>
+	<jsp:include   page="sidebar.jsp" flush="true"/>
+	<div id="wrapper">
+		<jsp:include   page="header.jsp" flush="true"/>
+			<div class="content-block" id="contact">
+				<div id="fh5co-main">
+					<div class="container">
 						<div class="row">
-							<c:forEach items="${lstPlans}" var="list" varStatus="status"><%-- ${list.createtime} --%>
-								<div class="col-sm-4 blog-post">
-									<img src="assets/images/bike_water1-1000x600.jpg">
-									<a href="plandetail?id=${list.id}"><h2>${list.title}</h2></a>
-									<div class="date"><fmt:formatDate value="${list.creattime}" pattern="yyyy-MM-dd"/> </div>
-									<div>期望人数:${list.expectnum}/目前人数:${list.presentnum}</div>
-									<p>${list.detail}</p>
-								</div>
-							</c:forEach>
-						<!-- 	<div class="col-sm-4 blog-post">
-								<img src="assets/images/bike_water1-1000x600.jpg">
-								<a href="#"><h2>Design Your Mind</h2></a>
-								<div class="date">3 Nov, 2014</div>
-								<p>In at accumsan risus. Nam id volutpat ante. Etiam vel mi mattis, vulputate nunc nec, sodales nibh. Etiam nulla magna, gravida eget ultricies sit amet, hendrerit in lorem.</p>
-								<a href="">Read More</a>
-							</div>
-								<div class="col-sm-4 blog-post">
-								<img src="assets/images/bike_water1-1000x600.jpg">
-								<a href="#"><h2>Design Your Mind</h2></a>
-								<div class="date">3 Nov, 2014</div>
-								<p>In at accumsan risus. Nam id volutpat ante. Etiam vel mi mattis, vulputate nunc nec, sodales nibh. Etiam nulla magna, gravida eget ultricies sit amet, hendrerit in lorem.</p>
-								<a href="">Read More</a>
-							</div>
-							<div class="col-sm-4 blog-post">
-								<img src="assets/images/mac_glasses1-1000x600.jpg">
-								<a href="#"><h2>Winter Is Comming</h2></a>
-								<div class="date">3 Nov, 2014</div>
-								<p>In at accumsan risus. Nam id volutpat ante. Etiam vel mi mattis, vulputate nunc nec, sodales nibh. Etiam nulla magna, gravida eget ultricies sit amet, hendrerit in lorem.</p>
-								<a href="">Read More</a>
-							</div>
-							<div class="col-sm-4 blog-post">
-								<img src="assets/images/road-1000x600.jpg">
-								<a href="#"><h2>The Illustration</h2></a>
-								<div class="date">3 Nov, 2014</div>
-								<p>In at accumsan risus. Nam id volutpat ante. Etiam vel mi mattis, vulputate nunc nec, sodales nibh. Etiam nulla magna, gravida eget ultricies sit amet, hendrerit in lorem.</p>
-								<a href="">Read More</a>
-							</div> -->
-						</div>
-					</section>
+							<h2>
+								我的申请 
+							</h2>
+        					<div id="fh5co-board" data-columns>
+								<c:forEach items="${lstPlans}" var="list" varStatus="status">
+        							<div class="item">
+        								<div class="animate-box">
+	        								<c:if test='${list.picpath == null||list.picpath == ""}'>
+												<a href="assets/images/bike_water1-1000x600.jpg" class="image-popup fh5co-board-img" title="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo, eos?">
+													<img src="assets/images/bike_water1-1000x600.jpg" alt="Free HTML5 Bootstrap template">
+							   					</a>
+											</c:if>
+											<c:if test='${list.picpath != null && list.picpath != ""}'>
+												<a href="<%=request.getContextPath()%>${list.picpath}" class="image-popup fh5co-board-img" title="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo, eos?">
+													<img src="<%=request.getContextPath()%>${list.picpath}">
+												</a>
+											</c:if>
+        								</div>
+        								<div class="fh5co-desc">
+        									<a href="plandetail?id=${list.id}">
+        										<h3>${list.title}</h3>
+        									</a>
+											<div class="date">
+												<fmt:formatDate value="${list.creattime}" pattern="yyyy-MM-dd"/>
+									   		</div>
+									   		<div>期望人数:${list.expectnum}/目前人数:${list.presentnum}</div>
+											<p>${list.detail}</p>
+        							  </div>
+        							</div>
+        						</c:forEach>
+        					</div>
+        				</div>
+       				</div>
 				</div>
-			</div><!-- #blog -->
+				<div class="box" id="box"></div>
+			</div>
 			
-
-			<div class="content-block" id="footer">
-				<div class="container">
-					<div class="row">
-						<div class="col-xs-6">&copy; Copyright Flusk 2014</div>
-					<!-- 	<div class="col-xs-6 text-right">Theme ThemeWagon.More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a> More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a></div>
-				 -->	</div>
-				</div>
-			</div><!-- #footer -->
-
-		</div><!--/#wrapper-->
+			<jsp:include   page="footer.jsp" flush="true"/>
+	</div><!--/#wrapper-->
 
 
 
@@ -148,173 +112,51 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<script src="assets/js/jquery.scrollTo.min.js"></script>
 		<script src="assets/js/script.js"></script>
 		<script src="js/datePicker/WdatePicker.js"></script>
+			<!-- jQuery -->
+	<script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+	<!-- jQuery Easing -->
+	<script src="js/jquery.easing.1.3.js"></script>
+	<!-- Bootstrap -->
+	<script src="http://www.jq22.com/jquery/bootstrap-3.3.4.js"></script>
+	<!-- Waypoints -->
+	<script src="js/jquery.waypoints.min.js"></script>
+	<!-- Magnific Popup -->
+	<script src="js/jquery.magnific-popup.min.js"></script>
+	<!-- Salvattore -->
+	<script src="js/salvattore.min.js"></script>
+	<!-- Main JS -->
+	<script src="js/main.js"></script>
+	<script src="js/paging.js"></script>
+		
 	<script type="text/javascript">
-	var username = $('#username').text();
-	
-	if(username !=""){
-		$('#logined_div').show();
-		$('#user_div').show();
-		$('#nologin_div').hide();
-	}else{
-		$('#nologin_div').show();
-		$('#logined_div').hide();
-		$('#user_div').hide();
+
+	if("${planPage.type}"=="0"){
+		$('#type0_a').removeClass("a-unchoose");
 	}
-	
-	$('#addplan_btn').click(function(){
-			var error="";
-			var tag=$("#tag").val();  
-			var title=$("#title").val();  
-    		var departuretime=$("#departuretime").val(); 
-    		var departureplace=$("#departureplace").val(); //出发时间 
-    		var destination=$("#destination").val();	   //目的地
-   			var expectnum=$("#expectnum").val();
-   			var content=$("#content").val();
-   			if(tag==""){
-   				error="true";
-   				$('#tag_error').show(); 
-   			}else{
-   				$('#tag_error').hide();
-   			}
-   			if(title==""){
-   				error="true";
-   				$('#title_error').show(); 
-   				
-   			}else{
-   				$('#title_error').hide();
-   			}
-   			if(departuretime==""){
-   				error="true";
-   				$('#departuretime_error').show();
-   			}else{
-   				$('#departuretime_error').hide();
-   			}
-   			if(departureplace==""){
-   				error="true";
-   				$('#departureplace_error').show();
-   			}else{
-   				$('#departureplace_error').hide();
-   			}
-   			if(destination==""){
-   				error="true";
-   				$('#destination_error').show();
-   			}else{
-   				$('#destination_error').hide();
-   			}
-   			if(expectnum==""){
-   				error="true";
-   				$('#expectnum_error').show();
-   			}else{
-   				$('#expectnum_error').hide();
-   			}
-   			if(content==""){
-   				error="true";
-   				$('#content_error').show();
-   			}else{
-   				$('#content_error').hide();
-   			}
-   			
-   			if(error != ""){
-   				return false;
-   			}
-   			
-   			
-    		$.ajax({  
-				data:$('#form').serialize(),      
-        		type:"POST",  
-     			datatype:'json',
-        		url:"addPlan",  
-        		error:function(data){  
-           			 alert("出错了！！:"+data);  
-        		},  
-        		success:function(data){  
-        			var json=JSON.parse(data);
-        			if(json.success=="1"){
-        				alert("創建成功"); 
-        				window.location.href ="<%=request.getContextPath()%>" + "/myplans"
-        			}else if(json.mobile=="1"){
-        				alert("该手机号已经被占用"); 
-        					
-        			}else if(json.userName=="1"){
-        				alert("该用户名已经被占用"); 
-        			}else{
-        				alert("注册失败"+json.msg); 
-        			}
-        			
-        		
-        	}  
-     	});  
-	});
-		$('#logout_btn').click(function() {
-	$.ajax({ 
-		type: "post", 
-		url: "<%=request.getContextPath()%>" + "/logout", 
-		data: {}, 
-		dataType: "json", 
-		success: function(data) { 
-			window.location.href = "<%=request.getContextPath()%>" +  "/login";
-		},
-		error: function(data) { 
-			alert("调用失败...."); 
-		}
-	});
-});
-	$('#clear_btn').click(function(){
-			$("#title").val("");  
-			$("#tag").val(""); 
-    		$("#departuretime").val(""); 
-    		$("#departureplace").val(""); //出发时间 
-    		$("#destination").val("");	   //目的地
-   			$("#expectnum").val("");
-   			$("#content").val("");
-   			$("#endtime").val("");
-   			$("#budgetbottom").val("");
-   			$("#budgettop").val("");
-     	 
-     	 
-     	 
-	});
-	
-	function setImg(obj){//用于进行图片上传，返回地址
-            var f=$(obj).val();
-            if(f == null || f ==undefined || f == ''){
-                return false;
+	if("${planPage.type}"=="1"){
+		$('#type1_a').removeClass("a-unchoose");
+	}
+	if("${planPage.type}"=="2"){
+		$('#type2_a').removeClass("a-unchoose");
+	}
+     var setTotalCount = ${planPage.count};
+        $('#box').paging({
+            initPageNo: 1, // 初始页码
+              totalPages: setTotalCount%10==0?(setTotalCount/10):(parseInt(setTotalCount/10)+1), //总页数
+            totalCount: '合计' + setTotalCount + '条数据', // 条目总数
+            slideSpeed: 600, // 缓动速度。单位毫秒
+            jump: true, //是否支持跳转
+            callback: function(page) { // 回调函数
+                console.log(page);
             }
-            if(!/\.(?:png|jpg|bmp|gif|PNG|JPG|BMP|GIF)$/.test(f))
-            {
-                alert("类型必须是图片(.png|jpg|bmp|gif|PNG|JPG|BMP|GIF)");
-                $(obj).val('');
-                return false;
-            }
-            var data = new FormData();
-            $.each($(obj)[0].files,function(i,file){
-                data.append('file', file);
-            });
-            $.ajax({
-                type: "POST",
-                url: "uploadImg.html",
-                data: f,
-                cache: false,
-                contentType: false,    //不可缺
-                processData: false,    //不可缺
-                dataType:"json",
-                success: function(suc) {
-                    if(suc.code==0){
-                            $("#thumbUrl").val(suc.message);//将地址存储好
-                            $("#thumburlShow").attr("src",suc.message);//显示图片                                                              
-                        }else{
-                        alert("上传失败");
-                        $("#url").val("");
-                        $(obj).val('');
-                    }
-                },
-                error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    alert("上传失败，请检查网络后重试");
-                    $("#url").val("");
-                    $(obj).val('');
-                }
-            });
-        }
+        })
+        
+     $('#pageSelect').children().click(function(){
+       	pageIndex = $(this).index() + 1;
+       	var type=
+        window.location.href ="<%=request.getContextPath()%>" + "/myplans?page="+pageIndex+"&type="+ ${planPage.type}+"&id="+ ${planPage.id};
+     });
+        
 	</script>
 	</body>
 </html>

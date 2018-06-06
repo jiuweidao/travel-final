@@ -21,6 +21,7 @@
   cursor: pointer;
   border: 1px solid #ebebeb;
   background-color: #ffffff;
+  color: black;
 }
 .box .first-page,
 .box .last-page {

@@ -27,7 +27,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<link rel="stylesheet" href="assets/css/font-awesome.min.css">
 		<link rel="stylesheet" href="assets/css/style.css" media="screen"/>
 		<link rel="stylesheet" href="css/paging.css">
-
+ 		<link rel="stylesheet" href="css/timeline.css">
 		<link rel="shortcut icon" href="../favicon.ico"> 
 
 		<link rel="stylesheet" type="text/css" href="css/style1.css" />
@@ -51,79 +51,173 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 			<div class="content-block-plans" id="blog">
 				<div class="container">
-					<header class="block-heading cleafix">
-					</header>
-					<section class="block-body">
-							<div id="fh5co-main">
-			<div class="fh5co-narrow-content">
-				<div class="row row-bottom-padded-md">
-					<div class="col-md-6-plan-pic animate-box" data-animate-effect="fadeInLeft" >
-						<c:if test='${plans.picpath == null}'>
-							<img src="assets/images/bike_water1-1000x600.jpg">
-						</c:if>
-						<c:if test='${plans.picpath != null}'>
-							<img src="<%=request.getContextPath()%>${plans.picpath}">
-						</c:if>
-					</div>
+					<div id="fh5co-main">
+						<div class="row row-bottom-padded-md">
+							<div class="col-md-6-plan-pic animate-box" data-animate-effect="fadeInLeft" >
+								<c:if test='${plans.picpath == null||plans.picpath == ""}'>
+									<img src="assets/images/bike_water1-1000x600.jpg">
+								</c:if>
+								<c:if test='${plans.picpath != null && plans.picpath != ""}'>
+									<img src="<%=request.getContextPath()%>${plans.picpath}">
+								</c:if>
+							</div>
 				
-					<div class="col-md-6-plan-pic animate-box" data-animate-effect="fadeInLeft">
-						<h2 class="fh5co-heading">${plans.title}</h2>
-						<p>期望人数：${plans.expectnum}
-							&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp
-							目前人数：${plans.presentnum}</p>
-						<p>开始时间：<fmt:formatDate value="${plans.departuretime}" pattern="yyyy-MM-dd"/>
-							&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp
-							结束时间：<fmt:formatDate value="${plans.endtime}" pattern="yyyy-MM-dd"/></p>
-						<p>出发地点：${plans.departureplace}</p>
-						<p>目的地点：${plans.destination}</p>
-						<p>出发地点：${plans.departureplace}</p>
-						<p>旅行预算：${plans.budgetbottom}——${plans.budgettop}</p>
-						<p>邀约详情： ${plans.detail}</p>
-					</div>
-					<div class="col-md-6-plan-pic animate-box" data-animate-effect="fadeInLeft">
-						<div class="fleft">
-
-					<select id="cd-dropdown" name="cd-dropdown" class="cd-select">
-						<option value="-1" selected>查看当前成员 ${plans.presentnum}/${plans.expectnum}</option>
-						<option value="1"  class="icon-monkey">${allPlanmembers.creater.username} /发起人</option>
-						<c:forEach items="${allPlanmembers.verifiedPlanmembers}" var="member" varStatus="status">
-							<option value="1" class="icon-monkey">${member.username}/已审核通过</option>
-						</c:forEach>
-						<c:forEach items="${allPlanmembers.waitVerifiedPlanmembers}" var="member" varStatus="status">
-							<option value="1" class="icon-monkey">${member.username}/等待审核</option>
-						</c:forEach>
-					</select>
-
-				</div>
-					</div>
-					<div id="btn_div" class="col-md-6-plan-pic animate-box" data-animate-effect="fadeInLeft">
-						<c:if test='${plans.type == "2"}'>
-							<p><a id="" href="#" class="btn btn-primary">已结束</a></p>
-						</c:if>
-					  	<c:if test='${plans.type == "1"}'>
-							<p><a id="" href="#" class="btn btn-primary">出游中</a></p>
-						</c:if>
-					  	<c:if test='${plans.type == "0"}'>
-							<c:if test='${me.id == plans.creatby}'>
-								<p>
-									<a id="" href="modifyPlan?id=${plans.id}" class="btn btn-primary">修改邀约</a>
-									<a id="delete_btn" href="deletePlan?id=${plans.id}" class="btn btn-primary">取消出行</a>
-									<a id="leave_btn" href="" class="btn btn-primary">出发</a> </p>
-							</c:if>
-							<c:if test='${me.id != plans.creatby}'>
-								<c:if test='${plans.ismember == true}'>
-									<p><a id="" href="#" class="btn btn-primary">已申请</a> </p>
-								</c:if>
-								<c:if test='${plans.ismember != true}'>
-									<p><a id="appplan_btn" class="btn btn-primary">申请加入</a> </p>
-								</c:if>
-							</c:if>
-						</c:if>
-					</div>
+							<div class="col-md-6-plan-pic animate-box" data-animate-effect="fadeInLeft">
+								<h2 class="fh5co-heading">${plans.title}</h2>
+								<p>期望人数：${plans.expectnum}
+									&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp
+									目前人数：${plans.presentnum}</p>
+								<p>开始时间：<fmt:formatDate value="${plans.departuretime}" pattern="yyyy-MM-dd"/>
+									&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp
+									结束时间：<fmt:formatDate value="${plans.endtime}" pattern="yyyy-MM-dd"/></p>
+								<p>出发地点：${plans.departureplace}</p>
+								<p>目的地点：${plans.destination}</p>
+								<p>出发地点：${plans.departureplace}</p>
+								<p>旅行预算：${plans.budgetbottom}——${plans.budgettop}</p>
+								<p>邀约详情： ${plans.detail}</p>
+								<div id="btn_div"  data-animate-effect="fadeInLeft">
+									<c:if test='${plans.type == "2"}'>
+										<a id="" href="#" class="btn btn-primary">已结束</a>
+									</c:if>
+				  					<c:if test='${plans.type == "1"}'>
+										<a id="" class="btn btn-primary">出游中</a>
+										<c:if test='${me.id == plans.creatby}'>
+											<a id="" href="modifyPlan?id=${plans.id}" class="btn btn-primary">修改邀约</a>
+											<input id="end_btn" type="button" class="btn btn-primary" value="结束出游" onclick="end()">
+										</c:if>
+										<c:if test='${me.id != plans.creatby}'>
+											<c:if test='${plans.ismember == true}'>
+												<a id="apped" href="#" class="btn btn-primary">已申请</a>
+											</c:if>
+											<c:if test='${plans.ismember != true}'> 
+												<a id="appplan_btn" class="btn btn-primary" onclick="appplan()">申请加入</a>
+											</c:if>
+										</c:if>
+									</c:if>
+				  					<c:if test='${plans.type == "0"}'>
+										<c:if test='${me.id == plans.creatby}'>
+											<a id="" href="modifyPlan?id=${plans.id}" class="btn btn-primary">修改邀约</a>
+											<input id="delete_btn" type="button" class="btn btn-primary"  value="取消出行">
+											<input id="leave_btn" type="button" class="btn btn-primary"  value="出发">
+										</c:if>
+										<c:if test='${me.id != plans.creatby}'>
+											<c:if test='${plans.ismember == true}'>
+												<a id="apped" href="#" class="btn btn-primary">已申请</a>
+											</c:if>
+											<c:if test='${plans.ismember != true}'>
+												<a id="appplan_btn" class="btn btn-primary" onclick="appplan()">申请加入</a>
+											</c:if>
+										</c:if>
+									</c:if>
+									 <input id="showMember_btn" type="button" class="btn btn-primary" onclick="showMember()" value="查看成员">
+									 <input id="hideMember_btn" type="button" class="btn btn-primary" onclick="hideMember()" value="收起成员" style="display: none">
+								</div>
+							</div>
 					</div>
 				</div>
+			<div class="fh5co-narrow-content">
+			<div class="row">
+			<div id ="member_div" class="col-md-6-plan-pic animate-box" data-animate-effect="fadeInLeft" style="display: none">
+				<div class="timeline timeline-single-column">
+				   <span class="timeline-label">
+                       <span class="label label-primary">查看当前成员 ${plans.presentnum}/${plans.expectnum}</span>
+                  </span>
+				 <div class="timeline-item timeline-item-arrow-sm">
+                        <div class="timeline-point timeline-point-primary">
+                            <i class="fa fa-star"></i>
+                        </div>
+                        <div class="timeline-event timeline-event-primary">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">${allPlanmembers.creater.username} 
+                                    	<c:if test='${allPlanmembers.creater.isontravel == 1}'>
+                                    		/出行中
+                                   		</c:if>
+                                   	 	/发起人
+                                   	 </h3>
+                                </div>
+                                <div class="panel-body">
+                                    <a href="userMessage?id=${allPlanmembers.creater.userid}"  target="_blank" class="">查看个人信息</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <span class="timeline-label">
+                       <span class="label label-primary">审核通过</span>
+                  </span>
+                  <div id = "verifiedPlanmembers_div">
+                  <c:forEach items="${allPlanmembers.verifiedPlanmembers}" var="member" varStatus="status">
+                   <div id="${member.id}_verified_div" class="timeline-item timeline-item-arrow-sm">
+                        <div class="timeline-point timeline-point-primary">
+                            <i class="fa fa-star"></i>
+                        </div>
+                        <div class="timeline-event timeline-event-primary">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">
+                                    	${member.username}
+                                    	<c:if test='${member.isontravel == 1}'>
+                                    	/出行中
+                                   		</c:if>
+                                   		/已审核通过
+                                    </h3>
+                                </div>
+								<div class="panel-body">
+									<a href="userMessage?id=${member.id}" target="_blank"  class="">查看个人信息</a>
+									<c:if test='${me.id == plans.creatby &&(plans.type == "1"||plans.type == "0")}'>
+                                    	<a onclick="unVerifyMember(0,${plans.id},${member.userid},${member.id},'${member.username}')">踢出</a>
+                                   	</c:if>
+                                   	<c:if test='${me.id != plans.creatby &&(member.userid == me.id)}'>
+                                    	<a onclick="quit(1,${member.id})">退出</a>
+                                   	</c:if>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  </c:forEach>
+                  </div>
+                  <span class="timeline-label">
+                       <span class="label label-primary">等待审核</span>
+                  </span>
+                  <div id ="waitVerifiedPlanmembers_div">
+                  <c:forEach items="${allPlanmembers.waitVerifiedPlanmembers}" var="member" varStatus="status">
+                   <div id="${member.id}_waitVerified_div" class="timeline-item timeline-item-arrow-sm">
+                        <div class="timeline-point timeline-point-primary">
+                            <i class="fa fa-star"></i>
+                        </div>
+                        <div class="timeline-event timeline-event-primary">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">${member.username}
+                                    	<c:if test='${member.isontravel == 1}'>
+                                    	/出行中
+                                   		</c:if>
+                                    	/等待审核
+                                    </h3>
+                                </div>
+                               <div class="panel-body">
+                               		<a href="userMessage?id=${member.userid}" target="_blank"  class="">查看个人信息</a>
+									<c:if test='${me.id == plans.creatby &&(plans.type == "1"||plans.type == "0")}'>
+                                    	<a onclick="verifyMember(1,${plans.id},${member.userid},${member.id},'${member.username}')">同意</a>
+                                    </c:if>
+                                    <c:if test='${me.id != plans.creatby &&(member.userid == me.id)}'>
+                                    	<a onclick="quit(0,${member.id})">退出</a>
+                                   	</c:if>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  </c:forEach>
+                  </div>
+                     <span class="timeline-label">
+                        <button class="btn btn-danger"><i class="fa fa-ambulance"></i></button>
+                    </span>
+                </div>
 			</div>
-
+			</div>
+			
+			
+			</div>
 			<div class="fh5co-narrow-content">
 				<div class="row">
 					<div >
@@ -140,6 +234,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<div id="lstComments_div">
 							<c:forEach items="${lstComments}" var="commentsItem" varStatus="status">
 								<div id ="${commentsItem.id}st_comment_div" class="animate-comment" data-animate-effect="fadeInLeft">
+									<!-- 本条评论 -->
 									<div  class="fh5co-text">
 										<span></span>
 										<span class="username">${commentsItem.creatbyname}:</span>
@@ -155,6 +250,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											</c:if>
 										</p>
 									</div>
+									<!--回复 该评论的btn -->
 									<div id ="${commentsItem.id}_note_div" class="fh5co-text animate-box" style="display: none">
 										<div>
 											<textarea id="${commentsItem.id}_note_content" name="content"  class="form-control-comment form-control-black" placeholder="Write Something" rows="3"></textarea>
@@ -165,9 +261,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									
 										</div>
 									</div>
+									<!--该评论的所有回复  -->
 									<div id ="${commentsItem.id}_lstNotes_div" class="fh5co-feature">
 										<c:forEach items="${commentsItem.lstNote}" var="item" varStatus="status">
 											<div id ="${item.id}st_note_div">
+												<!--该回复的内容  -->
 												<div class="fh5co-text animate-box">
 													<span class="username">${item.creatbyname}:</span>
 													<span class="time">
@@ -182,6 +280,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 														</c:if>
 													</p>
 												</div>
+												<!--回复回复的按钮  -->
 												<div id ="${item.id}_note_div" class="fh5co-text animate-box" style="display: none">
 													<div>
 														<textarea id="${item.id}_note_content" name="content"  class="form-control-comment form-control-black" placeholder="Write Something" rows="3" required></textarea>
@@ -244,36 +343,104 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		$('#user_div').hide();
 	}
 	
-	$('#appplan_btn').click(function(){
+	function showMember(){
+		$('#member_div').show();
+		$('#hideMember_btn').show();
+		$('#showMember_btn').hide();
+	}
+	function hideMember(){
+		$('#member_div').hide();
+		$('#showMember_btn').show();
+		$('#hideMember_btn').hide();
+	}
+	
+		function showNoteDiv(commentId){
+		$('#'+commentId+'_note_div').show();
+		$('#'+commentId+'_comment_btn').hide();
+		$('#'+commentId+'_delete_btn').hide();
+	}
+	
+	function hideNoteDiv(commentId){
+		$('#'+commentId+'_note_div').hide();
+		$('#'+commentId+'_comment_btn').show();
+		$('#'+commentId+'_delete_btn').show();
+	}
+	
+	$('#delete_btn').click(function(){
+	
+    		$.ajax({  
+				data:"id=${plans.id}" ,      
+        		type:"POST",  
+     			dataType:'json',
+        		url:"deletePlan",  
+        		error:function(data){  
+           			 alert("出错了！！:"+data);  
+        		},  
+        		success:function(data){  
+        			window.location.href ="<%=request.getContextPath()%>" + "/myplans?type=0&page=1&id=${me.id}";
+        		} 
+     		});  
+	});
+	
+	function appplan(){
+		if(username==""){
+			alert("请先登录");
+			return;
+		}
 		if("${usertype}"=="U"){
-			alert("实名认证后才能发起邀约");
+			alert("实名认证后才能申请邀约");
 			return;
 		}
     		$.ajax({  
-				data:"id=" +${plans.id},      
+				data:"id=${plans.id}" ,      
         		type:"POST",  
      			dataType:'json',
         		url:"appPlan",  
         		error:function(data){  
            			 alert("出错了！！:"+data);  
         		},  
-        		success:function(data){  
+        		success:function(data){ 
+        			$('#member_div').hide(); 
         			if(data.success=="1"){
-        				var btn_div = "<a  href=\"#\" class=\"btn btn-primary\">已申请</a>";
+        				var btn_div = 
+        				"<a id=\"apped\" href=\"#\" class=\"btn btn-primary\">已申请</a>"+
+						"   <input id=\"showMember_btn\" type=\"button\" class=\"btn btn-primary\" onclick=\"showMember()\" value=\"查看成员\">"+
+						"	<input id=\"hideMember_btn\" type=\"button\" class=\"btn btn-primary\" onclick=\"hideMember()\" value=\"收起成员\" style=\"display: none\">";
+        				
         				$("#btn_div").empty();
-						$("#lstComments_div").prepend($(btn_div));
+						$("#btn_div").prepend($(btn_div));
+						
+					
+					var waitVerifiedDiv =
+					" <div id=\""+data.id+"_waitVerified_div\" class=\"timeline-item timeline-item-arrow-sm\">"+
+                    "	<div class=\"timeline-point timeline-point-primary\">"+
+                    "       <i class=\"fa fa-star\"></i>"+
+                    "    </div>"+
+                    "    <div class=\"timeline-event timeline-event-primary\">"+
+                    "        <div class=\"panel panel-default\">"+
+                    "            <div class=\"panel-heading\">"+
+                    "                <h3 class=\"panel-title\">${me.name}/等待审核</h3>"+
+                    "           </div>"+
+					"			<div class=\"panel-body\">"+
+					"				<a href=\"userMessage?id=${me.id}\" target=\"_blank\">查看个人信息</a>"+
+					"				<a onclick=\"quit(0,"+data.id+")\">退出</a>"+
+                    "            </div>"+
+                    "        </div>"+
+                    "    </div>"+
+                    "</div>";
+					$("#waitVerifiedPlanmembers_div").append($(waitVerifiedDiv));
         			}else{
         				alert("申请失败"+data.msg); 
         			}
         		} 
      		});  
-	});
+	}
 	
-	$('#leave_btn').click(function(){
+	$('#leave_btn').click(function leave(){
 	
     		$.ajax({  
-				data:"id=" +${plans.id},      
-        		type:"POST",  
+				data:"id=${plans.id}",      
+        		type:"get",  
      			dataType:'json',
         		url:"leave",  
         		error:function(data){  
@@ -281,18 +448,52 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         		},  
         		success:function(data){  
         			if(data.success=="1"){
-        				var btn_div = "<a  href=\"#\" class=\"btn btn-primary\">出游中</a>";
+        				var btn_div = 
+        			"	<a  href=\"#\" class=\"btn btn-primary\">出游中</a>"+
+					"	<a href=\"modifyPlan?id=${plans.id}\" class=\"btn btn-primary\">修改邀约</a>"+
+					"	<input id=\"end_btn\" type=\"button\" class=\"btn btn-primary\" value=\"结束出游\" onclick=\"end()\">"	+
+					"   <input id=\"showMember_btn\" type=\"button\" class=\"btn btn-primary\" onclick=\"showMember()\" value=\"查看成员\">"+
+					"	<input id=\"hideMember_btn\" type=\"button\" class=\"btn btn-primary\" onclick=\"hideMember()\" value=\"收起成员\" style=\"display: none\">";
         				$("#btn_div").empty();
-						$("#lstComments_div").prepend($(btn_div));
-        			}else{
-        				alert("申请失败"+data.msg); 
+						$("#btn_div").prepend($(btn_div));
+        			}else if(data.isOntravel=="-1"){
+						alert("无法同意申请，您正在出行中"); 
+				
+					}else if(data.isOntravel=="-1"){
+						alert("无法同意申请，邀约成员已有在出行中"); 
+				
+					}else{
+        				alert("出行失败"+data.msg); 
         			}
         		} 
      		});  
 	});
 	
+	function end(){
+    	$.ajax({  
+			data:"id=${plans.id}",      
+        	type:"get",  
+     		dataType:'json',
+       		url:"end",  
+       		error:function(data){  
+       			 alert("出错了！！:"+data);  
+       		},  
+        	success:function(data){  
+        		if(data.success=="1"){
+        			var btn_div = 
+        			"	<a  href=\"#\" class=\"btn btn-primary\">已结束</a>"+
+					"   <input id=\"showMember_btn\" type=\"button\" class=\"btn btn-primary\" onclick=\"showMember()\" value=\"查看成员\">"+
+					"	<input id=\"hideMember_btn\" type=\"button\" class=\"btn btn-primary\" onclick=\"hideMember()\" value=\"收起成员\" style=\"display: none\">";
+        			$("#btn_div").empty();
+					$("#btn_div").prepend($(btn_div));
+        		}else{
+        			alert("结束失败"+data.msg); 
+       			}
+       		} 
+   		});  
+	}
 	
-	
+	//对于整个plan 的评论
 	$('#comment_to_plan_btn').click(function() {
 		var comment = $('#comment_to_plan').val();
 		$.ajax({ 
@@ -301,7 +502,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				"&planid=" + ${plans.id} + 
 				"&commentId=" + 0 + 
 				"&commentCreateby=" + 0+
-				"&type="+0,  
+				"&type="+0,
 			type: "post", 
 			url: "<%=request.getContextPath()%>" + "/addComment", 
 			dataType: "json", 
@@ -327,13 +528,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						"				<textarea id=\""+json.id+"_note_content\" name=\"content\"  class=\"form-control-comment form-control-black\" placeholder=\"Write Something\" rows=\"3\" required></textarea>"+
 						"			</div>"+
 						"			<div class=\"note_btn\">"+
-						"				<button class=\"btn btn-primary-tonote\" onclick=\"addNote("+json.id+","+uid +",1)\">回复</button>"+
+						"				<button class=\"btn btn-primary-tonote\" onclick=\"addNote("+json.id+",0,"+uid +",1)\">回复</button>"+
 						"				<button class=\"btn btn-primary-tonote\" onclick=\"hideNoteDiv("+json.id+")\">取消</button>"+
 						"			</div>"+
+						"		</div>"+
+						"		<div id =\""+json.id+"_lstNotes_div\" class=\"fh5co-feature\">"+
 						"		</div>"+
 						"	</div>";
 				$("#lstComments_div").prepend($(commentDiv));
 				$('#comment_to_plan').val("");
+				setTotalCount+=1;
 			}			
 		},
 		error: function(data) { 
@@ -343,19 +547,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	});
 	
 	
-	
-	function showNoteDiv(commentId){
-		$('#'+commentId+'_note_div').show();
-		$('#'+commentId+'_comment_btn').hide();
-		$('#'+commentId+'_delete_btn').hide();
-	}
-	
-	function hideNoteDiv(commentId){
-		$('#'+commentId+'_note_div').hide();
-		$('#'+commentId+'_comment_btn').show();
-		$('#'+commentId+'_delete_btn').show();
-	}
-	
+	//对于某条评论的回复
 	function addNote(commentId,noteId,commentCreateby,type){
 		var comment ;
 		if(noteId==0){
@@ -394,7 +586,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						"				<textarea id=\""+data.id+"_note_content\" name=\"content\"  class=\"form-control-comment form-control-black\" placeholder=\"Write Something\" rows=\"3\" required></textarea>"+
 						"			</div>"+
 						"			<div class=\"note_btn\">"+
-						"				<button  class=\"btn btn-primary-tonote\" onclick=\"addNote("+commentId+","+uid+",2)\">回复</button>"+
+						"				<button  class=\"btn btn-primary-tonote\" onclick=\"addNote("+commentId+","+data.id+","+uid+",2)\">回复</button>"+
 						"				<button  class=\"btn btn-primary-tonote\" onclick=\"hideNoteDiv("+data.id+")\">取消</button>"+
 						"			</div>"+
 						"	</div>"+
@@ -536,6 +728,122 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			},
 			error: function(data) { 
 				alert(data); 
+			}
+		});
+		
+		}
+				
+	function verifyMember(type,pid,uid,pmid,uname){
+		$.ajax({ 
+			data: 
+				"pid=" + pid +
+				"&uid=" + uid+
+				"&type=" + type,
+			type: "get", 
+			url: "<%=request.getContextPath()%>" + "/verifyMember", 
+			dataType: "json", 
+			success: function(data) { 
+				if(data.success=="1"){
+					var verifiedDiv =
+					" <div id=\""+pmid+"_verified_div\" class=\"timeline-item timeline-item-arrow-sm\">"+
+                    "	<div class=\"timeline-point timeline-point-primary\">"+
+                    "       <i class=\"fa fa-star\"></i>"+
+                    "    </div>"+
+                    "    <div class=\"timeline-event timeline-event-primary\">"+
+                    "        <div class=\"panel panel-default\">"+
+                    "            <div class=\"panel-heading\">"+
+                    "                <h3 class=\"panel-title\">"+uname+
+                    (data.isontravel=="1"?"/出行中":"")+
+                    "/已审核通过</h3>"+
+                    "           </div>"+
+					"			<div class=\"panel-body\">"+
+					"				<a href=\"userMessage?id=${member.id}\" target=\"_blank\">查看个人信息</a>"+
+						
+							("${me.id}"=="${plans.creatby}"?
+							"	<a onclick=\"unVerifyMember(0,"+pid+","+uid+","+pmid+",'"+uname+"')\">踢出</a>":"")+
+                    "            </div>"+
+                    "        </div>"+
+                    "    </div>"+
+                    "</div>";
+					$("#"+pmid+"_waitVerified_div").remove();
+					$("#verifiedPlanmembers_div").append($(verifiedDiv));
+				}else if(data.isOntravel=="-1"){
+					alert("无法同意申请，该成员已经在出行中"); 
+				
+				}
+			},
+			error: function(data) { 
+				alert("失败",data); 
+			}
+		});
+		
+	}
+	function unVerifyMember(type,pid,uid,pmid,uname){
+		$.ajax({ 
+			data: 
+				"pid=" + pid +
+				"&uid=" + uid+
+				"&type=" + type,
+			type: "get", 
+			url: "<%=request.getContextPath()%>" + "/verifyMember", 
+			dataType: "json", 
+			success: function(data) { 
+				if(data.success=="1"){
+					var waitVerifiedDiv =
+					" <div id=\""+pmid+"_waitVerified_div\" class=\"timeline-item timeline-item-arrow-sm\">"+
+                    "	<div class=\"timeline-point timeline-point-primary\">"+
+                    "       <i class=\"fa fa-star\"></i>"+
+                    "    </div>"+
+                    "    <div class=\"timeline-event timeline-event-primary\">"+
+                    "        <div class=\"panel panel-default\">"+
+                    "            <div class=\"panel-heading\">"+
+                    "                <h3 class=\"panel-title\">"+uname+
+                    (data.isontravel=="1"?"/出行中":"")+
+                    "/等待审核</h3>"+
+                    "           </div>"+
+					"			<div class=\"panel-body\">"+
+					"				<a href=\"userMessage?id=${member.id}\" target=\"_blank\">查看个人信息</a>"+
+						
+							("${me.id}"=="${plans.creatby}"?
+							"	<a onclick=\"verifyMember(1,"+pid+","+uid+","+pmid+",'"+uname+"')\">同意</a>":"")+
+                    "            </div>"+
+                    "        </div>"+
+                    "    </div>"+
+                    "</div>";
+					$("#"+pmid+"_verified_div").remove();
+					$("#waitVerifiedPlanmembers_div").append($(waitVerifiedDiv));
+				}
+			},
+			error: function(data) { 
+				alert("失败",data); 
+			}
+		});
+		
+		}
+		
+	function quit(type,id){
+		$.ajax({ 
+			data: 
+				"id=" + id ,
+			type: "get", 
+			url: "<%=request.getContextPath()%>" + "/quitPlan", 
+			dataType: "json", 
+			success: function(data) { 
+				if(data.success=="1"){
+					if(type==0){
+						$("#"+id+"_waitVerified_div").remove();
+					}
+					if(type==1){
+						$("#"+id+"_verified_div").remove();
+					}
+					
+					var btn_div="<a id=\"appplan_btn\" class=\"btn btn-primary\" onclick=\"appplan()\">申请加入</a>";
+					$("#apped").remove();
+					$("#btn_div").prepend($(btn_div));
+				}
+			},
+			error: function(data) { 
+				alert("失败",data); 
 			}
 		});
 		

@@ -34,15 +34,18 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import com.alibaba.druid.support.json.JSONUtils;
 import com.travel.pojo.AllPlanmembers;
 import com.travel.pojo.Comments;
 import com.travel.pojo.Me;
 import com.travel.pojo.PlanPage;
 import com.travel.pojo.Planmembers;
 import com.travel.pojo.Plans;
+import com.travel.pojo.ScoreUser;
 import com.travel.pojo.Users;
 import com.travel.service.PlanmembersService;
 import com.travel.service.PlansService;
+import com.travel.service.ScoreUserService;
 import com.travel.service.UserService;
 import com.travel.solr.CommentsSolr;
 import com.travel.solr.PlansSolr;
@@ -64,7 +67,8 @@ public class PlanController {
 	private PlanmembersService planmembersService;
 	@Resource
 	private UserController userController;
-	
+	@Resource
+	private ScoreUserService scoreUserService;
 	private PlansSolr plansSolr = new PlansSolr();
 	private CommentsSolr commentsSolr = new CommentsSolr();
 	protected Logger logger = LoggerFactory.getLogger(getClass());
@@ -84,7 +88,7 @@ public class PlanController {
 		String page = request.getParameter("page");
 		
 		//加载plan
-		PlanPage planPage = plansSolr.searchPlanPage(id,type,Integer.parseInt(page),30);
+		PlanPage planPage = plansSolr.searchPlanPage(id,type,Integer.parseInt(page),20);
 		planPage.setType(type);
 		planPage.setId(id);
 		request.setAttribute("planPage", planPage);
@@ -163,8 +167,13 @@ public class PlanController {
 		if (plansService.insert(plans,me.getName()) > 0) {
 			plansSolr.insert(plans);
 		}
+		
+		if (scoreUserService.addScore(me.getId(), 5, 2)<=0) {
+			result.put("success", "-1");
+			return JSONUtils.toJSONString(result);
+		}
+		
 		result.put("success", "1");
-
 		return JSONObject.fromObject(result).toString();
 
 	}
@@ -183,7 +192,65 @@ public class PlanController {
 
 		result.put("success", "1");
 
-		return "redirect:myplans?type=0&page=1";
+		return JSONObject.fromObject(result).toString();
+
+	}
+
+	@RequestMapping(value = "/end")
+	@ResponseBody
+	public String end(HttpServletResponse response, HttpServletRequest request)
+			throws Exception {
+
+		HashMap<String, String> result = new HashMap<String, String>();
+
+		String id = request.getParameter("id");
+		
+		//更新邀约情况
+		Plans plans = plansSolr.searchById(id).get(0);
+		plans.setType(2);
+		if(plansService.update(plans)<=0){
+			result.put("success", "-1");
+			return JSONUtils.toJSONString(result);
+		}
+		plansSolr.insert(plans);
+		
+		//更新成员的出行情况（结束出行）
+		List<Integer> lstUid = planmembersService.selectUidByPid(Integer.parseInt(id));
+		for (Integer uid : lstUid) {
+			Users u=new Users();
+			u.setId(uid);
+			u.setIsontravel(0);
+			if (userService.updateUser(u)<=0) {
+				result.put("success", "-1");
+				return JSONUtils.toJSONString(result);
+			}
+		}
+		
+		/*
+		 * 邀约成员添加邀约结束分
+		 */
+		//结束本人发起邀约，添加分数记录
+		Me me = userController.getMe(request);
+		if (scoreUserService.addScore(me.getId(), 20, 3)<=0) {
+			result.put("success", "-1");
+			return JSONUtils.toJSONString(result);
+		}
+		//结束参与邀约，添加分数记录
+		for (Integer uid : lstUid) {
+			if (uid==me.getId()) {
+				continue;
+			}
+			if (scoreUserService.addScore(uid, 10, 5)<=0) {
+				result.put("success", "-1");
+				return JSONUtils.toJSONString(result);
+			}
+		}
+		
+		//更新session
+		me.setIsontravel(0);
+		request.getSession().setAttribute("me", me);
+		result.put("success", "1");
+		return JSONObject.fromObject(result).toString();
 
 	}
 
@@ -195,17 +262,58 @@ public class PlanController {
 		HashMap<String, String> result = new HashMap<String, String>();
 
 		String id = request.getParameter("id");
+		
+		/*
+		 * 判断是否满足出行条件
+		 */
+		//判断发起人是否在出行中
+		Me me = userController.getMe(request);
+		Users users = userService.selectByPrimaryKey(me.getId());
+		if (users.getIsontravel()==1) {
+			result.put("success", "-1");
+			result.put("isOntravel", "-1");//发起人出行中
+			return JSONObject.fromObject(result).toString();
+		}
+		
+		//判断是否有成员在
+		List<Integer> lstUid = planmembersService.selectUidByPid(Integer.parseInt(id));
+		for (Integer uid : lstUid) {
+			Users u=userService.selectByPrimaryKey(uid);
+			if(u.getIsontravel()==1){
+				result.put("success", "-1");
+				result.put("isOntravel", "-2");//发起人出行中
+				return JSONObject.fromObject(result).toString();
+			}
+		}
+		
+		//更新邀约
 		Plans plans = plansSolr.searchById(id).get(0);
 		plans.setType(1);
 		plansService.update(plans);
 		plansSolr.insert(plans);
-
+		
+		//更新邀约成员  将本plan 所有审核通过的成员，设为出行中
+		if (planmembersService.updateByPid(1,Integer.parseInt(id))<=0) {
+			result.put("success", "-1");
+			return JSONObject.fromObject(result).toString();
+		}
+		
+		//更新成员的邀约情况
+		for (Integer uid : lstUid) {
+			Users u=new Users();
+			u.setId(uid);
+			u.setIsontravel(1);
+			userService.updateUser(u);
+		}
+		
+		//更新session的的出行情况
+		me.setIsontravel(1);
+		request.getSession().setAttribute("me", me);
 		result.put("success", "1");
-
 		return JSONObject.fromObject(result).toString();
 
 	}
-
+	
 	@RequestMapping("/plandetail")
 	public String showMymessage(HttpServletRequest request,
 			HttpServletResponse response, Model model) throws Exception {
@@ -239,6 +347,8 @@ public class PlanController {
 		List<Planmembers> lstPlanmembers = planmembersService.selectUserIdByPid(pid);// new LinkedList<>();
 	
 		for (Planmembers planmembers : lstPlanmembers) {
+			Users users = userService.selectByPrimaryKey(planmembers.getUserid());
+			planmembers.setIsontravel(users.getIsontravel());
 			switch (planmembers.getUsertype()) {
 			case 3:
 				allPlanmembers.setCreater(planmembers);
@@ -310,10 +420,12 @@ public class PlanController {
 			planmembers.setIscreater((byte) 0);
 			planmembers.setUsername(me.getName());
 			planmembers.setUsertype(0);
+			planmembers.setIsontravel(0);
 			planmembers.setFlag("M");
 			planmembersService.insert(planmembers);
 
 			result.put("success", "1");
+			result.put("id", planmembers.getId()+"");
 		} else {
 			result.put("planmembers", "1");
 		}
@@ -327,18 +439,18 @@ public class PlanController {
 	public String cancelPlan(HttpServletResponse response,
 			HttpServletRequest request) throws Exception {
 
-		Users users = (Users) request.getSession().getAttribute("user");
+		Me me = userController.getMe(request);
 		String planId = request.getParameter("id");
 
 		HashMap<String, String> result = new HashMap<String, String>();
 
 		Plans plans = plansService.selectPlansById(Integer.parseInt(planId));
 
-		if (planmembersService.selectIdByUidAndPid(users.getId().toString(),
+		if (planmembersService.selectIdByUidAndPid(me.getId().toString(),
 				planId.toString()) < 0) {
 			Planmembers planmembers = new Planmembers();
 			planmembers.setPlanid(Integer.parseInt(planId));
-			planmembers.setUserid(users.getId());
+			planmembers.setUserid(me.getId());
 			planmembersService.insert(planmembers);
 			plans.setPresentnum(planmembersService.selectCountByPid(planId));
 			plansService.update(plans);
@@ -355,14 +467,9 @@ public class PlanController {
 	public String modifyPlan(HttpServletRequest request,
 			HttpServletResponse response, Model model) throws Exception {
 
-		Users users = (Users) request.getSession().getAttribute("user");
-		if (users != null) {
-			String userName = users.getName();
-			if (userName == null || "".equals(userName)) {
-				userName = users.getUsername();
-			}
-			request.setAttribute("username", userName);
-			request.setAttribute("uid", users.getId());
+		Me me = userController.getMe(request);
+		if (me != null) {
+			request.setAttribute("me", me);
 		}
 
 		String id = request.getParameter("id");
@@ -397,10 +504,8 @@ public class PlanController {
 	private Plans fillPlan(HttpServletRequest request, Plans plans)
 			throws ParseException {
 
-		Subject currentUser = SecurityUtils.getSubject();
-		Session session = currentUser.getSession();
-		Users users = (Users) session.getAttribute("user");
-
+		Me me = userController.getMe(request);
+		
 		String title = request.getParameter("title");
 		String tag = request.getParameter("tag");
 		String departuretime = request.getParameter("departuretime");
@@ -425,7 +530,7 @@ public class PlanController {
 			plans.setScore(0);
 			plans.setFlag("M");
 			plans.setCreattime(new Date());
-			plans.setCreatby(users.getId());
+			plans.setCreatby(me.getId());
 			plans.setType(0);// 0等待，1出发，2结束
 		} else {
 			int presentnum = planmembersService.selectCountByPid(plans.getId()
@@ -448,5 +553,7 @@ public class PlanController {
 
 		return plans;
 	}
+	
+	
 
 }

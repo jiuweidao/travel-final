@@ -24,4 +24,5 @@ public interface ContactsService {
 	
 	int updateUserByUid(Contacts contacts);
 	
+	Contacts selectByUid(Integer id);
 }

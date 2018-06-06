@@ -71,4 +71,17 @@ public interface PlanmembersMapper {
     List<Planmembers> selectUserIdByPid(String pid);
     
     int deleteByPid(String pid);
+    
+    int updateByPidUidSelective(Planmembers planmembers);
+    
+    int updateIsOnTravelByPid(@Param("isontravel")int isontravel,@Param("planid")int  planid);
+    
+    int deleteUnOnTravel(@Param("planid")int planid);
+    
+    /**
+     * 查询所有的加入成员
+     * @param planid
+     * @return
+     */
+    List<Integer> selectUidByPid(@Param("planid")int  planid);
 }

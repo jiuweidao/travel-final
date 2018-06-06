@@ -8,12 +8,12 @@
     <result column="UserName" property="username" jdbcType="VARCHAR" />
     <result column="UserType" property="usertype" jdbcType="INTEGER" />
     <result column="JoinTime" property="jointime" jdbcType="TIMESTAMP" />
-    <result column="Score" property="score" jdbcType="INTEGER" />
+    <result column="IsOnTravel" property="isontravel" jdbcType="INTEGER" />
     <result column="IsCreater" property="iscreater" jdbcType="TINYINT" />
     <result column="Flag" property="flag" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    Id, PlanId, UserId, UserName, UserType, JoinTime, Score, IsCreater, Flag
+    Id, PlanId, UserId, UserName, UserType, JoinTime, IsOnTravel, IsCreater, Flag
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -27,10 +27,10 @@
   </delete>
   <insert id="insert" parameterType="com.travel.pojo.Planmembers" useGeneratedKeys="true" keyProperty="id" >
     insert into planmembers (PlanId, UserId, UserName, 
-      UserType, JoinTime, Score, 
+      UserType, JoinTime, IsOnTravel, 
       IsCreater, Flag)
     values (#{planid,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, 
-      #{usertype,jdbcType=INTEGER}, #{jointime,jdbcType=TIMESTAMP}, #{score,jdbcType=INTEGER}, 
+      #{usertype,jdbcType=INTEGER}, #{jointime,jdbcType=TIMESTAMP}, #{isontravel,jdbcType=INTEGER}, 
       #{iscreater,jdbcType=TINYINT}, #{flag,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.travel.pojo.Planmembers" useGeneratedKeys="true" keyProperty="id" >
@@ -41,7 +41,7 @@
       UserName,
       UserType,
       JoinTime,
-      Score,
+      IsOnTravel,
       IsCreater,
       Flag,
     </trim>
@@ -51,7 +51,7 @@
       #{username,jdbcType=VARCHAR},
       #{usertype,jdbcType=INTEGER},
       #{jointime,jdbcType=TIMESTAMP},
-      #{score,jdbcType=INTEGER},
+      #{isontravel,jdbcType=INTEGER},
       #{iscreater,jdbcType=TINYINT},
       #{flag,jdbcType=VARCHAR},
     </trim>
@@ -74,8 +74,8 @@
       <if test="jointime != null" >
         JoinTime = #{jointime,jdbcType=TIMESTAMP},
       </if>
-      <if test="score != null" >
-        Score = #{score,jdbcType=INTEGER},
+      <if test="isontravel != null" >
+        IsOnTravel = #{isontravel,jdbcType=INTEGER},
       </if>
       <if test="iscreater != null" >
         IsCreater = #{iscreater,jdbcType=TINYINT},
@@ -93,7 +93,7 @@
       UserName = #{username,jdbcType=VARCHAR},
       UserType = #{usertype,jdbcType=INTEGER},
       JoinTime = #{jointime,jdbcType=TIMESTAMP},
-      Score = #{score,jdbcType=INTEGER},
+      IsOnTravel = #{isontravel,jdbcType=INTEGER},
       IsCreater = #{iscreater,jdbcType=TINYINT},
       Flag = #{flag,jdbcType=VARCHAR}
     where Id = #{id,jdbcType=INTEGER}
@@ -110,7 +110,7 @@
 		SELECT PlanId 
 		FROM planmembers
 			WHERE UserId = #{uid} 
-			AND  IsCreater = 1
+			AND  IsCreater = 0
 	</select>
 	<select id="selectUserIdByPid" parameterType="String" resultMap="BaseResultMap">
 		SELECT * 
@@ -127,4 +127,56 @@
     	delete from planmembers
     	where PlanId = #{pid,jdbcType=INTEGER}
   	</delete>
+  	
+  <update id="updateByPidUidSelective" parameterType="com.travel.pojo.Planmembers" >
+    update planmembers
+    <set >
+      <if test="username != null" >
+        UserName = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="usertype != null" >
+        UserType = #{usertype,jdbcType=INTEGER},
+      </if>
+      <if test="jointime != null" >
+        JoinTime = #{jointime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isontravel != null" >
+        IsOnTravel = #{isontravel,jdbcType=INTEGER},
+      </if>
+      <if test="iscreater != null" >
+        IsCreater = #{iscreater,jdbcType=TINYINT},
+      </if>
+      <if test="flag != null" >
+        Flag = #{flag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    	where PlanId = #{planid,jdbcType=INTEGER} 
+    	AND  UserId = #{userid,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateIsOnTravelByPid" >
+    update planmembers
+    <set >
+       IsOnTravel = #{isontravel,jdbcType=INTEGER}
+    </set>
+    	where PlanId = #{planid,jdbcType=INTEGER} 
+    	AND (UserType = 1 OR UserType = 3)
+  </update>
+   <delete id="deleteUnOnTravel"  >
+     delete from planmembers
+     where PlanId != #{planid,jdbcType=INTEGER} 
+     AND UserType = 0
+	 AND  UserId IN(
+		SELECT UserId FROM planmembers 
+		WHERE PlanId =#{planid,jdbcType=INTEGER}
+		AND (UserType = 1 OR UserType = 3)
+	 )
+  </delete>
+  
+  	<select id="selectUidByPid" parameterType="String" resultType="INTEGER">
+		SELECT  UserId FROM planmembers 
+    	WHERE PlanId =#{planid,jdbcType=INTEGER}
+		AND (UserType = 1 OR UserType = 3)
+  
+	</select>
 </mapper>

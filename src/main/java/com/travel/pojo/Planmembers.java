@@ -41,10 +41,10 @@ public class Planmembers implements Serializable {
     private Date jointime;
 
     /**
-     * planmembers.Score (旅游平均分)
-     * @ibatorgenerated 2018-05-17 20:00:55
+     * planmembers.IsOnTravel (旅游平均分)
+     * @ibatorgenerated 2018-05-30 12:16:30
      */
-    private Integer score;
+    private Integer isontravel;
 
     /**
      * planmembers.IsCreater (申请创建人)
@@ -106,12 +106,12 @@ public class Planmembers implements Serializable {
         this.jointime = jointime;
     }
 
-    public Integer getScore() {
-        return score;
+    public Integer getIsontravel() {
+        return isontravel;
     }
 
-    public void setScore(Integer score) {
-        this.score = score;
+    public void setIsontravel(Integer isontravel) {
+        this.isontravel = isontravel;
     }
 
     public Byte getIscreater() {

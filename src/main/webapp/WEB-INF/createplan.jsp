@@ -113,18 +113,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							</form>
 							<div class="col-md-6 col-md-offset-3-user-left">
    								<img id="pic" class="upload-img" src=""/> 
-   							</div>
-   							<div class="col-md-6 col-md-offset-3-user-left">
 							<form id="uploadForm"  class="form-user-upload" enctype="multipart/form-data">  
 								<div class="col-md-6 col-md-offset-3-user-right">
    								 <input id="file"  type="file" name="file"/>  
    								 </div>
 							</form>  
-							</div>
-							<div class="col-md-6 col-md-offset-3-user-right">
+   							 <div >
    								<button class="btn btn-o-white" id="upload">上传图片</button>
-   							 </div>
-							  
+   							</div>
+							 </div> 
 						</div>
 					</section>
 				</div>
@@ -225,7 +222,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         			var json=JSON.parse(data);
         			if(json.success=="1"){
         				alert("創建成功"); 
-        				window.location.href ="<%=request.getContextPath()%>" + "/myplans?type=0&page=1"
+        				window.location.href ="<%=request.getContextPath()%>" + "/allPlans?type=0&page=1&id=${me.id}";
         			}else {
         				alert("创建失败"); 
         					

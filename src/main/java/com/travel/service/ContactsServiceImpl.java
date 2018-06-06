@@ -30,8 +30,6 @@ public class ContactsServiceImpl implements ContactsService{
 	@Resource
 	private ContactsMapper contactsMapper;
 	
-	@Resource
-	private PlannumUserService plannumUserService;
 
 	@Override
 	public int insert(Contacts contacts) {
@@ -42,7 +40,13 @@ public class ContactsServiceImpl implements ContactsService{
 	@Override
 	public int updateUserByUid(Contacts contacts) {
 		// TODO Auto-generated method stub
-		return 0;// contactsMapper.updateByUidSelective(contacts);
+		return contactsMapper.updateByUidSelective(contacts);
+	}
+
+	@Override
+	public Contacts selectByUid(Integer id) {
+		// TODO Auto-generated method stub
+		return contactsMapper.selectByUid(id);
 	}
 
 

@@ -2,6 +2,8 @@ package com.travel.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.travel.pojo.Planmembers;
 
 
@@ -27,4 +29,16 @@ public interface PlanmembersService {
 	 List<Planmembers> selectUserIdByPid(String pid);
 	 
 	 int deleteByPid(String pid);
+	 
+	 int updateByPidUid(Planmembers planmembers);
+	 
+	 int updateByPid(int isontravel,int  planid); 
+	 
+	 int deleteUnOnTravel(int planid);
+	 
+	 int deleteById(int id);
+	 
+	 List<Integer>  selectUidByPid(int  planid);
+	 
+	 Planmembers selectById(int id);
 }

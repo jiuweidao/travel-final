@@ -17,12 +17,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.druid.support.json.JSONUtils;
 import com.travel.pojo.Me;
 import com.travel.pojo.Plans;
 import com.travel.pojo.Strategies;
 import com.travel.pojo.Users;
 import com.travel.service.PlanmembersService;
 import com.travel.service.PlansService;
+import com.travel.service.ScoreUserService;
 import com.travel.service.StrategyService;
 import com.travel.service.UserService;
 import com.travel.solr.PlansSolr;
@@ -41,7 +43,8 @@ public class StrategieController {
 	private StrategyService strategyService;
 	@Resource
 	private UserController userController;
-	
+	@Resource
+	private ScoreUserService scoreUserService;
 	private StrategySolr strategySolr = new StrategySolr();
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -63,13 +66,26 @@ public class StrategieController {
 		HashMap<String, String> result = new HashMap<String, String>();
 		Strategies strategies=fillStrategies(request,null);
 		
-		if(strategyService.insert(strategies)>0){
-			strategySolr.insert(strategies);
+		if(strategyService.insert(strategies)<=0){
+			result.put("success", "1");
+			return JSONObject.fromObject(result).toString();
 		}
+		
+		strategySolr.insert(strategies);
+		
+		Me me = userController.getMe(request);
+		if (scoreUserService.addScore(me.getId(), 5, 4)<=0) {
+			result.put("success", "-1");
+			return JSONUtils.toJSONString(result);
+		}
+		
 		result.put("success", "1");
 		return JSONObject.fromObject(result).toString();
 	}
 
+	
+	
+	
 	public Strategies fillStrategies(HttpServletRequest request,Strategies strategies) {
 		
 		Users users = (Users) request.getSession().getAttribute("user");

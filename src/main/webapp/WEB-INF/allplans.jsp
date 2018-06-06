@@ -54,51 +54,55 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    <![endif]-->
 	</head>
 	
-	<body>
-		<jsp:include   page="sidebar.jsp" flush="true"/>
-		<div id="wrapper">
-			<jsp:include   page="header.jsp" flush="true"/>
-		<div id="fh5co-main">
-			<div class="container">
-				<div class="row">
-					<h2>
-						<a href="allPlans?type=0&page=1&id= ${planPage.id}" >邀约中</a> 
-						<a href="allPlans?type=1&page=1&id= ${planPage.id}" >出游中</a>
-						<a href="allPlans?type=2&page=1&id= ${planPage.id}" >已结束</a>
-					</h2>
-        			<div id="fh5co-board" data-columns>
-					<c:forEach items="${planPage.lstPlans}" var="list" varStatus="status">
-        				<div class="item">
-        					<div class="animate-box">
-	        					<c:if test='${list.picpath == null}'>
-									<a href="assets/images/bike_water1-1000x600.jpg" class="image-popup fh5co-board-img" title="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo, eos?">
-										<img src="assets/images/bike_water1-1000x600.jpg" alt="Free HTML5 Bootstrap template">
-							   		</a>
-								</c:if>
-								<c:if test='${list.picpath != null}'>
-									<a href="<%=request.getContextPath()%>${list.picpath}" class="image-popup fh5co-board-img" title="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo, eos?">
-										<img src="<%=request.getContextPath()%>${list.picpath}">
-									</a>
-								</c:if>
+<body>
+	<jsp:include   page="sidebar.jsp" flush="true"/>
+	<div id="wrapper">
+		<jsp:include   page="header.jsp" flush="true"/>
+			<div class="content-block" id="contact">
+				<div id="fh5co-main">
+					<div class="container">
+						<div class="row">
+							<h2>
+								<a id="type0_a" href="allPlans?type=0&page=1&id=${planPage.id}" class="a-unchoose" >邀约中</a> 
+								<a id="type1_a" href="allPlans?type=1&page=1&id=${planPage.id}" class="a-unchoose">出游中</a>
+								<a id="type2_a" href="allPlans?type=2&page=1&id=${planPage.id}" class="a-unchoose" >已结束</a>
+							</h2>
+        					<div id="fh5co-board" data-columns>
+								<c:forEach items="${planPage.lstPlans}" var="list" varStatus="status">
+        							<div class="item">
+        								<div class="animate-box">
+	        								<c:if test='${list.picpath == null||list.picpath == ""}'>
+												<a href="assets/images/bike_water1-1000x600.jpg" class="image-popup fh5co-board-img" title="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo, eos?">
+													<img src="assets/images/bike_water1-1000x600.jpg" alt="Free HTML5 Bootstrap template">
+							   					</a>
+											</c:if>
+											<c:if test='${list.picpath != null && list.picpath != ""}'>
+												<a href="<%=request.getContextPath()%>${list.picpath}" class="image-popup fh5co-board-img" title="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo, eos?">
+													<img src="<%=request.getContextPath()%>${list.picpath}">
+												</a>
+											</c:if>
+        								</div>
+        								<div class="fh5co-desc">
+        									<a href="plandetail?id=${list.id}">
+        										<h3>${list.title}</h3>
+        									</a>
+											<div class="date">
+												<fmt:formatDate value="${list.creattime}" pattern="yyyy-MM-dd"/>
+									   		</div>
+									   		<div>期望人数:${list.expectnum}/目前人数:${list.presentnum}</div>
+											<p>${list.detail}</p>
+        							  </div>
+        							</div>
+        						</c:forEach>
         					</div>
-        					<div class="fh5co-desc">
-        						<a href="plandetail?id=${list.id}">
-        							<h3>${list.title}</h3>
-        						</a>
-								<div class="date">
-									<fmt:formatDate value="${list.creattime}" pattern="yyyy-MM-dd"/> </div>
-									<div>期望人数:${list.expectnum}/目前人数:${list.presentnum}</div>
-									<p>${list.detail}</p>
-        						</div>
-        					</div>
-        			</c:forEach>
-        		</div>
-        	</div>
-       </div>
-	</div>
-	<div class="box" id="box"></div>
-	<jsp:include   page="footer.jsp" flush="true"/>
-		</div><!--/#wrapper-->
+        				</div>
+       				</div>
+				</div>
+				<div class="box" id="box"></div>
+			</div>
+			
+			<jsp:include   page="footer.jsp" flush="true"/>
+	</div><!--/#wrapper-->
 
 
 
@@ -128,6 +132,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		
 	<script type="text/javascript">
 
+	if("${planPage.type}"=="0"){
+		$('#type0_a').removeClass("a-unchoose");
+	}
+	if("${planPage.type}"=="1"){
+		$('#type1_a').removeClass("a-unchoose");
+	}
+	if("${planPage.type}"=="2"){
+		$('#type2_a').removeClass("a-unchoose");
+	}
      var setTotalCount = ${planPage.count};
         $('#box').paging({
             initPageNo: 1, // 初始页码
@@ -143,7 +156,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      $('#pageSelect').children().click(function(){
        	pageIndex = $(this).index() + 1;
        	var type=
-        window.location.href ="<%=request.getContextPath()%>" + "/myplans?page="+pageIndex+"&type="+ ${planPage.type}+"&id="+ ${planPage.id};
+        window.location.href ="<%=request.getContextPath()%>" + "/allPlans?page="+pageIndex+"&type="+ ${planPage.type}+"&id="+ ${planPage.id};
      });
         
 	</script>

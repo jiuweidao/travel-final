@@ -79,6 +79,9 @@ public class UserServiceImpl implements UserService{
 		}
 		
 		Contacts contacts = new Contacts();
+		contacts.setUserid(users.getId());
+		contacts.setCreattime(new Date());
+		contacts.setFlag("M");
 		contactsMapper.insertSelective(contacts);
 		return 1;
 	}
@@ -102,6 +105,12 @@ public class UserServiceImpl implements UserService{
 	public int updateUser(Users users) {
 		// TODO Auto-generated method stub
 		return usersMapper.updateByPrimaryKeySelective(users);
+	}
+
+	@Override
+	public int updateIsOntravelByPid(int isontravel, int planid) {
+		// TODO Auto-generated method stub
+		return updateIsOntravelByPid(isontravel, planid);
 	}
 
 	

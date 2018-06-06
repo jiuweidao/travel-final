@@ -88,14 +88,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								    	<label>签名：</label>
 								    		<textarea id="sign" name="sign"  class="form-control-user form-control-white" placeholder="Write Something" rows="10" >${users.sign}</textarea>
 								    </div>
-								    <div class="form-group">
-								    	<label>阶级：</label>
-								    	<input id="class" type="text" class="form-control-user form-control-white" value=""  readonly="true">
-								    </div>
-								    <div class="form-group">
-								    	<label>积分：</label>
-								    	<input id="score" type="text" class="form-control-user form-control-white" value="${users.score}" readonly="true">
-								    </div>
 								  <input id="modifyMessage_btn" type="button" class="btn btn-o-white" value="修改">
 								  <input id="clear_btn" type="button" class="btn btn-o-white" value="清空">
 								</form>

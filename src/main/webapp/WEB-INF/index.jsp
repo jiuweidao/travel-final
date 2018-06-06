@@ -58,13 +58,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<a class="logo" href="login">登录/注册</a>
 						</div>
 						<div id="logined_div" class="pull-right" style="display: none">
-							<span  id="username" href="login">${me.username}</span>
+							<span  id="username" href="login">${me.name}</span>
 						</div>
 						<div class="pull-right">
 							<a class="logo" href="index.html">出行交通</a>
 						</div>
 						<div class="pull-right">
-							<a class="logo" href="allPlans?type=0&page=1">所有邀约</a>
+							<a class="logo" href="allPlans?type=0&page=1&id=0">所有邀约</a>
 						</div>
 						<div class="pull-right">
 							<a class="logo" href="index.html">出行游记</a>
@@ -183,7 +183,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div class="content-block" id="blog">
 				<div class="container">
 					<header class="block-heading cleafix">
-						<a href="allPlans?type=0&page=1" class="btn btn-o btn-lg pull-right">查看更多</a>
+						<a href="allPlans?type=0&page=1&id=0" class="btn btn-o btn-lg pull-right">查看更多</a>
 						<h1>最新邀约</h1>
 						<p>Keep up with the latest happenings.</p>
 					</header>
@@ -204,7 +204,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<div class="date">
 										<fmt:formatDate value="${item.creattime}" pattern="yyyy-MM-dd"/> 
 									</div>
-									<div>期望人数:${item.expectnum}/目前人数:${list.presentnum}</div>
+									<div>期望人数:${item.expectnum}/目前人数:${item.presentnum}</div>
 									<p>${item.detail}</p>
 									
 								<!-- 	<a href="#"><h2>Design Your Mind</h2></a>
@@ -238,14 +238,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<c:forEach items="${lstTopUsers}" var="item" varStatus="status">
 								<div class="col-md-4">
 									<div class="testimonial">
+									
 										<c:if test='${item.iconpath == null}'>
 											<img src="assets/images/bike_water1-1000x600.jpg">
 										</c:if>
 										<c:if test='${item.iconpath != null}'>
 											<img id="pic" src="<%=request.getContextPath()%>${item.iconpath}">
 										</c:if>
+									<div>
 										<a href="userMessage?id=${item.id}">
-											<strong>${item.username}</strong>
+											<strong>${item.name}</strong>
 										</a>
 										<br/>
 										<table>
@@ -265,7 +267,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  											 </tr>
 										</table>
 										 <p>${item.sign}</p>
-									
+									</div>
 									</div>
 							</div>
 							

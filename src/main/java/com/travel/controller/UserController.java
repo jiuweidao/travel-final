@@ -34,11 +34,13 @@ import com.travel.pojo.Contacts;
 import com.travel.pojo.Me;
 import com.travel.pojo.PlannumUsers;
 import com.travel.pojo.Plans;
+import com.travel.pojo.ScoreUser;
 import com.travel.pojo.Users;
 import com.travel.service.CheckEmailValidityUtil;
 import com.travel.service.ContactsService;
 import com.travel.service.DecriptUtil;
 import com.travel.service.PlannumUserService;
+import com.travel.service.ScoreUserService;
 import com.travel.service.UserService;
 import com.travel.solr.PlansSolr;
 import com.travel.utils.Calculator;
@@ -62,11 +64,13 @@ public class UserController {
 	private PlannumUserService plannumUserService;
 	@Resource
 	private ContactsService contactsService;
+	@Resource
+	private ScoreUserService scoreUserService;
 	private PlansSolr plansSolr = new PlansSolr();
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
-	@RequestMapping("/index")
 	// 目录http://localhost:8080/shiroTset/index
+	@RequestMapping("/index")
 	public String getIndex(HttpServletRequest request,
 			HttpServletResponse response, Model model) throws Exception {
 
@@ -90,6 +94,13 @@ public class UserController {
 					plannumUsers.getType0num()+plannumUsers.getType1num()+plannumUsers.getType2num()+plannumUsers.getTypefnum());
 			u.setSuccessRate(rate);
 			lstTopUsers.add(u);
+		}
+		
+		//处理plan的内容不要太长
+		for (Plans p : lstPlans) {
+			if (p.getDetail().length()>40) {
+				p.setDetail(p.getDetail().substring(0, 40)+"......");
+			}
 		}
 		request.setAttribute("lstPlans", lstPlans);
 		request.setAttribute("lstTopUsers", lstTopUsers);
@@ -120,9 +131,9 @@ public class UserController {
 			request.setAttribute("me", me);
 		}
 		Users users = userService.selectByPrimaryKey(me.getId());
-//		Contacts contacts = contactsService.selectByUid(me.getId());
-//		users.setContact1(contacts.getContact1());
-//		users.setContact2(contacts.getContact2());
+		Contacts contacts = contactsService.selectByUid(me.getId());
+		users.setContact1(contacts.getContact1());
+		users.setContact2(contacts.getContact2());
 		request.setAttribute("users", users);
 		ModelAndView mav = new ModelAndView("mymessage");
 		return mav;
@@ -139,8 +150,16 @@ public class UserController {
 			request.setAttribute("me", me);
 		}
 		
-		//加载查看用户个人信息
+		//加载用户积分
+		Integer total = scoreUserService.selectTotalByUid(Integer.parseInt(id));
 		Users users = userService.selectByPrimaryKey(Integer.parseInt(id));
+		if (total==null) {
+			total=0;
+		}
+		users.setScore(total);
+		userService.updateUser(users);
+		//加载查看用户个人信息
+		
 		PlannumUsers plannumUsers = plannumUserService.selectByUid(users.getId());
 		
 		users.setType0num(plannumUsers.getType0num());
@@ -252,6 +271,7 @@ public class UserController {
 		newUser.setName(userName);
 		newUser.setTelemoble(mobile);
 		newUser.setPassword(password);
+		newUser.setIsontravel(0);
 		if (userService.insert(newUser) > 0) {
 			result.put("success", "1");
 		} else {
@@ -334,7 +354,7 @@ public class UserController {
 			Contacts contacts = new Contacts();
 			contacts.setUserid(me.getId());
 			contacts.setContact1(contact1);
-			contacts.setContact1(contact2);
+			contacts.setContact2(contact2);
 			contacts.setCreattime(new Date());
 			if (contactsService.updateUserByUid(contacts)>0) {
 				result.put("success", "1");
@@ -396,7 +416,6 @@ public class UserController {
 	public String doCertification(@RequestParam(value = "file", required = false) MultipartFile file,
 			HttpServletRequest request) {
 
-//		Users users = (Users) request.getSession().getAttribute("user");
 		Me me = getMe(request);
 		Users users=userService.selectByPrimaryKey(me.getId());
 		Map<String, Object> result = new HashMap<String, Object>();
@@ -425,6 +444,7 @@ public class UserController {
 			return JSONUtils.toJSONString(result);
 		}
 		
+		
 		users.setIdname(jsonIdCardData.getString("name"));
 		users.setIdnum(jsonIdCardData.getString("num"));
 		users.setSex(jsonIdCardData.getString("sex"));
@@ -434,6 +454,22 @@ public class UserController {
 		users.setUsertype("V");
 		users.setIdcardpath(path);
 		userService.updateUser(users);
+		if (userService.updateUser(users)<=0) {
+			result.put("success", "-1");
+			return JSONUtils.toJSONString(result);
+		}
+		
+		ScoreUser scoreUser = new ScoreUser();
+		scoreUser.setUserid(me.getId());
+		scoreUser.setScore(10);
+		scoreUser.setType(1);
+		scoreUser.setCreattime(new Date());
+		scoreUser.setFlag("M");
+		if (scoreUserService.insert(scoreUser)<=0) {
+			result.put("success", "-1");
+			return JSONUtils.toJSONString(result);
+		}
+		
 		result.put("success", "true");
 		return JSONUtils.toJSONString(result);
 	}
@@ -481,6 +517,7 @@ public class UserController {
 				me.setName(loginer.getName());
 				me.setUsername(loginer.getUsername());
 				me.setUsertype(loginer.getUsertype());
+				me.setIsontravel(loginer.getIsontravel());
 				session.setAttribute("me", me);
 				if (nologin.equals("true")) {
 					session.setTimeout(14 * 24 * 60 * 60);

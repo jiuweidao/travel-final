@@ -1,6 +1,8 @@
 package com.travel.dao;
 
 
+import org.apache.ibatis.annotations.Param;
+
 import com.travel.pojo.Users;
 
 public interface UsersMapper {
@@ -61,5 +63,7 @@ public interface UsersMapper {
     
     Users selectByAll(String key);
     
+    int updateIsOntravelByPid(@Param("isontravel")int isontravel,@Param("planid")int  planid);
     
+
 }

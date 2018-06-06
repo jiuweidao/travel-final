@@ -185,7 +185,7 @@
       PicPath = #{picpath,jdbcType=VARCHAR}
     where Id = #{id,jdbcType=INTEGER}
   </update>
-  
+ <!--自定义  --> 
   <select id="selectAllPlansByUid" parameterType="String" resultMap="BaseResultMap">
 		SELECT * 
 		FROM plans
@@ -200,5 +200,6 @@
 		WHERE Creatby = #{uid} 
 		AND Type = #{type}
 		AND Flag='M'
-	</select>
+</select>
+
 </mapper>

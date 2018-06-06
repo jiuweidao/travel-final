@@ -171,6 +171,12 @@ public class Users implements Serializable {
      */
     private String contact2;
     
+    /**
+     * users.IsOnTravel (是否在出游中)
+     * @ibatorgenerated 2018-05-30 11:55:10
+     */
+    private Integer isontravel;
+
     public Integer getId() {
         return id;
     }
@@ -401,5 +407,13 @@ public class Users implements Serializable {
 
 	public void setContact2(String contact2) {
 		this.contact2 = contact2;
+	}
+
+	public Integer getIsontravel() {
+		return isontravel;
+	}
+
+	public void setIsontravel(Integer isontravel) {
+		this.isontravel = isontravel;
 	}
 }

@@ -50,4 +50,8 @@ public interface ContactsMapper {
      * @ibatorgenerated 2018-05-26 09:56:46
      */
     int updateByPrimaryKey(Contacts record);
+    
+    int updateByUidSelective(Contacts record);
+    
+    Contacts selectByUid(Integer id);
 }

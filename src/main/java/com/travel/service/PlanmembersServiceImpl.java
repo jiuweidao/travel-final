@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import com.travel.dao.PlanmembersMapper;
@@ -67,6 +68,42 @@ public class PlanmembersServiceImpl implements PlanmembersService{
 	public List<Planmembers> selectUserIdByPid(String pid) {
 		// TODO Auto-generated method stub
 		return planmembersMapper.selectUserIdByPid(pid);
+	}
+
+	@Override
+	public int updateByPidUid(Planmembers planmembers) {
+		// TODO Auto-generated method stub
+		return planmembersMapper.updateByPidUidSelective(planmembers);
+	}
+
+	@Override
+	public int updateByPid(int isontravel,int  planid) {
+		// TODO Auto-generated method stub
+		return planmembersMapper.updateIsOnTravelByPid(isontravel, planid);
+	}
+
+	@Override
+	public int deleteUnOnTravel(int planid) {
+		// TODO Auto-generated method stub
+		return planmembersMapper.deleteUnOnTravel(planid);
+	}
+
+	@Override
+	public int deleteById(int id) {
+		// TODO Auto-generated method stub
+		return planmembersMapper.deleteByPrimaryKey(id);
+	}
+
+	@Override
+	public List<Integer>  selectUidByPid(int planid) {
+		// TODO Auto-generated method stub
+		return planmembersMapper.selectUidByPid(planid);
+	}
+
+	@Override
+	public Planmembers selectById(int id) {
+		// TODO Auto-generated method stub
+		return planmembersMapper.selectByPrimaryKey(id);
 	}
 	
 

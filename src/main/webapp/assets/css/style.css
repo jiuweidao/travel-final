@@ -502,6 +502,13 @@ span {
     color: #d8b6bc;
    
 }
+.table-report{
+	float:left;
+	text-align:left;　
+}
+.td-report{
+	border:solid 1px #add9c0;
+	}
 .valid:-moz-placeholder {
     color: #8d9799;  
 }
@@ -509,7 +516,9 @@ span {
 .valid::-moz-placeholder {
     color: #8d9799;
 }
-
+.a-unchoose{
+	color: #8d9799;
+}
 input.valid:-ms-input-placeholder{
     color: #8d9799;
 }

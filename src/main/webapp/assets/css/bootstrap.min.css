@@ -3153,6 +3153,12 @@ input[type=search] {
 .form-group {
 	margin-bottom: 15px
 }
+.form-group-user {
+    margin-bottom: 15px;
+    width: 250px;
+    margin-left: 150px;
+}
+}
 .form-group-button {
 	margin-left: -60px;
     margin-bottom: 15px;
